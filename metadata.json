@@ -1,0 +1,10 @@
+{
+  "name": "ProStock POS & Inventory",
+  "description": "High-performance POS system, inventory management, and kitchen display suite",
+  "requestFramePermissions": [
+    "bluetooth"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

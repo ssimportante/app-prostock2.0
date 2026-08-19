@@ -1,0 +1,101 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * CORE PHILOSOPHY
+     * Role-based access model for ProStock.
+     * Roles: admin, manager, stock-manager, user.
+     * Deployment Trigger: SESAME_SEEDS_SYNC_2026_03_15_v3
+     */
+
+    // --- HELPER FUNCTIONS ---
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Admins are identified by email OR by a marker document in roles_admin
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'admin@beanespress.com' ||
+        exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid))
+      );
+    }
+
+    function isManager() {
+      return isSignedIn() && (
+        isAdmin() || 
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'manager')
+      );
+    }
+
+    function isStockManager() {
+      return isSignedIn() && (
+        isAdmin() || 
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'stock-manager')
+      );
+    }
+
+    // --- COLLECTION RULES ---
+
+    match /users/{userId} {
+      allow read: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+      allow write: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+    }
+
+    match /roles_admin/{userId} {
+      allow read: if isSignedIn();
+      // Allow super-admin to create their own marker document
+      allow write: if isSignedIn() && (request.auth.token.email == 'admin@beanespress.com' || isAdmin());
+    }
+
+    match /items/{itemId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin() || isManager() || isStockManager();
+    }
+
+    match /categories/{id} { 
+      allow read: if isSignedIn(); 
+      allow write: if isAdmin() || isManager(); 
+    }
+    
+    match /subcategories/{id} { 
+      allow read: if isSignedIn(); 
+      allow write: if isAdmin() || isManager(); 
+    }
+    
+    match /stations/{id} { 
+      allow read: if isSignedIn(); 
+      allow write: if isAdmin() || isManager(); 
+    }
+    
+    match /taxes/{id} { 
+      allow read: if isSignedIn(); 
+      allow write: if isAdmin() || isManager(); 
+    }
+
+    match /sales/{id} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update, delete: if isAdmin();
+    }
+
+    match /stockReceipts/{id} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update, delete: if isAdmin();
+    }
+
+    match /wasteEvents/{id} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update, delete: if isAdmin();
+    }
+
+    match /settings/{id} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+  }
+}

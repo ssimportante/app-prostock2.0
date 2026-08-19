@@ -1,0 +1,147 @@
+
+{
+  "entities": {
+    "Item": {
+      "title": "Item",
+      "description": "Represents an inventory item or sellable product.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "categoryId": { "type": "string" },
+        "subcategoryId": { "type": "string", "nullable": true },
+        "stationId": { "type": "string" },
+        "sku": { "type": "string" },
+        "barcode": { "type": "string" },
+        "price": { "type": "number" },
+        "cost": { "type": "number" },
+        "trackStock": { "type": "boolean" },
+        "stockBatches": { "type": "array" },
+        "inventoryType": { "type": "string", "enum": ["simple", "composite"] },
+        "isSellable": { "type": "boolean" },
+        "saleType": { "type": "string", "enum": ["dine-in", "take-away"], "nullable": true },
+        "itemType": { "type": "string", "enum": ["food", "beverage", "packaging"], "nullable": true }
+      },
+      "required": ["name", "categoryId", "inventoryType", "price", "cost"]
+    },
+    "Sale": {
+      "title": "Sale",
+      "description": "A transaction record of items sold.",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string", "format": "date-time" },
+        "total": { "type": "number" },
+        "subtotal": { "type": "number" },
+        "deliveryFee": { "type": "number", "nullable": true },
+        "items": { "type": "array" },
+        "discount": { "type": "object", "nullable": true }
+      },
+      "required": ["date", "total", "items"]
+    },
+    "StockReceipt": {
+      "title": "StockReceipt",
+      "description": "Log of incoming inventory stock.",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string", "format": "date-time" },
+        "itemId": { "type": "string" },
+        "itemName": { "type": "string" },
+        "quantity": { "type": "number" },
+        "unit": { "type": "string" },
+        "userId": { "type": "string" }
+      }
+    },
+    "WasteEvent": {
+      "title": "WasteEvent",
+      "description": "Record of stock removal due to waste or damage.",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string", "format": "date-time" },
+        "itemId": { "type": "string" },
+        "itemName": { "type": "string" },
+        "quantity": { "type": "number" },
+        "cost": { "type": "number" },
+        "eventType": { "type": "string", "enum": ["waste", "pull-out"] }
+      }
+    },
+    "PosSettings": {
+      "title": "PosSettings",
+      "description": "Application configuration settings.",
+      "type": "object",
+      "properties": {
+        "currency": { "type": "string" },
+        "defaultSaleType": { "type": "string" }
+      }
+    },
+    "Category": {
+      "title": "Category",
+      "description": "Product category metadata.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "color": { "type": "string" }
+      }
+    },
+    "Subcategory": {
+      "title": "Subcategory",
+      "description": "Product subcategory metadata.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "categoryId": { "type": "string" }
+      }
+    },
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User account information and roles.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "name": { "type": "string", "nullable": true },
+        "role": { "type": "string", "enum": ["admin", "manager", "stock-manager", "user"] }
+      }
+    }
+  },
+  "auth": {
+    "providers": ["password"]
+  },
+  "firestore": {
+    "/items/{itemId}": {
+      "schema": { "$ref": "#/backend/entities/Item" },
+      "description": "Global inventory list."
+    },
+    "/sales/{saleId}": {
+      "schema": { "$ref": "#/backend/entities/Sale" },
+      "description": "Transaction records."
+    },
+    "/stockReceipts/{id}": {
+      "schema": { "$ref": "#/backend/entities/StockReceipt" },
+      "description": "Logs of incoming stock."
+    },
+    "/wasteEvents/{id}": {
+      "schema": { "$ref": "#/backend/entities/WasteEvent" },
+      "description": "Logs of stock reductions."
+    },
+    "/categories/{id}": {
+      "schema": { "$ref": "#/backend/entities/Category" },
+      "description": "Product category metadata."
+    },
+    "/subcategories/{id}": {
+      "schema": { "$ref": "#/backend/entities/Subcategory" },
+      "description": "Product subcategory metadata."
+    },
+    "/settings/{settingId}": {
+      "schema": { "$ref": "#/backend/entities/PosSettings" },
+      "description": "Configuration data."
+    },
+    "/users/{userId}": {
+      "schema": { "$ref": "#/backend/entities/UserProfile" },
+      "description": "User profile data."
+    },
+    "/roles_admin/{userId}": {
+      "schema": { "type": "object" },
+      "description": "Administrative role assignments."
+    }
+  }
+}

@@ -1,0 +1,11 @@
+# Settings to manage and configure a Firebase App Hosting backend.
+# https://firebase.google.com/docs/app-hosting/configure
+
+runConfig:
+  # Increase this value if you'd like to automatically spin up
+  # more instances in response to increased traffic.
+  maxInstances: 1
+  ipAllowList:
+    # Replace this with your actual IP address range in CIDR format.
+    # For example: - "203.0.113.0/24"
+    - "203.0.113.0/24"
