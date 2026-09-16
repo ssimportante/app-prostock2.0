@@ -1,0 +1,23 @@
+services:
+  web:
+    image: node:20
+    working_dir: /app
+    command: sh -c "npm install && npm run dev -- -H 0.0.0.0 -p 3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3000:3000"
+    environment:
+      - BASE44_PUBLIC_HOST_SUFFIX=${BASE44_PUBLIC_HOST_SUFFIX}
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    env_file:
+      - /run/base44/app.env
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/', r => process.exit(r.statusCode < 500 ? 0 : 1)).on('error', () => process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 20
+      start_period: 60s

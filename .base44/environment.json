@@ -1,0 +1,12 @@
+{
+  "previewPort": 3000,
+  "healthPath": "/",
+  "startCommand": "docker compose -f docker-compose.base44.yml up -d",
+  "secrets": [
+    {
+      "name": "GOOGLE_GENAI_API_KEY",
+      "description": "Google AI (Gemini) API key used by Genkit AI flows (suggest item details from an image). Optional for boot — the app runs without it, but AI features will error until it is set. Get it from https://aistudio.google.com/app/apikey.",
+      "requiredAtBoot": false
+    }
+  ]
+}
