@@ -225,6 +225,7 @@ export default function StockActivityClient({ receipts, wasteEvents, users }: St
                                                 <TableHead>Quantity</TableHead>
                                                 <TableHead>Expiry/Roast Date</TableHead>
                                                 <TableHead>User Account</TableHead>
+                                                <TableHead>Employee</TableHead>
                                                 {isAdmin && <TableHead className="text-right">Actions</TableHead>}
                                             </TableRow>
                                         </TableHeader>
@@ -249,6 +250,9 @@ export default function StockActivityClient({ receipts, wasteEvents, users }: St
                                                             {getUserAvatar(r.userId)}
                                                             <span className="text-sm">{getUserIdentifier(r.userId)}</span>
                                                         </div>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <span className="text-sm font-medium">{r.employeeName || 'N/A'}</span>
                                                     </TableCell>
                                                     {isAdmin && (
                                                         <TableCell className="text-right">
@@ -301,7 +305,7 @@ export default function StockActivityClient({ receipts, wasteEvents, users }: St
                                                     </TableCell>
                                                     <TableCell className="font-medium">{w.itemName}</TableCell>
                                                     <TableCell className="whitespace-nowrap">{w.quantity} {w.unit}</TableCell>
-                                                    <TableCell className="font-semibold text-primary">{w.recordedByName || 'N/A'}</TableCell>
+                                                    <TableCell className="font-semibold text-primary">{w.employeeName || w.recordedByName || 'N/A'}</TableCell>
                                                     <TableCell className="max-w-[200px]">
                                                         <div className="flex items-center gap-1">
                                                             <span className="truncate">{w.reason || 'N/A'}</span>

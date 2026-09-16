@@ -66,6 +66,13 @@ export type Station = {
 
 export type StationWithId = Station & { id: string };
 
+export type Employee = {
+  name: string;
+  createdAt?: any; // Firestore Timestamp
+};
+
+export type EmployeeWithId = Employee & { id: string };
+
 export type Sale = {
   id: string;
   date: any; // This will be a Firestore Timestamp object
@@ -117,6 +124,7 @@ export type WasteEvent = {
   cost: number; // total cost of wasted items (quantity * item.cost)
   unit: 'units' | 'g/ml';
   userId: string;
+  employeeName?: string;
   recordedByName: string;
   batchId?: string;
   reason: string;
@@ -126,6 +134,7 @@ export type WasteEvent = {
 export type StockReceipt = {
   date: any; // Firestore Timestamp
   userId: string;
+  employeeName?: string;
   itemId: string;
   itemName: string;
   quantity: number;

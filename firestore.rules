@@ -75,6 +75,11 @@ service cloud.firestore {
       allow write: if isAdmin() || isManager(); 
     }
 
+    match /employees/{id} { 
+      allow read: if isSignedIn(); 
+      allow write: if isAdmin() || isManager(); 
+    }
+
     match /sales/{id} {
       allow read: if isSignedIn();
       allow create: if isSignedIn();

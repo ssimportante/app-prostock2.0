@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { format } from 'date-fns';
-import type { ItemWithId, StockBatch, CategoryWithId, WasteEvent, StockReceipt } from '@/types';
+import type { ItemWithId, StockBatch, CategoryWithId, WasteEvent, StockReceipt, EmployeeWithId } from '@/types';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -22,12 +22,13 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { SearchableSelect } from '../ui/searchable-select';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useFirestore } from '@/firebase';
-import { doc, writeBatch, collection, Timestamp } from 'firebase/firestore';
+import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
+import { doc, writeBatch, collection, query, Timestamp } from 'firebase/firestore';
 import { useAuth as useAppAuth } from '@/components/auth/AuthProvider';
 
 const receiveStockSchema = z.object({
   itemId: z.string().min(1, 'Please select an item.'),
+  employeeId: z.string().min(1, 'Please select an employee.'),
   quantity: z.coerce.number().min(0.0001, 'Quantity must be positive.'),
   purchaseDate: z.date({ required_error: 'Please select a receive date.' }),
   dateType: z.enum(['expiry', 'roast', 'none']).default('none'),
@@ -47,7 +48,7 @@ const recordWasteSchema = z.object({
     batchId: z.string().optional(),
     quantity: z.coerce.number().min(0.0001, 'Quantity must be positive.'),
     reason: z.string().min(1, 'Please provide a specific reason.'),
-    recordedByName: z.string().min(2, 'Please enter your name.'),
+    employeeId: z.string().min(1, 'Please select an employee.'),
     eventType: z.enum(['waste', 'pull-out']).default('waste'),
 });
 
@@ -56,7 +57,7 @@ interface StockManagerProps {
   categories: CategoryWithId[];
 }
 
-async function receiveStockAction(firestore: any, userId: string, itemId: string, newBatch: StockBatch, existingBatches: StockBatch[], item: ItemWithId, purchaseDate: Date) {
+async function receiveStockAction(firestore: any, userId: string, employeeName: string, itemId: string, newBatch: StockBatch, existingBatches: StockBatch[], item: ItemWithId, purchaseDate: Date) {
     const batch = writeBatch(firestore);
 
     // 1. Update item stock
@@ -78,6 +79,7 @@ async function receiveStockAction(firestore: any, userId: string, itemId: string
     const receipt: Omit<StockReceipt, 'id'> = {
         date: Timestamp.fromDate(purchaseDate),
         userId: userId,
+        employeeName: employeeName,
         itemId: itemId,
         itemName: item.name,
         quantity: newBatch.quantity,
@@ -113,14 +115,20 @@ function StockManager({ initialItems: items, categories }: StockManagerProps) {
   const firestore = useFirestore();
   const { appUser } = useAppAuth();
 
+  const employeesQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return query(collection(firestore, 'employees'));
+  }, [firestore]);
+  const { data: employees } = useCollection<EmployeeWithId>(employeesQuery);
+
   const receiveForm = useForm<z.infer<typeof receiveStockSchema>>({
     resolver: zodResolver(receiveStockSchema),
-    defaultValues: { itemId: '', quantity: 0, dateType: 'none', purchaseDate: new Date() },
+    defaultValues: { itemId: '', employeeId: '', quantity: 0, dateType: 'none', purchaseDate: new Date() },
   });
   
   const wasteForm = useForm<z.infer<typeof recordWasteSchema>>({
     resolver: zodResolver(recordWasteSchema),
-    defaultValues: { itemId: '', batchId: '', quantity: 0, reason: '', recordedByName: '', eventType: 'waste' },
+    defaultValues: { itemId: '', batchId: '', quantity: 0, reason: '', employeeId: '', eventType: 'waste' },
   });
 
   const packagingCategoryId = categories.find(c => c.name.toLowerCase() === 'packaging')?.id;
@@ -142,12 +150,12 @@ function StockManager({ initialItems: items, categories }: StockManagerProps) {
 
   const handleReceiveFilterChange = (value: 'ingredient' | 'packaging') => {
     setReceiveStockTypeFilter(value);
-    receiveForm.reset({ itemId: '', quantity: 0, dateType: value === 'packaging' ? 'none' : 'expiry', date: undefined, purchaseDate: new Date() });
+    receiveForm.reset({ itemId: '', employeeId: receiveForm.getValues('employeeId'), quantity: 0, dateType: value === 'packaging' ? 'none' : 'expiry', date: undefined, purchaseDate: new Date() });
   };
   
   const handleWasteFilterChange = (value: 'ingredient' | 'packaging' | 'product') => {
     setWasteStockTypeFilter(value);
-    wasteForm.reset({ itemId: '', batchId: '', quantity: 0, reason: '', recordedByName: wasteForm.getValues('recordedByName'), eventType: wasteForm.getValues('eventType') });
+    wasteForm.reset({ itemId: '', batchId: '', quantity: 0, reason: '', employeeId: wasteForm.getValues('employeeId'), eventType: wasteForm.getValues('eventType') });
   };
 
   const dateType = receiveForm.watch('dateType');
@@ -161,6 +169,12 @@ function StockManager({ initialItems: items, categories }: StockManagerProps) {
       const item = items.find(i => i.id === values.itemId);
       if (!item) {
         toast({ variant: 'destructive', title: 'Error', description: 'Item not found.' });
+        return;
+      }
+
+      const employee = employees?.find(e => e.id === values.employeeId);
+      if (!employee) {
+        toast({ variant: 'destructive', title: 'Error', description: 'Please select an employee.' });
         return;
       }
 
@@ -182,9 +196,9 @@ function StockManager({ initialItems: items, categories }: StockManagerProps) {
       }
 
       try {
-        await receiveStockAction(firestore, appUser.uid, item.id, newBatch, item.stockBatches, item, values.purchaseDate);
+        await receiveStockAction(firestore, appUser.uid, employee.name, item.id, newBatch, item.stockBatches, item, values.purchaseDate);
         toast({ title: 'Stock Added', description: `${quantity} ${item.soldBy === 'volume' ? 'g/ml' : 'units'} of ${item.name} recorded.` });
-        receiveForm.reset({ itemId: '', quantity: 0, dateType: 'expiry', date: undefined, purchaseDate: new Date() });
+        receiveForm.reset({ itemId: '', employeeId: values.employeeId, quantity: 0, dateType: 'expiry', date: undefined, purchaseDate: new Date() });
       } catch (err) {
         console.error(err);
         toast({ variant: 'destructive', title: 'Error', description: 'Failed to update stock.' });
@@ -206,6 +220,12 @@ function StockManager({ initialItems: items, categories }: StockManagerProps) {
         const item = items.find(i => i.id === values.itemId);
         if (!item) {
             toast({ variant: 'destructive', title: 'Error', description: 'Item not found.' });
+            return;
+        }
+
+        const employee = employees?.find(e => e.id === values.employeeId);
+        if (!employee) {
+            wasteForm.setError('employeeId', { message: 'Please select an employee.' });
             return;
         }
 
@@ -284,7 +304,8 @@ function StockManager({ initialItems: items, categories }: StockManagerProps) {
             cost: item.cost * quantityToRemove,
             unit: item.soldBy === 'volume' ? 'g/ml' : 'units',
             userId: appUser.uid,
-            recordedByName: values.recordedByName,
+            employeeName: employee.name,
+            recordedByName: employee.name,
             reason: values.reason,
             eventType: values.eventType,
             ...(values.batchId ? { batchId: values.batchId } : {}),
@@ -298,7 +319,7 @@ function StockManager({ initialItems: items, categories }: StockManagerProps) {
                 batchId: '', 
                 quantity: 0, 
                 reason: '', 
-                recordedByName: values.recordedByName,
+                employeeId: values.employeeId,
                 eventType: values.eventType
             });
         } catch (err) {
@@ -368,6 +389,32 @@ function StockManager({ initialItems: items, categories }: StockManagerProps) {
                     )}
                   />
                   
+                  <FormField
+                    control={receiveForm.control}
+                    name="employeeId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Employee</FormLabel>
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select an employee" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {(employees || []).length > 0 ? (employees || []).map(emp => (
+                              <SelectItem key={emp.id} value={emp.id}>{emp.name}</SelectItem>
+                            )) : (
+                              <SelectItem value="no-employees" disabled>No employees found — add them in Settings.</SelectItem>
+                            )}
+                          </SelectContent>
+                        </Select>
+                        <FormDescription>Whoever received or entered this stock.</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FormField
                         control={receiveForm.control}
@@ -633,13 +680,24 @@ function StockManager({ initialItems: items, categories }: StockManagerProps) {
                             />
                             <FormField
                                 control={wasteForm.control}
-                                name="recordedByName"
+                                name="employeeId"
                                 render={({ field }) => (
                                     <FormItem>
-                                    <FormLabel>Recorded By</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Enter your name" {...field} disabled={!watchedWasteItemId} />
-                                    </FormControl>
+                                    <FormLabel>Employee</FormLabel>
+                                    <Select onValueChange={field.onChange} value={field.value}>
+                                        <FormControl>
+                                        <SelectTrigger disabled={!watchedWasteItemId}>
+                                            <SelectValue placeholder="Select an employee" />
+                                        </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {(employees || []).length > 0 ? (employees || []).map(emp => (
+                                                <SelectItem key={emp.id} value={emp.id}>{emp.name}</SelectItem>
+                                            )) : (
+                                                <SelectItem value="no-employees" disabled>No employees found — add them in Settings.</SelectItem>
+                                            )}
+                                        </SelectContent>
+                                    </Select>
                                     <FormMessage />
                                     </FormItem>
                                 )}
