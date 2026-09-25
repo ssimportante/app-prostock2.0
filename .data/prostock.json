@@ -1,0 +1,3647 @@
+{
+  "version": 1,
+  "sessions": [
+    {
+      "token": "507a496fcbb5b8751e3de733b04acbdbd3d15feb556e8d95c6a3c4cd3c6407c6",
+      "userId": "user_admin",
+      "expiresAt": "2026-10-25T12:02:28.963Z"
+    },
+    {
+      "token": "e9e84014928899610c6d3d0709a4ca189ae253eff61a951af492cc5c1e78b456",
+      "userId": "user_admin",
+      "expiresAt": "2026-10-25T12:02:36.963Z"
+    },
+    {
+      "token": "e94a930a7bc1751fa86e8979b8c98823cf2bfc76179b9faa398e4a8689620479",
+      "userId": "user_cashier",
+      "expiresAt": "2026-10-25T12:02:38.990Z"
+    },
+    {
+      "token": "be04111a8fdb3d416633ec36daa0c2f6318cb869801018b2392b02e423cd9b86",
+      "userId": "user_admin",
+      "expiresAt": "2026-10-25T12:03:35.597Z"
+    }
+  ],
+  "settings": {
+    "currency": "₱",
+    "defaultSaleType": "dine-in"
+  },
+  "ticketCounter": 73,
+  "users": [
+    {
+      "id": "user_admin",
+      "email": "admin@beanespress.com",
+      "name": "Ava Reyes",
+      "role": "admin",
+      "passwordHash": "05510119c68ea2ff66038ed9c486e86b:d189f935d11a7b07efd4ae0c1104fd242a77df7165c4da3b1b019bbf3940f019c983943e34f92b120431aa98c52e4a28b8a9ed206d946bdecd2bfc34f03b7fc0"
+    },
+    {
+      "id": "user_manager",
+      "email": "manager@beanespress.com",
+      "name": "Marco Lim",
+      "role": "manager",
+      "passwordHash": "bc5af390d0f64d2f0e34a494009d3ae3:6714e824848459c30f968e9d3f581ee3e0dae3514e9d07ec0e314d6ef8876d94f284e3ad94e7e8ee21716e73a56b5ad5b81a1525fe85277b172ca21fd0444b59"
+    },
+    {
+      "id": "user_stock",
+      "email": "stockman@beanespress.com",
+      "name": "Sam Dela Cruz",
+      "role": "stock-manager",
+      "passwordHash": "5b9627c0aa0505a5c857bb97432ec60e:ae2a92c8bb77ab268ae1287967a9e2c590e76f16a9dc7783f1ad321a57496911f5aabe8a229bec8e45bff105f088a225b50b208bd97f938af3093776b731bd35"
+    },
+    {
+      "id": "user_poc",
+      "email": "poc@beanespress.com",
+      "name": "Paul Cruz",
+      "role": "stock-manager",
+      "passwordHash": "a2ac92a6052c1951c6a9593d4ebbd388:39dd63554337c1ecf6d88af7770f9969e7038547189bfca58ea99f06b53f589e19e519a9fd1606766e6ec2c76c526d3007b469cf956978d0dfde2584e245e99e"
+    },
+    {
+      "id": "user_cashier",
+      "email": "cashier@beanespress.com",
+      "name": "Lena Tan",
+      "role": "user",
+      "passwordHash": "593a61a41042f9f736dbe7bb208950c8:09081834703505d352be7e9dc07b9fd738929e66c9433833c5e6ad782ffee0796e445d80ae72840f0fd99ea7bd63c5e49118e70c7fe780876ddecc5433019145"
+    }
+  ],
+  "categories": [
+    {
+      "id": "cat_espresso",
+      "name": "Espresso Drinks",
+      "color": "#B4552D"
+    },
+    {
+      "id": "cat_cold",
+      "name": "Cold Drinks",
+      "color": "#3E7C8F"
+    },
+    {
+      "id": "cat_pastries",
+      "name": "Pastries & Food",
+      "color": "#C29B3C"
+    },
+    {
+      "id": "cat_ingredients",
+      "name": "Ingredients",
+      "color": "#6B8E5A"
+    },
+    {
+      "id": "cat_packaging",
+      "name": "Packaging",
+      "color": "#8A7A6B"
+    }
+  ],
+  "subcategories": [
+    {
+      "id": "sub_hot",
+      "name": "Hot",
+      "categoryId": "cat_espresso"
+    },
+    {
+      "id": "sub_iced",
+      "name": "Iced",
+      "categoryId": "cat_espresso"
+    },
+    {
+      "id": "sub_bottled",
+      "name": "Bottled",
+      "categoryId": "cat_cold"
+    },
+    {
+      "id": "sub_sweet",
+      "name": "Sweet",
+      "categoryId": "cat_pastries"
+    },
+    {
+      "id": "sub_savory",
+      "name": "Savory",
+      "categoryId": "cat_pastries"
+    }
+  ],
+  "stations": [
+    {
+      "id": "st_bar",
+      "name": "Bar"
+    },
+    {
+      "id": "st_kitchen",
+      "name": "Kitchen"
+    },
+    {
+      "id": "st_storage",
+      "name": "Storage"
+    }
+  ],
+  "taxes": [
+    {
+      "id": "tax_vat",
+      "name": "VAT",
+      "rate": 12
+    }
+  ],
+  "items": [
+    {
+      "description": "Single-origin dark roast, 1kg bags.",
+      "subcategoryId": null,
+      "stationId": "st_storage",
+      "barcode": "",
+      "isSellable": false,
+      "saleType": null,
+      "itemType": null,
+      "soldBy": "volume",
+      "inventoryType": "simple",
+      "trackStock": true,
+      "stockBatches": [
+        {
+          "id": "batch_45q5d8cl",
+          "quantity": 164,
+          "addedAt": "2026-07-07T09:50:00.000Z",
+          "roastDate": "2026-07-07"
+        },
+        {
+          "id": "batch_hvb7i8ea",
+          "quantity": 600,
+          "addedAt": "2026-08-31T09:26:00.000Z",
+          "roastDate": "2026-08-31"
+        },
+        {
+          "id": "batch_wn0hgy73",
+          "quantity": 1200,
+          "addedAt": "2026-09-15T09:35:00.000Z",
+          "roastDate": "2026-09-15"
+        }
+      ],
+      "lowStockThreshold": 500,
+      "components": [],
+      "taxIds": [],
+      "posColor": "#B4552D",
+      "id": "it_beans",
+      "name": "House Espresso Beans",
+      "categoryId": "cat_ingredients",
+      "sku": "BEAN-HSE",
+      "price": 0,
+      "cost": 1.8
+    },
+    {
+      "description": "Fresh whole milk.",
+      "subcategoryId": null,
+      "stationId": "st_storage",
+      "barcode": "",
+      "isSellable": false,
+      "saleType": null,
+      "itemType": null,
+      "soldBy": "volume",
+      "inventoryType": "simple",
+      "trackStock": true,
+      "stockBatches": [
+        {
+          "id": "batch_f31u789e",
+          "quantity": 1580,
+          "addedAt": "2026-09-22T09:39:00.000Z",
+          "expiryDate": "2026-09-28"
+        },
+        {
+          "id": "batch_0z3le6rl",
+          "quantity": 4000,
+          "addedAt": "2026-09-05T09:10:00.000Z",
+          "expiryDate": "2026-10-15"
+        }
+      ],
+      "lowStockThreshold": 1000,
+      "components": [],
+      "taxIds": [],
+      "posColor": "#B4552D",
+      "id": "it_milk",
+      "name": "Whole Milk",
+      "categoryId": "cat_ingredients",
+      "sku": "MILK-WHL",
+      "price": 0,
+      "cost": 0.85
+    },
+    {
+      "description": "",
+      "subcategoryId": null,
+      "stationId": "st_storage",
+      "barcode": "",
+      "isSellable": false,
+      "saleType": null,
+      "itemType": null,
+      "soldBy": "volume",
+      "inventoryType": "simple",
+      "trackStock": true,
+      "stockBatches": [
+        {
+          "id": "batch_zlkgtg6j",
+          "quantity": 800,
+          "addedAt": "2026-09-13T09:31:00.000Z",
+          "expiryDate": "2026-11-24"
+        }
+      ],
+      "lowStockThreshold": 100,
+      "components": [],
+      "taxIds": [],
+      "posColor": "#B4552D",
+      "id": "it_syrup",
+      "name": "Chocolate Syrup",
+      "categoryId": "cat_ingredients",
+      "sku": "SYRUP-CHO",
+      "price": 0,
+      "cost": 2.5
+    },
+    {
+      "description": "",
+      "subcategoryId": null,
+      "stationId": "st_storage",
+      "barcode": "",
+      "isSellable": false,
+      "saleType": null,
+      "itemType": null,
+      "soldBy": "volume",
+      "inventoryType": "simple",
+      "trackStock": true,
+      "stockBatches": [
+        {
+          "id": "batch_reosbcm9",
+          "quantity": 300,
+          "addedAt": "2026-09-10T09:16:00.000Z",
+          "expiryDate": "2026-12-09"
+        }
+      ],
+      "lowStockThreshold": 50,
+      "components": [],
+      "taxIds": [],
+      "posColor": "#B4552D",
+      "id": "it_matcha",
+      "name": "Matcha Powder",
+      "categoryId": "cat_ingredients",
+      "sku": "MATCHA-CER",
+      "price": 0,
+      "cost": 12
+    },
+    {
+      "description": "",
+      "subcategoryId": null,
+      "stationId": "st_storage",
+      "barcode": "",
+      "isSellable": false,
+      "saleType": null,
+      "itemType": "packaging",
+      "soldBy": "each",
+      "inventoryType": "simple",
+      "trackStock": true,
+      "stockBatches": [
+        {
+          "id": "batch_zyfbnd7f",
+          "quantity": 148,
+          "addedAt": "2026-09-23T09:36:00.000Z"
+        },
+        {
+          "id": "batch_mugwvjlsd0mdfr",
+          "quantity": 100,
+          "addedAt": "2026-09-25T12:02:38.464Z",
+          "expiryDate": "2026-12-01"
+        }
+      ],
+      "lowStockThreshold": 200,
+      "components": [],
+      "taxIds": [],
+      "posColor": "#B4552D",
+      "id": "it_cup",
+      "name": "12oz Cup",
+      "categoryId": "cat_packaging",
+      "sku": "CUP-12",
+      "price": 0,
+      "cost": 450
+    },
+    {
+      "description": "",
+      "subcategoryId": null,
+      "stationId": "st_storage",
+      "barcode": "",
+      "isSellable": false,
+      "saleType": null,
+      "itemType": "packaging",
+      "soldBy": "each",
+      "inventoryType": "simple",
+      "trackStock": true,
+      "stockBatches": [
+        {
+          "id": "batch_rbrrt0ge",
+          "quantity": 798,
+          "addedAt": "2026-09-13T09:51:00.000Z"
+        },
+        {
+          "id": "batch_aq7i7y2t",
+          "quantity": 500,
+          "addedAt": "2026-09-21T09:27:00.000Z"
+        }
+      ],
+      "lowStockThreshold": 300,
+      "components": [],
+      "taxIds": [],
+      "posColor": "#B4552D",
+      "id": "it_lid",
+      "name": "Cup Lid",
+      "categoryId": "cat_packaging",
+      "sku": "LID-12",
+      "price": 0,
+      "cost": 200
+    },
+    {
+      "description": "",
+      "subcategoryId": null,
+      "stationId": "st_storage",
+      "barcode": "",
+      "isSellable": false,
+      "saleType": null,
+      "itemType": "packaging",
+      "soldBy": "each",
+      "inventoryType": "simple",
+      "trackStock": true,
+      "stockBatches": [
+        {
+          "id": "batch_iunzfjvt",
+          "quantity": 15,
+          "addedAt": "2026-09-19T09:14:00.000Z"
+        }
+      ],
+      "lowStockThreshold": 20,
+      "components": [],
+      "taxIds": [],
+      "posColor": "#B4552D",
+      "id": "it_box",
+      "name": "Pastry Box",
+      "categoryId": "cat_packaging",
+      "sku": "BOX-PST",
+      "price": 0,
+      "cost": 1200
+    },
+    {
+      "description": "Double shot with steamed milk.",
+      "subcategoryId": "sub_hot",
+      "stationId": "st_bar",
+      "barcode": "",
+      "isSellable": true,
+      "saleType": null,
+      "itemType": "beverage",
+      "soldBy": "each",
+      "inventoryType": "composite",
+      "trackStock": false,
+      "stockBatches": [],
+      "lowStockThreshold": 0,
+      "components": [
+        {
+          "itemId": "it_beans",
+          "quantity": 18
+        },
+        {
+          "itemId": "it_milk",
+          "quantity": 160
+        },
+        {
+          "itemId": "it_cup",
+          "quantity": 1
+        },
+        {
+          "itemId": "it_lid",
+          "quantity": 1
+        }
+      ],
+      "taxIds": [
+        "tax_vat"
+      ],
+      "posColor": "#B4552D",
+      "yield": 1,
+      "id": "it_cappuccino",
+      "name": "Cappuccino",
+      "categoryId": "cat_espresso",
+      "sku": "DRK-CAP",
+      "price": 16500,
+      "cost": 3900
+    },
+    {
+      "description": "Double shot with silky milk.",
+      "subcategoryId": "sub_hot",
+      "stationId": "st_bar",
+      "barcode": "",
+      "isSellable": true,
+      "saleType": null,
+      "itemType": "beverage",
+      "soldBy": "each",
+      "inventoryType": "composite",
+      "trackStock": false,
+      "stockBatches": [],
+      "lowStockThreshold": 0,
+      "components": [
+        {
+          "itemId": "it_beans",
+          "quantity": 18
+        },
+        {
+          "itemId": "it_milk",
+          "quantity": 220
+        },
+        {
+          "itemId": "it_cup",
+          "quantity": 1
+        },
+        {
+          "itemId": "it_lid",
+          "quantity": 1
+        }
+      ],
+      "taxIds": [
+        "tax_vat"
+      ],
+      "posColor": "#A0622D",
+      "yield": 1,
+      "id": "it_latte",
+      "name": "Caffè Latte",
+      "categoryId": "cat_espresso",
+      "sku": "DRK-LAT",
+      "price": 17500,
+      "cost": 4200
+    },
+    {
+      "description": "",
+      "subcategoryId": "sub_iced",
+      "stationId": "st_bar",
+      "barcode": "",
+      "isSellable": true,
+      "saleType": null,
+      "itemType": "beverage",
+      "soldBy": "each",
+      "inventoryType": "composite",
+      "trackStock": false,
+      "stockBatches": [],
+      "lowStockThreshold": 0,
+      "components": [
+        {
+          "itemId": "it_beans",
+          "quantity": 18
+        },
+        {
+          "itemId": "it_milk",
+          "quantity": 160
+        },
+        {
+          "itemId": "it_cup",
+          "quantity": 1
+        },
+        {
+          "itemId": "it_lid",
+          "quantity": 1
+        }
+      ],
+      "taxIds": [
+        "tax_vat"
+      ],
+      "posColor": "#7C5A3C",
+      "yield": 1,
+      "id": "it_icedlatte",
+      "name": "Iced Latte",
+      "categoryId": "cat_espresso",
+      "sku": "DRK-ILAT",
+      "price": 18000,
+      "cost": 4100
+    },
+    {
+      "description": "",
+      "subcategoryId": "sub_hot",
+      "stationId": "st_bar",
+      "barcode": "",
+      "isSellable": true,
+      "saleType": null,
+      "itemType": "beverage",
+      "soldBy": "each",
+      "inventoryType": "composite",
+      "trackStock": false,
+      "stockBatches": [],
+      "lowStockThreshold": 0,
+      "components": [
+        {
+          "itemId": "it_beans",
+          "quantity": 18
+        },
+        {
+          "itemId": "it_cup",
+          "quantity": 1
+        },
+        {
+          "itemId": "it_lid",
+          "quantity": 1
+        }
+      ],
+      "taxIds": [
+        "tax_vat"
+      ],
+      "posColor": "#5A4632",
+      "yield": 1,
+      "id": "it_americano",
+      "name": "Americano",
+      "categoryId": "cat_espresso",
+      "sku": "DRK-AME",
+      "price": 14000,
+      "cost": 2900
+    },
+    {
+      "description": "",
+      "subcategoryId": "sub_hot",
+      "stationId": "st_bar",
+      "barcode": "",
+      "isSellable": true,
+      "saleType": null,
+      "itemType": "beverage",
+      "soldBy": "each",
+      "inventoryType": "composite",
+      "trackStock": false,
+      "stockBatches": [],
+      "lowStockThreshold": 0,
+      "components": [
+        {
+          "itemId": "it_matcha",
+          "quantity": 12
+        },
+        {
+          "itemId": "it_milk",
+          "quantity": 200
+        },
+        {
+          "itemId": "it_cup",
+          "quantity": 1
+        },
+        {
+          "itemId": "it_lid",
+          "quantity": 1
+        }
+      ],
+      "taxIds": [
+        "tax_vat"
+      ],
+      "posColor": "#6B8E5A",
+      "yield": 1,
+      "id": "it_matchalatte",
+      "name": "Matcha Latte",
+      "categoryId": "cat_espresso",
+      "sku": "DRK-MAT",
+      "price": 19000,
+      "cost": 5200
+    },
+    {
+      "description": "",
+      "subcategoryId": "sub_hot",
+      "stationId": "st_bar",
+      "barcode": "",
+      "isSellable": true,
+      "saleType": null,
+      "itemType": "beverage",
+      "soldBy": "each",
+      "inventoryType": "composite",
+      "trackStock": false,
+      "stockBatches": [],
+      "lowStockThreshold": 0,
+      "components": [
+        {
+          "itemId": "it_syrup",
+          "quantity": 30
+        },
+        {
+          "itemId": "it_milk",
+          "quantity": 220
+        },
+        {
+          "itemId": "it_cup",
+          "quantity": 1
+        },
+        {
+          "itemId": "it_lid",
+          "quantity": 1
+        }
+      ],
+      "taxIds": [
+        "tax_vat"
+      ],
+      "posColor": "#8A5A3C",
+      "yield": 1,
+      "id": "it_hotchoc",
+      "name": "Hot Chocolate",
+      "categoryId": "cat_espresso",
+      "sku": "DRK-HCH",
+      "price": 17000,
+      "cost": 4400
+    },
+    {
+      "description": "",
+      "subcategoryId": "sub_bottled",
+      "stationId": "st_bar",
+      "barcode": "",
+      "isSellable": true,
+      "saleType": null,
+      "itemType": "beverage",
+      "soldBy": "each",
+      "inventoryType": "simple",
+      "trackStock": true,
+      "stockBatches": [
+        {
+          "id": "batch_lnx5amd5",
+          "quantity": 24,
+          "addedAt": "2026-08-31T09:52:00.000Z",
+          "expiryDate": "2026-10-25"
+        }
+      ],
+      "lowStockThreshold": 10,
+      "components": [],
+      "taxIds": [
+        "tax_vat"
+      ],
+      "posColor": "#3E4A5C",
+      "id": "it_coldbrew",
+      "name": "Cold Brew",
+      "categoryId": "cat_cold",
+      "sku": "DRK-CB",
+      "price": 22000,
+      "cost": 9500
+    },
+    {
+      "description": "",
+      "subcategoryId": "sub_bottled",
+      "stationId": "st_bar",
+      "barcode": "",
+      "isSellable": true,
+      "saleType": null,
+      "itemType": "beverage",
+      "soldBy": "each",
+      "inventoryType": "simple",
+      "trackStock": true,
+      "stockBatches": [
+        {
+          "id": "batch_hx347vwh",
+          "quantity": 48,
+          "addedAt": "2026-09-16T09:43:00.000Z"
+        }
+      ],
+      "lowStockThreshold": 12,
+      "components": [],
+      "taxIds": [],
+      "posColor": "#4C7C99",
+      "id": "it_water",
+      "name": "Still Water",
+      "categoryId": "cat_cold",
+      "sku": "DRK-WTR",
+      "price": 3500,
+      "cost": 1500
+    },
+    {
+      "description": "",
+      "subcategoryId": "sub_sweet",
+      "stationId": "st_kitchen",
+      "barcode": "",
+      "isSellable": true,
+      "saleType": null,
+      "itemType": "food",
+      "soldBy": "each",
+      "inventoryType": "simple",
+      "trackStock": true,
+      "stockBatches": [
+        {
+          "id": "batch_v4h9a3gi",
+          "quantity": 11,
+          "addedAt": "2026-09-23T09:18:00.000Z",
+          "expiryDate": "2026-09-27"
+        }
+      ],
+      "lowStockThreshold": 6,
+      "components": [],
+      "taxIds": [
+        "tax_vat"
+      ],
+      "posColor": "#C29B3C",
+      "id": "it_croissant",
+      "name": "Butter Croissant",
+      "categoryId": "cat_pastries",
+      "sku": "FOD-CRO",
+      "price": 9500,
+      "cost": 4200
+    },
+    {
+      "description": "",
+      "subcategoryId": "sub_sweet",
+      "stationId": "st_kitchen",
+      "barcode": "",
+      "isSellable": true,
+      "saleType": null,
+      "itemType": "food",
+      "soldBy": "each",
+      "inventoryType": "simple",
+      "trackStock": true,
+      "stockBatches": [],
+      "lowStockThreshold": 8,
+      "components": [],
+      "taxIds": [
+        "tax_vat"
+      ],
+      "posColor": "#8E6BB0",
+      "id": "it_muffin",
+      "name": "Blueberry Muffin",
+      "categoryId": "cat_pastries",
+      "sku": "FOD-MUF",
+      "price": 8500,
+      "cost": 3800
+    },
+    {
+      "description": "",
+      "subcategoryId": "sub_savory",
+      "stationId": "st_kitchen",
+      "barcode": "",
+      "isSellable": true,
+      "saleType": null,
+      "itemType": "food",
+      "soldBy": "each",
+      "inventoryType": "simple",
+      "trackStock": true,
+      "stockBatches": [
+        {
+          "id": "batch_17ceah7f",
+          "quantity": 4,
+          "addedAt": "2026-09-24T09:11:00.000Z",
+          "expiryDate": "2026-09-26"
+        }
+      ],
+      "lowStockThreshold": 6,
+      "components": [],
+      "taxIds": [
+        "tax_vat"
+      ],
+      "posColor": "#B0755A",
+      "id": "it_sandwich",
+      "name": "Ham & Cheese Sandwich",
+      "categoryId": "cat_pastries",
+      "sku": "FOD-HAM",
+      "price": 14500,
+      "cost": 6500
+    }
+  ],
+  "sales": [
+    {
+      "id": "sale_mugwvc8m0xh9pb",
+      "date": "2026-09-12T15:12:00.000Z",
+      "ticketNumber": 1,
+      "items": [
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 1,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "discount": {
+            "type": "percent",
+            "value": 10,
+            "amount": 1750
+          },
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 17500,
+      "deliveryFee": 0,
+      "tax": 1890,
+      "total": 17640,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-12T15:12:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8m4rtx7h",
+      "date": "2026-09-12T08:38:00.000Z",
+      "ticketNumber": 2,
+      "items": [
+        {
+          "itemId": "it_croissant",
+          "name": "Butter Croissant",
+          "quantity": 2,
+          "price": 9500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        }
+      ],
+      "subtotal": 19000,
+      "deliveryFee": 0,
+      "tax": 2280,
+      "total": 21280,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_admin",
+      "userName": "Ava Reyes",
+      "completedAt": "2026-09-12T08:38:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8mddcvia",
+      "date": "2026-09-12T17:04:00.000Z",
+      "ticketNumber": 3,
+      "items": [
+        {
+          "itemId": "it_water",
+          "name": "Still Water",
+          "quantity": 2,
+          "price": 3500,
+          "refundedQuantity": 0,
+          "discount": {
+            "type": "percent",
+            "value": 10,
+            "amount": 700
+          },
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_sandwich",
+          "name": "Ham & Cheese Sandwich",
+          "quantity": 1,
+          "price": 14500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        },
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 1,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "discount": {
+            "type": "percent",
+            "value": 10,
+            "amount": 1750
+          },
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 39000,
+      "deliveryFee": 0,
+      "tax": 3630,
+      "total": 40180,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-12T17:04:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8mmok7ys",
+      "date": "2026-09-12T11:35:00.000Z",
+      "ticketNumber": 4,
+      "items": [
+        {
+          "itemId": "it_sandwich",
+          "name": "Ham & Cheese Sandwich",
+          "quantity": 1,
+          "price": 14500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        },
+        {
+          "itemId": "it_cappuccino",
+          "name": "Cappuccino",
+          "quantity": 2,
+          "price": 16500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 2,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 82500,
+      "deliveryFee": 0,
+      "tax": 9900,
+      "total": 92400,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-12T11:35:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8mccbmet",
+      "date": "2026-09-12T17:25:00.000Z",
+      "ticketNumber": 5,
+      "items": [
+        {
+          "itemId": "it_croissant",
+          "name": "Butter Croissant",
+          "quantity": 1,
+          "price": 9500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        }
+      ],
+      "subtotal": 9500,
+      "deliveryFee": 0,
+      "tax": 1140,
+      "total": 10640,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_manager",
+      "userName": "Marco Lim",
+      "completedAt": "2026-09-12T17:25:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8mrkzapg",
+      "date": "2026-09-12T18:10:00.000Z",
+      "ticketNumber": 6,
+      "items": [
+        {
+          "itemId": "it_icedlatte",
+          "name": "Iced Latte",
+          "quantity": 1,
+          "price": 18000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_icedlatte",
+          "name": "Iced Latte",
+          "quantity": 2,
+          "price": 18000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 54000,
+      "deliveryFee": 4900,
+      "tax": 6480,
+      "total": 65380,
+      "status": "completed",
+      "saleType": "take-away",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-12T18:10:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8mfn1wtt",
+      "date": "2026-09-12T09:50:00.000Z",
+      "ticketNumber": 7,
+      "items": [
+        {
+          "itemId": "it_water",
+          "name": "Still Water",
+          "quantity": 1,
+          "price": 3500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_cappuccino",
+          "name": "Cappuccino",
+          "quantity": 2,
+          "price": 16500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_cappuccino",
+          "name": "Cappuccino",
+          "quantity": 2,
+          "price": 16500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 69500,
+      "deliveryFee": 0,
+      "tax": 7920,
+      "total": 77420,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_manager",
+      "userName": "Marco Lim",
+      "completedAt": "2026-09-12T09:50:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8mg6h4zn",
+      "date": "2026-09-13T13:10:00.000Z",
+      "ticketNumber": 8,
+      "items": [
+        {
+          "itemId": "it_croissant",
+          "name": "Butter Croissant",
+          "quantity": 2,
+          "price": 9500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        }
+      ],
+      "subtotal": 19000,
+      "deliveryFee": 0,
+      "tax": 2280,
+      "total": 21280,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_admin",
+      "userName": "Ava Reyes",
+      "completedAt": "2026-09-13T13:10:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8nv80o5t",
+      "date": "2026-09-13T10:58:00.000Z",
+      "ticketNumber": 9,
+      "items": [
+        {
+          "itemId": "it_water",
+          "name": "Still Water",
+          "quantity": 2,
+          "price": 3500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 7000,
+      "deliveryFee": 0,
+      "discount": {
+        "type": "percent",
+        "value": 5,
+        "amount": 350
+      },
+      "tax": 0,
+      "total": 6650,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-13T10:58:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8n27k4mc",
+      "date": "2026-09-13T12:19:00.000Z",
+      "ticketNumber": 10,
+      "items": [
+        {
+          "itemId": "it_sandwich",
+          "name": "Ham & Cheese Sandwich",
+          "quantity": 1,
+          "price": 14500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        },
+        {
+          "itemId": "it_hotchoc",
+          "name": "Hot Chocolate",
+          "quantity": 1,
+          "price": 17000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 31500,
+      "deliveryFee": 0,
+      "tax": 3780,
+      "total": 35280,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-13T12:19:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8np3kkur",
+      "date": "2026-09-13T15:18:00.000Z",
+      "ticketNumber": 11,
+      "items": [
+        {
+          "itemId": "it_icedlatte",
+          "name": "Iced Latte",
+          "quantity": 1,
+          "price": 18000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_hotchoc",
+          "name": "Hot Chocolate",
+          "quantity": 2,
+          "price": 17000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_icedlatte",
+          "name": "Iced Latte",
+          "quantity": 1,
+          "price": 18000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 70000,
+      "deliveryFee": 0,
+      "tax": 8400,
+      "total": 78400,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_admin",
+      "userName": "Ava Reyes",
+      "completedAt": "2026-09-13T15:18:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8n3ijhwc",
+      "date": "2026-09-14T18:47:00.000Z",
+      "ticketNumber": 12,
+      "items": [
+        {
+          "itemId": "it_cappuccino",
+          "name": "Cappuccino",
+          "quantity": 2,
+          "price": 16500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 33000,
+      "deliveryFee": 0,
+      "tax": 3960,
+      "total": 36960,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-14T18:47:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8nm4f8lj",
+      "date": "2026-09-14T12:32:00.000Z",
+      "ticketNumber": 13,
+      "items": [
+        {
+          "itemId": "it_cappuccino",
+          "name": "Cappuccino",
+          "quantity": 2,
+          "price": 16500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_croissant",
+          "name": "Butter Croissant",
+          "quantity": 2,
+          "price": 9500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        }
+      ],
+      "subtotal": 52000,
+      "deliveryFee": 4900,
+      "tax": 6240,
+      "total": 63140,
+      "status": "completed",
+      "saleType": "take-away",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-14T12:32:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8ntx58yh",
+      "date": "2026-09-14T14:49:00.000Z",
+      "ticketNumber": 14,
+      "items": [
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 2,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_croissant",
+          "name": "Butter Croissant",
+          "quantity": 1,
+          "price": 9500,
+          "refundedQuantity": 0,
+          "discount": {
+            "type": "percent",
+            "value": 10,
+            "amount": 950
+          },
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        },
+        {
+          "itemId": "it_cappuccino",
+          "name": "Cappuccino",
+          "quantity": 2,
+          "price": 16500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 77500,
+      "deliveryFee": 0,
+      "tax": 9186,
+      "total": 85736,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_manager",
+      "userName": "Marco Lim",
+      "completedAt": "2026-09-14T14:49:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8nzt881m",
+      "date": "2026-09-15T09:21:00.000Z",
+      "ticketNumber": 15,
+      "items": [
+        {
+          "itemId": "it_icedlatte",
+          "name": "Iced Latte",
+          "quantity": 1,
+          "price": 18000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_water",
+          "name": "Still Water",
+          "quantity": 1,
+          "price": 3500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 21500,
+      "deliveryFee": 0,
+      "tax": 2160,
+      "total": 23660,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_admin",
+      "userName": "Ava Reyes",
+      "completedAt": "2026-09-15T09:21:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8nrfje3g",
+      "date": "2026-09-15T15:08:00.000Z",
+      "ticketNumber": 16,
+      "items": [
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 2,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 35000,
+      "deliveryFee": 0,
+      "tax": 4200,
+      "total": 39200,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_manager",
+      "userName": "Marco Lim",
+      "completedAt": "2026-09-15T15:08:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8n4nn69s",
+      "date": "2026-09-15T16:46:00.000Z",
+      "ticketNumber": 17,
+      "items": [
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 1,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 17500,
+      "deliveryFee": 0,
+      "tax": 2100,
+      "total": 19600,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-15T16:46:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8nvg5dxy",
+      "date": "2026-09-15T11:18:00.000Z",
+      "ticketNumber": 18,
+      "items": [
+        {
+          "itemId": "it_water",
+          "name": "Still Water",
+          "quantity": 2,
+          "price": 3500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 7000,
+      "deliveryFee": 0,
+      "tax": 0,
+      "total": 7000,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-15T11:18:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8nqxcc60",
+      "date": "2026-09-15T09:00:00.000Z",
+      "ticketNumber": 19,
+      "items": [
+        {
+          "itemId": "it_hotchoc",
+          "name": "Hot Chocolate",
+          "quantity": 1,
+          "price": 17000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 17000,
+      "deliveryFee": 0,
+      "tax": 2040,
+      "total": 19040,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-15T09:00:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8nxrolb8",
+      "date": "2026-09-15T17:03:00.000Z",
+      "ticketNumber": 20,
+      "items": [
+        {
+          "itemId": "it_sandwich",
+          "name": "Ham & Cheese Sandwich",
+          "quantity": 1,
+          "price": 14500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        }
+      ],
+      "subtotal": 14500,
+      "deliveryFee": 0,
+      "discount": {
+        "type": "percent",
+        "value": 5,
+        "amount": 725
+      },
+      "tax": 1653,
+      "total": 15428,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-15T17:03:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8nijqt0r",
+      "date": "2026-09-15T16:31:00.000Z",
+      "ticketNumber": 21,
+      "items": [
+        {
+          "itemId": "it_americano",
+          "name": "Americano",
+          "quantity": 2,
+          "price": 14000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 2,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 63000,
+      "deliveryFee": 0,
+      "tax": 7560,
+      "total": 70560,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_manager",
+      "userName": "Marco Lim",
+      "completedAt": "2026-09-15T16:31:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8njwuffj",
+      "date": "2026-09-16T18:01:00.000Z",
+      "ticketNumber": 22,
+      "items": [
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 1,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 17500,
+      "deliveryFee": 0,
+      "tax": 2100,
+      "total": 19600,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_manager",
+      "userName": "Marco Lim",
+      "completedAt": "2026-09-16T18:01:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8nqlai8o",
+      "date": "2026-09-16T17:55:00.000Z",
+      "ticketNumber": 23,
+      "items": [
+        {
+          "itemId": "it_icedlatte",
+          "name": "Iced Latte",
+          "quantity": 1,
+          "price": 18000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_hotchoc",
+          "name": "Hot Chocolate",
+          "quantity": 1,
+          "price": 17000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 35000,
+      "deliveryFee": 0,
+      "tax": 4200,
+      "total": 39200,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_admin",
+      "userName": "Ava Reyes",
+      "completedAt": "2026-09-16T17:55:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8ndnbjfv",
+      "date": "2026-09-16T11:37:00.000Z",
+      "ticketNumber": 24,
+      "items": [
+        {
+          "itemId": "it_hotchoc",
+          "name": "Hot Chocolate",
+          "quantity": 2,
+          "price": 17000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 2,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_water",
+          "name": "Still Water",
+          "quantity": 2,
+          "price": 3500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 76000,
+      "deliveryFee": 0,
+      "tax": 8280,
+      "total": 84280,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_manager",
+      "userName": "Marco Lim",
+      "completedAt": "2026-09-16T11:37:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8n8r68vh",
+      "date": "2026-09-17T11:56:00.000Z",
+      "ticketNumber": 25,
+      "items": [
+        {
+          "itemId": "it_matchalatte",
+          "name": "Matcha Latte",
+          "quantity": 2,
+          "price": 19000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_muffin",
+          "name": "Blueberry Muffin",
+          "quantity": 1,
+          "price": 8500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        },
+        {
+          "itemId": "it_hotchoc",
+          "name": "Hot Chocolate",
+          "quantity": 2,
+          "price": 17000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 80500,
+      "deliveryFee": 0,
+      "tax": 9660,
+      "total": 90160,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_manager",
+      "userName": "Marco Lim",
+      "completedAt": "2026-09-17T11:56:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8nafpoeo",
+      "date": "2026-09-17T13:04:00.000Z",
+      "ticketNumber": 26,
+      "items": [
+        {
+          "itemId": "it_americano",
+          "name": "Americano",
+          "quantity": 2,
+          "price": 14000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_croissant",
+          "name": "Butter Croissant",
+          "quantity": 2,
+          "price": 9500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        }
+      ],
+      "subtotal": 47000,
+      "deliveryFee": 0,
+      "tax": 5640,
+      "total": 52640,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_manager",
+      "userName": "Marco Lim",
+      "completedAt": "2026-09-17T13:04:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8nm4e7al",
+      "date": "2026-09-17T09:07:00.000Z",
+      "ticketNumber": 27,
+      "items": [
+        {
+          "itemId": "it_muffin",
+          "name": "Blueberry Muffin",
+          "quantity": 2,
+          "price": 8500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        },
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 2,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 52000,
+      "deliveryFee": 0,
+      "tax": 6240,
+      "total": 58240,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_admin",
+      "userName": "Ava Reyes",
+      "completedAt": "2026-09-17T09:07:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8n29vl1d",
+      "date": "2026-09-17T14:53:00.000Z",
+      "ticketNumber": 28,
+      "items": [
+        {
+          "itemId": "it_croissant",
+          "name": "Butter Croissant",
+          "quantity": 2,
+          "price": 9500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        },
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 1,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 36500,
+      "deliveryFee": 0,
+      "tax": 4380,
+      "total": 40880,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_admin",
+      "userName": "Ava Reyes",
+      "completedAt": "2026-09-17T14:53:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8nz1l1s9",
+      "date": "2026-09-17T16:40:00.000Z",
+      "ticketNumber": 29,
+      "items": [
+        {
+          "itemId": "it_icedlatte",
+          "name": "Iced Latte",
+          "quantity": 1,
+          "price": 18000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_americano",
+          "name": "Americano",
+          "quantity": 1,
+          "price": 14000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_americano",
+          "name": "Americano",
+          "quantity": 2,
+          "price": 14000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 60000,
+      "deliveryFee": 0,
+      "tax": 7200,
+      "total": 67200,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-17T16:40:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8n1kktvn",
+      "date": "2026-09-17T16:47:00.000Z",
+      "ticketNumber": 30,
+      "items": [
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 1,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "discount": {
+            "type": "percent",
+            "value": 10,
+            "amount": 1750
+          },
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_icedlatte",
+          "name": "Iced Latte",
+          "quantity": 1,
+          "price": 18000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_sandwich",
+          "name": "Ham & Cheese Sandwich",
+          "quantity": 2,
+          "price": 14500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        }
+      ],
+      "subtotal": 64500,
+      "deliveryFee": 0,
+      "discount": {
+        "type": "percent",
+        "value": 5,
+        "amount": 3138
+      },
+      "tax": 7153,
+      "total": 66765,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-17T16:47:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8n87ln1m",
+      "date": "2026-09-18T16:29:00.000Z",
+      "ticketNumber": 31,
+      "items": [
+        {
+          "itemId": "it_croissant",
+          "name": "Butter Croissant",
+          "quantity": 2,
+          "price": 9500,
+          "refundedQuantity": 0,
+          "discount": {
+            "type": "percent",
+            "value": 10,
+            "amount": 1900
+          },
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        }
+      ],
+      "subtotal": 19000,
+      "deliveryFee": 0,
+      "tax": 2052,
+      "total": 19152,
+      "status": "completed",
+      "saleType": "take-away",
+      "userId": "user_manager",
+      "userName": "Marco Lim",
+      "completedAt": "2026-09-18T16:29:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8nwpmhxr",
+      "date": "2026-09-18T18:30:00.000Z",
+      "ticketNumber": 32,
+      "items": [
+        {
+          "itemId": "it_cappuccino",
+          "name": "Cappuccino",
+          "quantity": 1,
+          "price": 16500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_water",
+          "name": "Still Water",
+          "quantity": 1,
+          "price": 3500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_americano",
+          "name": "Americano",
+          "quantity": 1,
+          "price": 14000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 34000,
+      "deliveryFee": 0,
+      "tax": 3660,
+      "total": 37660,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-18T18:30:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8np20e65",
+      "date": "2026-09-18T15:29:00.000Z",
+      "ticketNumber": 33,
+      "items": [
+        {
+          "itemId": "it_cappuccino",
+          "name": "Cappuccino",
+          "quantity": 2,
+          "price": 16500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_americano",
+          "name": "Americano",
+          "quantity": 1,
+          "price": 14000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_water",
+          "name": "Still Water",
+          "quantity": 2,
+          "price": 3500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 54000,
+      "deliveryFee": 0,
+      "tax": 5640,
+      "total": 59640,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-18T15:29:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8n4ad2ag",
+      "date": "2026-09-18T13:36:00.000Z",
+      "ticketNumber": 34,
+      "items": [
+        {
+          "itemId": "it_croissant",
+          "name": "Butter Croissant",
+          "quantity": 1,
+          "price": 9500,
+          "refundedQuantity": 0,
+          "discount": {
+            "type": "percent",
+            "value": 10,
+            "amount": 950
+          },
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        }
+      ],
+      "subtotal": 9500,
+      "deliveryFee": 0,
+      "tax": 1026,
+      "total": 9576,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_admin",
+      "userName": "Ava Reyes",
+      "completedAt": "2026-09-18T13:36:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8n0beh03",
+      "date": "2026-09-19T17:21:00.000Z",
+      "ticketNumber": 35,
+      "items": [
+        {
+          "itemId": "it_cappuccino",
+          "name": "Cappuccino",
+          "quantity": 2,
+          "price": 16500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_icedlatte",
+          "name": "Iced Latte",
+          "quantity": 1,
+          "price": 18000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_croissant",
+          "name": "Butter Croissant",
+          "quantity": 1,
+          "price": 9500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        }
+      ],
+      "subtotal": 60500,
+      "deliveryFee": 0,
+      "discount": {
+        "type": "percent",
+        "value": 5,
+        "amount": 3025
+      },
+      "tax": 6897,
+      "total": 64372,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-19T17:21:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8necvdtk",
+      "date": "2026-09-19T08:34:00.000Z",
+      "ticketNumber": 36,
+      "items": [
+        {
+          "itemId": "it_americano",
+          "name": "Americano",
+          "quantity": 2,
+          "price": 14000,
+          "refundedQuantity": 0,
+          "discount": {
+            "type": "percent",
+            "value": 10,
+            "amount": 2800
+          },
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_water",
+          "name": "Still Water",
+          "quantity": 1,
+          "price": 3500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 31500,
+      "deliveryFee": 0,
+      "tax": 3024,
+      "total": 31724,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-19T08:34:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8n3djd6e",
+      "date": "2026-09-19T10:21:00.000Z",
+      "ticketNumber": 37,
+      "items": [
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 2,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 2,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "discount": {
+            "type": "percent",
+            "value": 10,
+            "amount": 3500
+          },
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 70000,
+      "deliveryFee": 0,
+      "tax": 7980,
+      "total": 74480,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_admin",
+      "userName": "Ava Reyes",
+      "completedAt": "2026-09-19T10:21:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8n8jwwg3",
+      "date": "2026-09-19T15:35:00.000Z",
+      "ticketNumber": 38,
+      "items": [
+        {
+          "itemId": "it_sandwich",
+          "name": "Ham & Cheese Sandwich",
+          "quantity": 1,
+          "price": 14500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        },
+        {
+          "itemId": "it_muffin",
+          "name": "Blueberry Muffin",
+          "quantity": 1,
+          "price": 8500,
+          "refundedQuantity": 0,
+          "discount": {
+            "type": "percent",
+            "value": 10,
+            "amount": 850
+          },
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        },
+        {
+          "itemId": "it_hotchoc",
+          "name": "Hot Chocolate",
+          "quantity": 1,
+          "price": 17000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 40000,
+      "deliveryFee": 0,
+      "tax": 4698,
+      "total": 43848,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_manager",
+      "userName": "Marco Lim",
+      "completedAt": "2026-09-19T15:35:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8n9ggwr6",
+      "date": "2026-09-19T18:57:00.000Z",
+      "ticketNumber": 39,
+      "items": [
+        {
+          "itemId": "it_croissant",
+          "name": "Butter Croissant",
+          "quantity": 1,
+          "price": 9500,
+          "refundedQuantity": 0,
+          "discount": {
+            "type": "percent",
+            "value": 10,
+            "amount": 950
+          },
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        },
+        {
+          "itemId": "it_muffin",
+          "name": "Blueberry Muffin",
+          "quantity": 1,
+          "price": 8500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        },
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 2,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 53000,
+      "deliveryFee": 0,
+      "tax": 6246,
+      "total": 58296,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_manager",
+      "userName": "Marco Lim",
+      "completedAt": "2026-09-19T18:57:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8omorhns",
+      "date": "2026-09-20T12:54:00.000Z",
+      "ticketNumber": 40,
+      "items": [
+        {
+          "itemId": "it_sandwich",
+          "name": "Ham & Cheese Sandwich",
+          "quantity": 2,
+          "price": 14500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        },
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 2,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "discount": {
+            "type": "percent",
+            "value": 10,
+            "amount": 3500
+          },
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 2,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 99000,
+      "deliveryFee": 0,
+      "tax": 11460,
+      "total": 106960,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_admin",
+      "userName": "Ava Reyes",
+      "completedAt": "2026-09-20T12:54:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8o81t8zx",
+      "date": "2026-09-20T14:57:00.000Z",
+      "ticketNumber": 41,
+      "items": [
+        {
+          "itemId": "it_americano",
+          "name": "Americano",
+          "quantity": 1,
+          "price": 14000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_croissant",
+          "name": "Butter Croissant",
+          "quantity": 1,
+          "price": 9500,
+          "refundedQuantity": 0,
+          "discount": {
+            "type": "percent",
+            "value": 10,
+            "amount": 950
+          },
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        }
+      ],
+      "subtotal": 23500,
+      "deliveryFee": 0,
+      "tax": 2706,
+      "total": 25256,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-20T14:57:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8ol0a6hn",
+      "date": "2026-09-20T12:49:00.000Z",
+      "ticketNumber": 42,
+      "items": [
+        {
+          "itemId": "it_croissant",
+          "name": "Butter Croissant",
+          "quantity": 2,
+          "price": 9500,
+          "refundedQuantity": 0,
+          "discount": {
+            "type": "percent",
+            "value": 10,
+            "amount": 1900
+          },
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        },
+        {
+          "itemId": "it_water",
+          "name": "Still Water",
+          "quantity": 2,
+          "price": 3500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 26000,
+      "deliveryFee": 0,
+      "tax": 2052,
+      "total": 26152,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_manager",
+      "userName": "Marco Lim",
+      "completedAt": "2026-09-20T12:49:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8ocd9inh",
+      "date": "2026-09-20T14:49:00.000Z",
+      "ticketNumber": 43,
+      "items": [
+        {
+          "itemId": "it_icedlatte",
+          "name": "Iced Latte",
+          "quantity": 1,
+          "price": 18000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_sandwich",
+          "name": "Ham & Cheese Sandwich",
+          "quantity": 1,
+          "price": 14500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        }
+      ],
+      "subtotal": 32500,
+      "deliveryFee": 4900,
+      "tax": 3900,
+      "total": 41300,
+      "status": "completed",
+      "saleType": "take-away",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-20T14:49:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8okqxho7",
+      "date": "2026-09-20T17:45:00.000Z",
+      "ticketNumber": 44,
+      "items": [
+        {
+          "itemId": "it_coldbrew",
+          "name": "Cold Brew",
+          "quantity": 1,
+          "price": 22000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_cappuccino",
+          "name": "Cappuccino",
+          "quantity": 2,
+          "price": 16500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 55000,
+      "deliveryFee": 0,
+      "tax": 6600,
+      "total": 61600,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-20T17:45:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8opft1y6",
+      "date": "2026-09-20T16:37:00.000Z",
+      "ticketNumber": 45,
+      "items": [
+        {
+          "itemId": "it_cappuccino",
+          "name": "Cappuccino",
+          "quantity": 1,
+          "price": 16500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 16500,
+      "deliveryFee": 4900,
+      "tax": 1980,
+      "total": 23380,
+      "status": "completed",
+      "saleType": "take-away",
+      "userId": "user_admin",
+      "userName": "Ava Reyes",
+      "completedAt": "2026-09-20T16:37:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8o2fofek",
+      "date": "2026-09-20T14:34:00.000Z",
+      "ticketNumber": 46,
+      "items": [
+        {
+          "itemId": "it_matchalatte",
+          "name": "Matcha Latte",
+          "quantity": 2,
+          "price": 19000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 38000,
+      "deliveryFee": 4900,
+      "tax": 4560,
+      "total": 47460,
+      "status": "completed",
+      "saleType": "take-away",
+      "userId": "user_manager",
+      "userName": "Marco Lim",
+      "completedAt": "2026-09-20T14:34:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8od6iu7u",
+      "date": "2026-09-21T18:55:00.000Z",
+      "ticketNumber": 47,
+      "items": [
+        {
+          "itemId": "it_matchalatte",
+          "name": "Matcha Latte",
+          "quantity": 2,
+          "price": 19000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_coldbrew",
+          "name": "Cold Brew",
+          "quantity": 1,
+          "price": 22000,
+          "refundedQuantity": 0,
+          "discount": {
+            "type": "percent",
+            "value": 10,
+            "amount": 2200
+          },
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 60000,
+      "deliveryFee": 0,
+      "tax": 6936,
+      "total": 64736,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_manager",
+      "userName": "Marco Lim",
+      "completedAt": "2026-09-21T18:55:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8o5ai5jp",
+      "date": "2026-09-21T18:13:00.000Z",
+      "ticketNumber": 48,
+      "items": [
+        {
+          "itemId": "it_coldbrew",
+          "name": "Cold Brew",
+          "quantity": 1,
+          "price": 22000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_sandwich",
+          "name": "Ham & Cheese Sandwich",
+          "quantity": 2,
+          "price": 14500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        }
+      ],
+      "subtotal": 51000,
+      "deliveryFee": 0,
+      "tax": 6120,
+      "total": 57120,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_manager",
+      "userName": "Marco Lim",
+      "completedAt": "2026-09-21T18:13:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8o2li35p",
+      "date": "2026-09-21T14:58:00.000Z",
+      "ticketNumber": 49,
+      "items": [
+        {
+          "itemId": "it_icedlatte",
+          "name": "Iced Latte",
+          "quantity": 2,
+          "price": 18000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 36000,
+      "deliveryFee": 0,
+      "tax": 4320,
+      "total": 40320,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_admin",
+      "userName": "Ava Reyes",
+      "completedAt": "2026-09-21T14:58:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8oxn0nck",
+      "date": "2026-09-21T10:16:00.000Z",
+      "ticketNumber": 50,
+      "items": [
+        {
+          "itemId": "it_sandwich",
+          "name": "Ham & Cheese Sandwich",
+          "quantity": 1,
+          "price": 14500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        }
+      ],
+      "subtotal": 14500,
+      "deliveryFee": 0,
+      "tax": 1740,
+      "total": 16240,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-21T10:16:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8ouhprla",
+      "date": "2026-09-21T17:26:00.000Z",
+      "ticketNumber": 51,
+      "items": [
+        {
+          "itemId": "it_coldbrew",
+          "name": "Cold Brew",
+          "quantity": 1,
+          "price": 22000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_matchalatte",
+          "name": "Matcha Latte",
+          "quantity": 1,
+          "price": 19000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_hotchoc",
+          "name": "Hot Chocolate",
+          "quantity": 2,
+          "price": 17000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 75000,
+      "deliveryFee": 0,
+      "tax": 9000,
+      "total": 84000,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_manager",
+      "userName": "Marco Lim",
+      "completedAt": "2026-09-21T17:26:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8ollbfka",
+      "date": "2026-09-21T08:07:00.000Z",
+      "ticketNumber": 52,
+      "items": [
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 2,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_coldbrew",
+          "name": "Cold Brew",
+          "quantity": 1,
+          "price": 22000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 57000,
+      "deliveryFee": 4900,
+      "tax": 6840,
+      "total": 68740,
+      "status": "completed",
+      "saleType": "take-away",
+      "userId": "user_manager",
+      "userName": "Marco Lim",
+      "completedAt": "2026-09-21T08:07:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8o5hodmo",
+      "date": "2026-09-21T11:20:00.000Z",
+      "ticketNumber": 53,
+      "items": [
+        {
+          "itemId": "it_americano",
+          "name": "Americano",
+          "quantity": 1,
+          "price": 14000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_water",
+          "name": "Still Water",
+          "quantity": 1,
+          "price": 3500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 17500,
+      "deliveryFee": 0,
+      "tax": 1680,
+      "total": 19180,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_admin",
+      "userName": "Ava Reyes",
+      "completedAt": "2026-09-21T11:20:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8odphk4b",
+      "date": "2026-09-22T15:36:00.000Z",
+      "ticketNumber": 54,
+      "items": [
+        {
+          "itemId": "it_croissant",
+          "name": "Butter Croissant",
+          "quantity": 1,
+          "price": 9500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        },
+        {
+          "itemId": "it_icedlatte",
+          "name": "Iced Latte",
+          "quantity": 2,
+          "price": 18000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 45500,
+      "deliveryFee": 0,
+      "tax": 5460,
+      "total": 50960,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-22T15:36:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8oa24ij3",
+      "date": "2026-09-22T18:31:00.000Z",
+      "ticketNumber": 55,
+      "items": [
+        {
+          "itemId": "it_sandwich",
+          "name": "Ham & Cheese Sandwich",
+          "quantity": 1,
+          "price": 14500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        },
+        {
+          "itemId": "it_cappuccino",
+          "name": "Cappuccino",
+          "quantity": 2,
+          "price": 16500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_cappuccino",
+          "name": "Cappuccino",
+          "quantity": 1,
+          "price": 16500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 64000,
+      "deliveryFee": 0,
+      "tax": 7680,
+      "total": 71680,
+      "status": "completed",
+      "saleType": "take-away",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-22T18:31:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8oht0e93",
+      "date": "2026-09-22T11:38:00.000Z",
+      "ticketNumber": 56,
+      "items": [
+        {
+          "itemId": "it_hotchoc",
+          "name": "Hot Chocolate",
+          "quantity": 2,
+          "price": 17000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 1,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_matchalatte",
+          "name": "Matcha Latte",
+          "quantity": 2,
+          "price": 19000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 89500,
+      "deliveryFee": 0,
+      "tax": 10740,
+      "total": 100240,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_admin",
+      "userName": "Ava Reyes",
+      "completedAt": "2026-09-22T11:38:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8ohfzdld",
+      "date": "2026-09-22T09:02:00.000Z",
+      "ticketNumber": 57,
+      "items": [
+        {
+          "itemId": "it_muffin",
+          "name": "Blueberry Muffin",
+          "quantity": 1,
+          "price": 8500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        },
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 2,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_coldbrew",
+          "name": "Cold Brew",
+          "quantity": 1,
+          "price": 22000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 65500,
+      "deliveryFee": 0,
+      "discount": {
+        "type": "percent",
+        "value": 5,
+        "amount": 3275
+      },
+      "tax": 7467,
+      "total": 69692,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-22T09:02:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8ofsc4n6",
+      "date": "2026-09-22T15:25:00.000Z",
+      "ticketNumber": 58,
+      "items": [
+        {
+          "itemId": "it_icedlatte",
+          "name": "Iced Latte",
+          "quantity": 2,
+          "price": 18000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 36000,
+      "deliveryFee": 0,
+      "tax": 4320,
+      "total": 40320,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-22T15:25:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8oxmyh2h",
+      "date": "2026-09-22T08:44:00.000Z",
+      "ticketNumber": 59,
+      "items": [
+        {
+          "itemId": "it_croissant",
+          "name": "Butter Croissant",
+          "quantity": 1,
+          "price": 9500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        },
+        {
+          "itemId": "it_americano",
+          "name": "Americano",
+          "quantity": 1,
+          "price": 14000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 23500,
+      "deliveryFee": 0,
+      "tax": 2820,
+      "total": 26320,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_admin",
+      "userName": "Ava Reyes",
+      "completedAt": "2026-09-22T08:44:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8oj5rn2k",
+      "date": "2026-09-23T12:24:00.000Z",
+      "ticketNumber": 60,
+      "items": [
+        {
+          "itemId": "it_coldbrew",
+          "name": "Cold Brew",
+          "quantity": 2,
+          "price": 22000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 44000,
+      "deliveryFee": 0,
+      "tax": 5280,
+      "total": 49280,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_admin",
+      "userName": "Ava Reyes",
+      "completedAt": "2026-09-23T12:24:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8ogz0oro",
+      "date": "2026-09-23T18:45:00.000Z",
+      "ticketNumber": 61,
+      "items": [
+        {
+          "itemId": "it_matchalatte",
+          "name": "Matcha Latte",
+          "quantity": 1,
+          "price": 19000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 19000,
+      "deliveryFee": 0,
+      "discount": {
+        "type": "percent",
+        "value": 5,
+        "amount": 950
+      },
+      "tax": 2166,
+      "total": 20216,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-23T18:45:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8o1c4pqz",
+      "date": "2026-09-23T17:14:00.000Z",
+      "ticketNumber": 62,
+      "items": [
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 1,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 17500,
+      "deliveryFee": 0,
+      "tax": 2100,
+      "total": 19600,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_manager",
+      "userName": "Marco Lim",
+      "completedAt": "2026-09-23T17:14:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8orh1nnm",
+      "date": "2026-09-23T08:37:00.000Z",
+      "ticketNumber": 63,
+      "items": [
+        {
+          "itemId": "it_hotchoc",
+          "name": "Hot Chocolate",
+          "quantity": 2,
+          "price": 17000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_cappuccino",
+          "name": "Cappuccino",
+          "quantity": 2,
+          "price": 16500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_sandwich",
+          "name": "Ham & Cheese Sandwich",
+          "quantity": 1,
+          "price": 14500,
+          "refundedQuantity": 0,
+          "discount": {
+            "type": "percent",
+            "value": 10,
+            "amount": 1450
+          },
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        }
+      ],
+      "subtotal": 81500,
+      "deliveryFee": 0,
+      "tax": 9606,
+      "total": 89656,
+      "status": "completed",
+      "saleType": "take-away",
+      "userId": "user_manager",
+      "userName": "Marco Lim",
+      "completedAt": "2026-09-23T08:37:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8oclj9uz",
+      "date": "2026-09-23T08:47:00.000Z",
+      "ticketNumber": 64,
+      "items": [
+        {
+          "itemId": "it_croissant",
+          "name": "Butter Croissant",
+          "quantity": 1,
+          "price": 9500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        },
+        {
+          "itemId": "it_americano",
+          "name": "Americano",
+          "quantity": 2,
+          "price": 14000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 1,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 55000,
+      "deliveryFee": 0,
+      "tax": 6600,
+      "total": 61600,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-23T08:47:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8o0u6t1w",
+      "date": "2026-09-24T14:03:00.000Z",
+      "ticketNumber": 65,
+      "items": [
+        {
+          "itemId": "it_icedlatte",
+          "name": "Iced Latte",
+          "quantity": 2,
+          "price": 18000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_croissant",
+          "name": "Butter Croissant",
+          "quantity": 1,
+          "price": 9500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        },
+        {
+          "itemId": "it_americano",
+          "name": "Americano",
+          "quantity": 1,
+          "price": 14000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 59500,
+      "deliveryFee": 0,
+      "tax": 7140,
+      "total": 66640,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-24T14:03:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8olcdpx8",
+      "date": "2026-09-24T14:25:00.000Z",
+      "ticketNumber": 66,
+      "items": [
+        {
+          "itemId": "it_water",
+          "name": "Still Water",
+          "quantity": 2,
+          "price": 3500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_croissant",
+          "name": "Butter Croissant",
+          "quantity": 1,
+          "price": 9500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        },
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 2,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 51500,
+      "deliveryFee": 0,
+      "tax": 5340,
+      "total": 56840,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-24T14:25:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8oqae907",
+      "date": "2026-09-24T13:45:00.000Z",
+      "ticketNumber": 67,
+      "items": [
+        {
+          "itemId": "it_icedlatte",
+          "name": "Iced Latte",
+          "quantity": 1,
+          "price": 18000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 2,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 53000,
+      "deliveryFee": 0,
+      "tax": 6360,
+      "total": 59360,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_manager",
+      "userName": "Marco Lim",
+      "completedAt": "2026-09-24T13:45:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8or7nodm",
+      "date": "2026-09-25T08:08:00.000Z",
+      "ticketNumber": 68,
+      "items": [
+        {
+          "itemId": "it_cappuccino",
+          "name": "Cappuccino",
+          "quantity": 1,
+          "price": 16500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_croissant",
+          "name": "Butter Croissant",
+          "quantity": 1,
+          "price": 9500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        }
+      ],
+      "subtotal": 26000,
+      "deliveryFee": 0,
+      "tax": 3120,
+      "total": 29120,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-25T08:08:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8o9p6iuv",
+      "date": "2026-09-25T09:27:00.000Z",
+      "ticketNumber": 69,
+      "items": [
+        {
+          "itemId": "it_latte",
+          "name": "Caffè Latte",
+          "quantity": 1,
+          "price": 17500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_sandwich",
+          "name": "Ham & Cheese Sandwich",
+          "quantity": 1,
+          "price": 14500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        }
+      ],
+      "subtotal": 32000,
+      "deliveryFee": 0,
+      "tax": 3840,
+      "total": 35840,
+      "status": "completed",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": "2026-09-25T09:27:00.000Z"
+    },
+    {
+      "id": "sale_mugwvc8owlwv7v",
+      "date": "2026-09-25T10:38:00.000Z",
+      "ticketNumber": 70,
+      "items": [
+        {
+          "itemId": "it_icedlatte",
+          "name": "Iced Latte",
+          "quantity": 1,
+          "price": 18000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_icedlatte",
+          "name": "Iced Latte",
+          "quantity": 1,
+          "price": 18000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_coldbrew",
+          "name": "Cold Brew",
+          "quantity": 1,
+          "price": 22000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 58000,
+      "deliveryFee": 0,
+      "tax": 6960,
+      "total": 64960,
+      "status": "preparing",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": null
+    },
+    {
+      "id": "sale_mugwvc8o8sjf0m",
+      "date": "2026-09-25T10:23:00.000Z",
+      "ticketNumber": 71,
+      "items": [
+        {
+          "itemId": "it_cappuccino",
+          "name": "Cappuccino",
+          "quantity": 1,
+          "price": 16500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_muffin",
+          "name": "Blueberry Muffin",
+          "quantity": 1,
+          "price": 8500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        }
+      ],
+      "subtotal": 25000,
+      "deliveryFee": 4900,
+      "tax": 3000,
+      "total": 32900,
+      "status": "pending",
+      "saleType": "take-away",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": null
+    },
+    {
+      "id": "sale_mugwvc8oak2bv6",
+      "date": "2026-09-25T11:11:00.000Z",
+      "ticketNumber": 72,
+      "items": [
+        {
+          "itemId": "it_americano",
+          "name": "Americano",
+          "quantity": 1,
+          "price": 14000,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_water",
+          "name": "Still Water",
+          "quantity": 1,
+          "price": 3500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        }
+      ],
+      "subtotal": 17500,
+      "deliveryFee": 0,
+      "tax": 1680,
+      "total": 19180,
+      "status": "pending",
+      "saleType": "dine-in",
+      "userId": "user_cashier",
+      "userName": "Lena Tan",
+      "completedAt": null
+    },
+    {
+      "id": "sale_mugwviwelszidp",
+      "date": "2026-09-25T12:02:37.550Z",
+      "ticketNumber": 73,
+      "items": [
+        {
+          "itemId": "it_cappuccino",
+          "name": "Cappuccino",
+          "quantity": 2,
+          "price": 16500,
+          "refundedQuantity": 0,
+          "stationId": "st_bar",
+          "itemType": "beverage"
+        },
+        {
+          "itemId": "it_croissant",
+          "name": "Butter Croissant",
+          "quantity": 1,
+          "price": 9500,
+          "refundedQuantity": 0,
+          "stationId": "st_kitchen",
+          "itemType": "food"
+        }
+      ],
+      "subtotal": 42500,
+      "deliveryFee": 0,
+      "tax": 5100,
+      "total": 47600,
+      "status": "pending",
+      "saleType": "dine-in",
+      "userId": "user_admin",
+      "userName": "Ava Reyes",
+      "completedAt": null
+    }
+  ],
+  "wasteEvents": [
+    {
+      "id": "waste_seed_1",
+      "date": "2026-09-23T10:46:00.000Z",
+      "itemId": "it_croissant",
+      "itemName": "Butter Croissant",
+      "quantity": 3,
+      "cost": 12600,
+      "unit": "units",
+      "reason": "Expired batch",
+      "userId": "user_stock",
+      "userName": "Sam Dela Cruz"
+    },
+    {
+      "id": "waste_seed_1",
+      "date": "2026-09-20T10:31:00.000Z",
+      "itemId": "it_milk",
+      "itemName": "Whole Milk",
+      "quantity": 250,
+      "cost": 213,
+      "unit": "g/ml",
+      "reason": "Spilt during prep",
+      "userId": "user_stock",
+      "userName": "Sam Dela Cruz"
+    },
+    {
+      "id": "waste_seed_1",
+      "date": "2026-09-22T10:01:00.000Z",
+      "itemId": "it_beans",
+      "itemName": "House Espresso Beans",
+      "quantity": 50,
+      "cost": 90,
+      "unit": "g/ml",
+      "reason": "Quality testing",
+      "eventType": "pull-out",
+      "userId": "user_stock",
+      "userName": "Sam Dela Cruz"
+    },
+    {
+      "id": "waste_seed_1",
+      "date": "2026-09-24T10:10:00.000Z",
+      "itemId": "it_cup",
+      "itemName": "12oz Cup",
+      "quantity": 10,
+      "cost": 4500,
+      "unit": "units",
+      "reason": "Damaged in delivery",
+      "userId": "user_stock",
+      "userName": "Sam Dela Cruz"
+    },
+    {
+      "id": "waste_seed_1",
+      "date": "2026-09-17T10:49:00.000Z",
+      "itemId": "it_syrup",
+      "itemName": "Chocolate Syrup",
+      "quantity": 40,
+      "cost": 100,
+      "unit": "g/ml",
+      "reason": "Batch contaminated",
+      "userId": "user_stock",
+      "userName": "Sam Dela Cruz"
+    },
+    {
+      "id": "waste_seed_1",
+      "date": "2026-09-25T14:28:00.000Z",
+      "itemId": "it_sandwich",
+      "itemName": "Ham & Cheese Sandwich",
+      "quantity": 2,
+      "cost": 13000,
+      "unit": "units",
+      "reason": "Wrong order remade",
+      "eventType": "waste",
+      "userId": "user_stock",
+      "userName": "Sam Dela Cruz"
+    },
+    {
+      "id": "waste_mugwvjrjlz2e1f",
+      "date": "2026-09-25T12:02:38.671Z",
+      "itemId": "it_milk",
+      "itemName": "Whole Milk",
+      "quantity": 100,
+      "cost": 85,
+      "unit": "g/ml",
+      "reason": "Test spill",
+      "eventType": "waste",
+      "userId": "user_admin",
+      "userName": "Ava Reyes",
+      "batchId": "batch_f31u789e"
+    }
+  ],
+  "stockReceipts": [
+    {
+      "id": "srec_seed_1",
+      "date": "2026-09-15T08:29:00.000Z",
+      "itemId": "it_beans",
+      "itemName": "House Espresso Beans",
+      "quantity": 1200,
+      "unit": "g/ml",
+      "batchId": "batch_seed_1",
+      "batchDate": "2026-09-15",
+      "batchDateType": "roast",
+      "userId": "user_stock",
+      "userName": "Sam Dela Cruz"
+    },
+    {
+      "id": "srec_seed_1",
+      "date": "2026-08-31T08:40:00.000Z",
+      "itemId": "it_beans",
+      "itemName": "House Espresso Beans",
+      "quantity": 600,
+      "unit": "g/ml",
+      "batchId": "batch_seed_1",
+      "batchDate": "2026-08-31",
+      "batchDateType": "roast",
+      "userId": "user_stock",
+      "userName": "Sam Dela Cruz"
+    },
+    {
+      "id": "srec_seed_1",
+      "date": "2026-09-05T08:36:00.000Z",
+      "itemId": "it_milk",
+      "itemName": "Whole Milk",
+      "quantity": 4000,
+      "unit": "g/ml",
+      "batchId": "batch_seed_1",
+      "batchDate": "2026-10-15",
+      "batchDateType": "expiry",
+      "userId": "user_stock",
+      "userName": "Sam Dela Cruz"
+    },
+    {
+      "id": "srec_seed_1",
+      "date": "2026-09-22T08:00:00.000Z",
+      "itemId": "it_milk",
+      "itemName": "Whole Milk",
+      "quantity": 2000,
+      "unit": "g/ml",
+      "batchId": "batch_seed_1",
+      "batchDate": "2026-09-28",
+      "batchDateType": "expiry",
+      "userId": "user_stock",
+      "userName": "Sam Dela Cruz"
+    },
+    {
+      "id": "srec_seed_1",
+      "date": "2026-09-23T08:27:00.000Z",
+      "itemId": "it_cup",
+      "itemName": "12oz Cup",
+      "quantity": 150,
+      "unit": "units",
+      "batchId": "batch_seed_1",
+      "userId": "user_stock",
+      "userName": "Sam Dela Cruz"
+    },
+    {
+      "id": "srec_seed_1",
+      "date": "2026-09-13T08:49:00.000Z",
+      "itemId": "it_lid",
+      "itemName": "Cup Lid",
+      "quantity": 800,
+      "unit": "units",
+      "batchId": "batch_seed_1",
+      "userId": "user_stock",
+      "userName": "Sam Dela Cruz"
+    },
+    {
+      "id": "srec_seed_1",
+      "date": "2026-09-21T08:03:00.000Z",
+      "itemId": "it_lid",
+      "itemName": "Cup Lid",
+      "quantity": 500,
+      "unit": "units",
+      "batchId": "batch_seed_1",
+      "userId": "user_stock",
+      "userName": "Sam Dela Cruz"
+    },
+    {
+      "id": "srec_seed_1",
+      "date": "2026-09-19T08:34:00.000Z",
+      "itemId": "it_box",
+      "itemName": "Pastry Box",
+      "quantity": 15,
+      "unit": "units",
+      "batchId": "batch_seed_1",
+      "userId": "user_stock",
+      "userName": "Sam Dela Cruz"
+    },
+    {
+      "id": "srec_seed_1",
+      "date": "2026-08-31T08:01:00.000Z",
+      "itemId": "it_coldbrew",
+      "itemName": "Cold Brew",
+      "quantity": 24,
+      "unit": "units",
+      "batchId": "batch_seed_1",
+      "batchDate": "2026-10-25",
+      "batchDateType": "expiry",
+      "userId": "user_stock",
+      "userName": "Sam Dela Cruz"
+    },
+    {
+      "id": "srec_seed_1",
+      "date": "2026-09-23T08:15:00.000Z",
+      "itemId": "it_croissant",
+      "itemName": "Butter Croissant",
+      "quantity": 24,
+      "unit": "units",
+      "batchId": "batch_seed_1",
+      "batchDate": "2026-09-27",
+      "batchDateType": "expiry",
+      "userId": "user_stock",
+      "userName": "Sam Dela Cruz"
+    },
+    {
+      "id": "srec_seed_1",
+      "date": "2026-09-24T08:03:00.000Z",
+      "itemId": "it_sandwich",
+      "itemName": "Ham & Cheese Sandwich",
+      "quantity": 6,
+      "unit": "units",
+      "batchId": "batch_seed_1",
+      "batchDate": "2026-09-26",
+      "batchDateType": "expiry",
+      "userId": "user_stock",
+      "userName": "Sam Dela Cruz"
+    },
+    {
+      "id": "srec_seed_1",
+      "date": "2026-09-16T08:10:00.000Z",
+      "itemId": "it_water",
+      "itemName": "Still Water",
+      "quantity": 48,
+      "unit": "units",
+      "batchId": "batch_seed_1",
+      "userId": "user_stock",
+      "userName": "Sam Dela Cruz"
+    },
+    {
+      "id": "srec_mugwvjltotjpkq",
+      "date": "2026-09-25T12:02:38.465Z",
+      "itemId": "it_cup",
+      "itemName": "12oz Cup",
+      "quantity": 100,
+      "unit": "units",
+      "batchId": "batch_mugwvjlsd0mdfr",
+      "batchDate": "2026-12-01",
+      "batchDateType": "expiry",
+      "userId": "user_admin",
+      "userName": "Ava Reyes"
+    }
+  ]
+}

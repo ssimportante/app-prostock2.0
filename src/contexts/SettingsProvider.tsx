@@ -1,58 +1,51 @@
 'use client';
 
-import { createContext, useContext, type ReactNode, useMemo } from 'react';
-import { PosSettings } from '@/types';
-import { useDoc, useFirestore, useMemoFirebase, useUser } from '@/firebase';
-import { doc } from 'firebase/firestore';
+import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
+import { api } from '@/lib/api-client';
+import type { PosSettings, Tax } from '@/lib/types';
 
-interface SettingsContextType {
+interface SettingsContextValue {
   settings: PosSettings;
-  setSettings: (settings: PosSettings) => void;
+  taxes: Tax[];
   loading: boolean;
+  reload: () => Promise<void>;
 }
 
-const defaultSettings: PosSettings = {
-    defaultSaleType: 'dine-in',
-    currency: 'USD',
-};
+const defaultSettings: PosSettings = { currency: '₱', defaultSaleType: 'dine-in' };
 
-const SettingsContext = createContext<SettingsContextType>({
-    settings: defaultSettings,
-    setSettings: () => {},
-    loading: true,
+const SettingsContext = createContext<SettingsContextValue>({
+  settings: defaultSettings,
+  taxes: [],
+  loading: true,
+  reload: async () => {},
 });
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
-  const firestore = useFirestore();
-  const { user, isUserLoading } = useUser();
-  
-  const settingsRef = useMemoFirebase(() => {
-    if (!firestore || !user) return null;
-    return doc(firestore, 'settings', 'pos');
-  }, [firestore, user]);
-  
-  const { data, isLoading: isSettingsLoading } = useDoc<PosSettings>(settingsRef);
-  
-  const settings = data || defaultSettings;
-  const loading = isUserLoading || (!!user && isSettingsLoading);
+  const [settings, setSettings] = useState<PosSettings>(defaultSettings);
+  const [taxes, setTaxes] = useState<Tax[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const contextValue = useMemo(() => ({
-    settings,
-    setSettings: () => {}, // In this prototype, settings updates are handled directly in PosSettingsManager
-    loading
-  }), [settings, loading]);
+  const reload = useCallback(async () => {
+    try {
+      const data = await api<{ settings: PosSettings; taxes: Tax[] }>('/api/settings');
+      setSettings(data.settings);
+      setTaxes(data.taxes ?? []);
+    } catch {
+      // keep defaults; toast handled by callers where relevant
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    void reload();
+  }, [reload]);
 
   return (
-    <SettingsContext.Provider value={contextValue}>
+    <SettingsContext.Provider value={{ settings, taxes, loading, reload }}>
       {children}
     </SettingsContext.Provider>
   );
 }
 
-export function useSettings() {
-  const context = useContext(SettingsContext);
-  if (context === undefined) {
-    throw new Error('useSettings must be used within a SettingsProvider');
-  }
-  return context;
-}
+export const useSettings = () => useContext(SettingsContext);
