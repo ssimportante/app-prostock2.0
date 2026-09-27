@@ -29,7 +29,7 @@ services:
       - BASE44_PUBLIC_HOST_SUFFIX=${BASE44_PUBLIC_HOST_SUFFIX:-localhost}
       - __VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS=${BASE44_PUBLIC_HOST_SUFFIX:-localhost}
       - WATCHPACK_POLLING=true
-    command: sh -c "npm install && npx prisma generate && npx prisma db push && node prisma/seed.mjs && npx next dev -p 3000 -H 0.0.0.0"
+    command: sh -c "npm install && npx prisma generate && npx prisma db push && npx next dev -p 3000 -H 0.0.0.0"
     depends_on:
       db:
         condition: service_healthy
