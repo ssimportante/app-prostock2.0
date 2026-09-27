@@ -46,7 +46,7 @@ export default function AppLayout({ children, isLoading }: { children: React.Rea
       {!isMobile && <AppSidebar isOpen={isDesktopSidebarOpen} />}
       <div
         className={cn(
-          'flex flex-1 flex-col transition-all duration-300',
+          'flex flex-1 flex-col min-w-0 transition-all duration-300',
           !isMobile && (isDesktopSidebarOpen ? 'ml-64' : 'ml-20')
         )}
       >
@@ -59,7 +59,7 @@ export default function AppLayout({ children, isLoading }: { children: React.Rea
             }
           }}
         />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 overflow-x-hidden">{children}</main>
       </div>
       {isMobile && (
         <Sheet open={isMobileSidebarOpen} onOpenChange={setIsMobileSidebarOpen}>

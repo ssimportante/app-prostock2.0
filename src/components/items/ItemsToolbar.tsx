@@ -123,7 +123,7 @@ export function ItemsToolbar({
 
   return (
     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between py-4 gap-4">
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full flex-1">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full flex-1 min-w-0">
         <Input
           placeholder="Filter by name, SKU, or tag..."
           value={searchValue}
@@ -270,7 +270,7 @@ export function ItemsToolbar({
             </Popover>
         </div>
       </div>
-      <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+      <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-end">
         {numSelected > 0 ? (
             <>
                 <DropdownMenu>

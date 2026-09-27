@@ -22,7 +22,7 @@ export default function ReportToolbar({
   showDateRangePicker = true,
 }: ReportToolbarProps) {
   return (
-    <div className="flex items-center justify-end gap-2 py-4">
+    <div className="flex flex-wrap items-center justify-end gap-2 py-4">
       {showDateRangePicker && onDateChange && (
         <Popover>
           <PopoverTrigger asChild>
