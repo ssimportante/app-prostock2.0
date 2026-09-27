@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { format } from 'date-fns';
-import type { ItemWithId, StockBatch, CategoryWithId, WasteEvent, StockReceipt } from '@/types';
+import type { ItemWithId, StockBatch, CategoryWithId, WasteEvent, StockReceipt, StaffWithId } from '@/types';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -55,6 +55,7 @@ const recordWasteSchema = z.object({
 interface StockManagerProps {
   initialItems: ItemWithId[];
   categories: CategoryWithId[];
+  staff: StaffWithId[];
 }
 
 async function receiveStockAction(firestore: any, userId: string, itemId: string, newBatch: StockBatch, existingBatches: StockBatch[], item: ItemWithId, purchaseDate: Date, recordedByName: string) {
@@ -107,7 +108,7 @@ async function recordWasteAction(firestore: any, updates: { itemId: string, stoc
     await batch.commit();
 }
 
-function StockManager({ initialItems: items, categories }: StockManagerProps) {
+function StockManager({ initialItems: items, categories, staff }: StockManagerProps) {
   const [isPending, startTransition] = useTransition();
   const [receiveStockTypeFilter, setReceiveStockTypeFilter] = useState<'ingredient' | 'packaging'>('ingredient');
   const [wasteStockTypeFilter, setWasteStockTypeFilter] = useState<'ingredient' | 'packaging' | 'product'>('ingredient');
@@ -484,9 +485,18 @@ function StockManager({ initialItems: items, categories }: StockManagerProps) {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Recorded By</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter your name" {...field} />
-                        </FormControl>
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select staff member" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {staff.map(s => (
+                              <SelectItem key={s.id} value={s.name}>{s.name}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -652,9 +662,18 @@ function StockManager({ initialItems: items, categories }: StockManagerProps) {
                                 render={({ field }) => (
                                     <FormItem>
                                     <FormLabel>Recorded By</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Enter your name" {...field} disabled={!watchedWasteItemId} />
-                                    </FormControl>
+                                    <Select onValueChange={field.onChange} value={field.value} disabled={!watchedWasteItemId}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                            <SelectValue placeholder="Select staff member" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {staff.map(s => (
+                                                <SelectItem key={s.id} value={s.name}>{s.name}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
                                     <FormMessage />
                                     </FormItem>
                                 )}
