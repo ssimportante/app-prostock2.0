@@ -125,8 +125,8 @@ export default function DashboardStats({ stats, settings }: DashboardStatsProps)
                     <CardContent>
                         <div className="text-xl font-bold">{totalItems}</div>
                         <div className="text-[10px] text-muted-foreground flex flex-wrap gap-1 mt-2">
-                            {categoryCounts.slice(0, 3).map(cat => (
-                                <div key={cat.name} className="flex items-center gap-1 bg-muted/70 px-1.5 py-0.5 rounded-md text-[10px]">
+                            {categoryCounts.slice(0, 3).map((cat, index) => (
+                                <div key={`${cat.name}-${index}`} className="flex items-center gap-1 bg-muted/70 px-1.5 py-0.5 rounded-md text-[10px]">
                                     <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: cat.color }} />
                                     <span className="font-medium truncate max-w-[65px]">{cat.name}</span>
                                 </div>
