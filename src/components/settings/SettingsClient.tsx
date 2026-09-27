@@ -8,7 +8,7 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs";
 import type { CategoryWithId, SubcategoryWithId, StationWithId, TaxWithId, AppUser, StaffWithId } from '@/types';
-import { SlidersHorizontal, Package, Users, Database } from 'lucide-react';
+import { SlidersHorizontal, Package, Users } from 'lucide-react';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection, query } from 'firebase/firestore';
 import { PosSettingsManager } from '@/components/settings/PosSettingsManager';
@@ -20,7 +20,6 @@ import { StationsManager } from '@/components/settings/StationsManager';
 import { TagsManager } from '@/components/settings/TagsManager';
 import { UserSettings } from '@/components/settings/UserSettings';
 import { StaffManager } from '@/components/settings/StaffManager';
-import { DataManager } from '@/components/settings/DataManager';
 
 interface SettingsClientProps {
   categories: CategoryWithId[];
@@ -47,11 +46,10 @@ export default function SettingsClient({ categories, stations, taxes, users, sta
       
       <Tabs defaultValue="general" className="w-full">
         <div className="md:hidden mb-4">
-          <TabsList className="grid w-full grid-cols-2 h-auto">
+          <TabsList className="grid w-full grid-cols-3 h-auto">
             <TabsTrigger value="general">General</TabsTrigger>
             <TabsTrigger value="properties">Item Properties</TabsTrigger>
             <TabsTrigger value="users">Users</TabsTrigger>
-            <TabsTrigger value="data">Data</TabsTrigger>
           </TabsList>
         </div>
         <div className="md:grid md:grid-cols-[200px_1fr] md:gap-8">
@@ -67,10 +65,6 @@ export default function SettingsClient({ categories, stations, taxes, users, sta
                 <TabsTrigger value="users" className="justify-start gap-2">
                     <Users className="h-4 w-4" />
                     Users
-                </TabsTrigger>
-                <TabsTrigger value="data" className="justify-start gap-2">
-                    <Database className="h-4 w-4" />
-                    Data Management
                 </TabsTrigger>
             </TabsList>
             <div className="mt-4 md:mt-0">
@@ -92,11 +86,6 @@ export default function SettingsClient({ categories, stations, taxes, users, sta
                 </TabsContent>
                 <TabsContent value="users" className="mt-0">
                     <UserSettings allUsers={users} />
-                </TabsContent>
-                <TabsContent value="data" className="mt-0">
-                    <div className="grid gap-6">
-                        <DataManager />
-                    </div>
                 </TabsContent>
             </div>
         </div>
