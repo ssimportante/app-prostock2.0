@@ -1,0 +1,147 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Item {
+  id                  String   @id @default(uuid())
+  name                String
+  description         String   @default("")
+  categoryId          String
+  subcategoryId       String?
+  stationId           String?
+  sku                 String   @default("")
+  barcode             String   @default("")
+  isSellable          Boolean  @default(true)
+  saleType            String?  // 'dine-in' | 'take-away' | null
+  itemType            String?  // 'food' | 'beverage' | 'packaging' | null
+  beverageSize        String?
+  soldBy              String   @default("each") // 'each' | 'volume'
+  price               Float    @default(0)
+  cost                Float    @default(0)
+  marketPrice         Float?
+  purchaseQuantity    Float?
+  inventoryType       String   @default("simple") // 'simple' | 'composite'
+  trackStock          Boolean  @default(true)
+  stockBatches        Json     @default("[]")
+  lowStockThreshold   Int      @default(0)
+  components          Json     @default("[]")
+  yield               Float?
+  tags                Json     @default("[]")
+  taxIds              Json     @default("[]")
+  posRepresentationType String @default("color")
+  posColor            String   @default("")
+  posShape            String   @default("")
+  imageUrl            String   @default("")
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@map("items")
+}
+
+model Category {
+  id       String @id @default(uuid())
+  name     String
+  itemCount Int   @default(0)
+  color    String @default("")
+
+  @@map("categories")
+}
+
+model Subcategory {
+  id         String @id @default(uuid())
+  name       String
+  categoryId String
+
+  @@map("subcategories")
+}
+
+model Station {
+  id   String @id @default(uuid())
+  name String
+
+  @@map("stations")
+}
+
+model Sale {
+  id           String    @id @default(uuid())
+  date         DateTime
+  total        Float     @default(0)
+  subtotal     Float?
+  deliveryFee  Float?
+  discount     Json?
+  userId       String?
+  status       String?   // 'pending' | 'preparing' | 'completed' | 'cancelled'
+  ticketNumber String?
+  completedAt  DateTime?
+  items        Json      @default("[]")
+  createdAt    DateTime  @default(now())
+
+  @@map("sales")
+}
+
+model WasteEvent {
+  id             String   @id @default(uuid())
+  date           DateTime
+  itemId         String
+  itemName       String
+  quantity       Float    @default(0)
+  cost           Float    @default(0)
+  unit           String   @default("units")
+  userId         String
+  recordedByName String
+  batchId        String?
+  reason         String
+  eventType      String   @default("waste")
+  createdAt      DateTime @default(now())
+
+  @@map("wasteEvents")
+}
+
+model StockReceipt {
+  id           String   @id @default(uuid())
+  date         DateTime
+  userId       String
+  itemId       String
+  itemName     String
+  quantity     Float    @default(0)
+  unit         String   @default("units")
+  batchId      String
+  batchDetails Json?
+  createdAt    DateTime @default(now())
+
+  @@map("stockReceipts")
+}
+
+model Tax {
+  id     String @id @default(uuid())
+  name   String
+  rate   Float  @default(0)
+  taxType String? // 'additive' | 'compounded'
+
+  @@map("taxes")
+}
+
+model Setting {
+  id   String @id
+  data Json
+
+  @@map("settings")
+}
+
+model User {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  name         String?
+  passwordHash String
+  photoURL     String?
+  role         String    @default("user")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("users")
+}

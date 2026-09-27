@@ -10,7 +10,6 @@ import {
 import type { User } from 'firebase/auth';
 import { AppUser } from '@/types';
 import { useDoc, useFirestore, useMemoFirebase, useUser } from '@/firebase';
-import { doc, getDoc, writeBatch } from 'firebase/firestore';
 import { usePathname, useRouter } from 'next/navigation';
 import AppLayout from '../layout/AppLayout';
 import { SettingsProvider } from '@/contexts/SettingsProvider';
@@ -28,7 +27,7 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 const ALLOWED_ROUTES_BY_ROLE: Record<string, string[] | null> = {
-    admin: null, // Can access all routes
+    admin: null,
     manager: ['/dashboard', '/items', '/stock', '/sales', '/reports', '/settings', '/kds', '/bar'],
     'stock-manager': ['/stock', '/stock-activity', '/kds', '/bar'],
     user: ['/dashboard', '/items', '/sales', '/kds', '/bar'],
@@ -48,68 +47,14 @@ function AuthContent({ children }: { children: ReactNode }) {
     const pathname = usePathname();
 
     const userProfileRef = useMemoFirebase(() => {
-        return authUser ? doc(firestore, 'users', authUser.uid) : null;
+        return authUser ? { type: 'document', path: `users/${authUser.uid}`, id: authUser.uid, _path: { segments: ['users', authUser.uid] } } : null;
     }, [firestore, authUser]);
 
     const { data: appUser, isLoading: isAppUserLoading } = useDoc<AppUser>(userProfileRef);
 
-    // Profile creation logic
-    useEffect(() => {
-        if (isUserLoading || !authUser || appUser) return;
-
-        const ensureUserDocs = async () => {
-            const userDocRef = doc(firestore, 'users', authUser.uid);
-            const userDocSnap = await getDoc(userDocRef);
-
-            if (!userDocSnap.exists()) {
-                try {
-                    const batch = writeBatch(firestore);
-                    const newUser: AppUser = {
-                        uid: authUser.uid,
-                        email: authUser.email,
-                        name: authUser.displayName || authUser.email?.split('@')[0] || 'New User',
-                        photoURL: authUser.photoURL,
-                        role: 'user',
-                    };
-
-                    if (authUser.email === 'admin@beanespress.com') {
-                        newUser.role = 'admin';
-                        const adminRoleRef = doc(firestore, 'roles_admin', authUser.uid);
-                        // Marker doc for rules identification
-                        batch.set(adminRoleRef, {});
-                    } else if (authUser.email === 'stockman@beanespress.com' || authUser.email === 'poc@beanespress.com') {
-                        newUser.role = 'stock-manager';
-                    }
-
-                    batch.set(userDocRef, newUser);
-                    await batch.commit();
-                } catch (error) {
-                    console.error("Error creating user profile:", error);
-                }
-            } else if (authUser.email === 'admin@beanespress.com') {
-                // Ensure marker doc exists even if profile exists
-                const adminRoleRef = doc(firestore, 'roles_admin', authUser.uid);
-                const adminSnap = await getDoc(adminRoleRef);
-                if (!adminSnap.exists()) {
-                    try {
-                        const batch = writeBatch(firestore);
-                        batch.set(adminRoleRef, {});
-                        await batch.commit();
-                    } catch (e) {
-                        console.error("Error establishing admin role marker:", e);
-                    }
-                }
-            }
-        };
-
-        ensureUserDocs();
-    }, [authUser, appUser, isUserLoading, firestore]);
-
     const isPublicRoute = pathname === '/login';
     const isAuthenticated = !!authUser && !!appUser;
     
-    // The app is "initializing" if auth state hasn't been determined yet
-    // or if we have a user but are still fetching their app-specific profile.
     const isInitializing = isUserLoading || (!!authUser && isAppUserLoading);
 
     useEffect(() => {
@@ -142,7 +87,6 @@ function AuthContent({ children }: { children: ReactNode }) {
         loading: isInitializing,
     }), [authUser, appUser, isInitializing]);
 
-    // On public routes, render directly without the AppLayout shell
     if (isPublicRoute) {
         return (
             <AuthContext.Provider value={contextValue}>
