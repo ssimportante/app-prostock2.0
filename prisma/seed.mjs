@@ -17,7 +17,8 @@ async function main() {
   const users = [
     { email: 'admin@beanespress.com', name: 'Admin', role: 'admin' },
     { email: 'stockman@beanespress.com', name: 'Stock Manager', role: 'stock-manager' },
-    { email: 'poc@beanespress.com', name: 'POC', role: 'stock-manager' },
+    { email: 'kitchen@beanespress.com', name: 'Kitchen User', role: 'kitchen-user' },
+    { email: 'bar@beanespress.com', name: 'Bar User', role: 'bar-user' },
   ];
 
   for (const u of users) {

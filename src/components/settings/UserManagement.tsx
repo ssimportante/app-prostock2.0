@@ -26,7 +26,7 @@ async function updateUserRoleAction(firestore: any, uid: string, role: UserRole)
 
 export function UserManagement({ allUsers, currentUserId }: UserManagementProps) {
   const [editingUser, setEditingUser] = useState<AppUser | null>(null);
-  const [selectedRole, setSelectedRole] = useState<UserRole>('user');
+  const [selectedRole, setSelectedRole] = useState<UserRole>('admin');
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
   const firestore = useFirestore();
@@ -57,9 +57,9 @@ export function UserManagement({ allUsers, currentUserId }: UserManagementProps)
 
   const roleColors: Record<UserRole, string> = {
     admin: 'bg-red-500',
-    manager: 'bg-yellow-500',
     'stock-manager': 'bg-green-500',
-    user: 'bg-blue-500',
+    'kitchen-user': 'bg-orange-500',
+    'bar-user': 'bg-blue-500',
   };
 
   return (
@@ -135,9 +135,9 @@ export function UserManagement({ allUsers, currentUserId }: UserManagementProps)
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="admin">Admin</SelectItem>
-                <SelectItem value="manager">Manager</SelectItem>
                 <SelectItem value="stock-manager">Stock Manager</SelectItem>
-                <SelectItem value="user">User</SelectItem>
+                <SelectItem value="kitchen-user">Kitchen User</SelectItem>
+                <SelectItem value="bar-user">Bar User</SelectItem>
               </SelectContent>
             </Select>
           </div>

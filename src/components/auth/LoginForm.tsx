@@ -33,7 +33,8 @@ const formSchema = z.object({
 const defaultUsers = {
     "admin@beanespress.com": "password",
     "stockman@beanespress.com": "password",
-    "poc@beanespress.com": "password",
+    "kitchen@beanespress.com": "password",
+    "bar@beanespress.com": "password",
 }
 
 export function LoginForm() {

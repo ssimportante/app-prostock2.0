@@ -28,7 +28,15 @@ This starts PostgreSQL and the Next.js dev server, runs Prisma migrations and se
 ## Default Users
 - `admin@beanespress.com` / `password` (admin role)
 - `stockman@beanespress.com` / `password` (stock-manager role)
-- `poc@beanespress.com` / `password` (stock-manager role)
+- `kitchen@beanespress.com` / `password` (kitchen-user role)
+- `bar@beanespress.com` / `password` (bar-user role)
+
+## Role-Based Access Control
+- **admin**: Full access to all pages
+- **stock-manager**: Stock Manager page + Settings (profile only) only
+- **kitchen-user**: Kitchen KDS page + Settings (profile only) only
+- **bar-user**: Bar KDS page + Settings (profile only) only
+- Legacy `manager` and `user` roles are removed from the UI but existing DB records are preserved; users with those roles are redirected to login.
 
 ## Key Files
 - `prisma/schema.prisma` — database schema

@@ -1,13 +1,17 @@
 'use client';
 
 import React from 'react';
+import { useAuth } from './AuthProvider';
 
 interface ProtectedComponentProps {
   children: React.ReactNode;
-  roles: string[]; // Roles are not checked anymore
+  roles: string[];
 }
 
 export function ProtectedComponent({ children, roles }: ProtectedComponentProps) {
-  // Since authentication is removed, we render all children.
+  const { appUser } = useAuth();
+  if (!appUser || !roles.includes(appUser.role)) {
+    return null;
+  }
   return <>{children}</>;
 }

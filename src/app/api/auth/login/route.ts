@@ -16,7 +16,8 @@ export async function POST(req: NextRequest) {
       const defaultRoles: Record<string, string> = {
         'admin@beanespress.com': 'admin',
         'stockman@beanespress.com': 'stock-manager',
-        'poc@beanespress.com': 'stock-manager',
+        'kitchen@beanespress.com': 'kitchen-user',
+        'bar@beanespress.com': 'bar-user',
       };
       if (defaultRoles[email] && password === 'password') {
         user = await prisma.user.create({

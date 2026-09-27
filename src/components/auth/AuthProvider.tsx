@@ -28,16 +28,16 @@ const AuthContext = createContext<AuthContextType>({
 
 const ALLOWED_ROUTES_BY_ROLE: Record<string, string[] | null> = {
     admin: null,
-    manager: ['/dashboard', '/items', '/stock', '/sales', '/reports', '/settings', '/kds', '/bar'],
-    'stock-manager': ['/stock', '/stock-activity', '/kds', '/bar'],
-    user: ['/dashboard', '/items', '/sales', '/kds', '/bar'],
+    'stock-manager': ['/stock', '/settings'],
+    'kitchen-user': ['/kds', '/settings'],
+    'bar-user': ['/bar', '/settings'],
 };
 
 const DEFAULT_ROUTE_BY_ROLE: Record<string, string> = {
     admin: '/dashboard',
-    manager: '/dashboard',
     'stock-manager': '/stock',
-    user: '/dashboard',
+    'kitchen-user': '/kds',
+    'bar-user': '/bar',
 };
 
 function AuthContent({ children }: { children: ReactNode }) {
@@ -73,6 +73,11 @@ function AuthContent({ children }: { children: ReactNode }) {
             }
 
             const allowedRoutes = ALLOWED_ROUTES_BY_ROLE[appUser.role];
+            if (allowedRoutes === undefined) {
+                // Unknown/legacy role (e.g. 'manager', 'user') — redirect to login
+                router.push('/login');
+                return;
+            }
             if (allowedRoutes && !allowedRoutes.some(route => pathname.startsWith(route))) {
                 const defaultRoute = DEFAULT_ROUTE_BY_ROLE[appUser.role] || '/dashboard';
                 router.push(defaultRoute);

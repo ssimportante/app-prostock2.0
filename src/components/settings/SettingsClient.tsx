@@ -20,6 +20,8 @@ import { StationsManager } from '@/components/settings/StationsManager';
 import { TagsManager } from '@/components/settings/TagsManager';
 import { UserSettings } from '@/components/settings/UserSettings';
 import { StaffManager } from '@/components/settings/StaffManager';
+import { useAuth } from '@/components/auth/AuthProvider';
+import { ProfileManager } from './ProfileManager';
 
 interface SettingsClientProps {
   categories: CategoryWithId[];
@@ -31,11 +33,27 @@ interface SettingsClientProps {
 
 export default function SettingsClient({ categories, stations, taxes, users, staff }: SettingsClientProps) {
   const firestore = useFirestore();
+  const { appUser } = useAuth();
+  const isAdmin = appUser?.role === 'admin';
+
   const subcategoriesQuery = useMemoFirebase(() => {
     if (!firestore) return null;
     return query(collection(firestore, 'subcategories'));
   }, [firestore]);
   const { data: subcategories } = useCollection<SubcategoryWithId>(subcategoriesQuery);
+
+  // Non-admin roles see only their profile
+  if (!isAdmin) {
+    return (
+      <div className="p-4 sm:p-6 lg:p-8">
+        <div className="mb-6">
+          <h1 className="text-2xl font-headline font-bold tracking-tight">Settings</h1>
+          <p className="text-muted-foreground">Manage your profile and password.</p>
+        </div>
+        <ProfileManager currentUser={appUser} />
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">

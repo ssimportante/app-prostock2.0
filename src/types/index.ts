@@ -159,7 +159,7 @@ export type PosSettings = {
     currency: string;
 };
 
-export type UserRole = 'admin' | 'manager' | 'user' | 'stock-manager';
+export type UserRole = 'admin' | 'stock-manager' | 'kitchen-user' | 'bar-user';
 
 export type AppUser = {
   uid: string;
