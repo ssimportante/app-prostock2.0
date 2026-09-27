@@ -16,6 +16,7 @@ import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection, query } from 'firebase/firestore';
 import { useSettings } from '@/contexts/SettingsProvider';
 import { roundTo } from '@/lib/utils';
+import { calculateItemUnitCost } from '@/lib/calc';
 
 const getExpiringItems = (items: ItemWithId[], months: number): ExpiringItem[] => {
     const expiring: ExpiringItem[] = [];
@@ -187,8 +188,8 @@ export default function DashboardPage() {
                 const effectiveQty = saleItem.quantity - (saleItem.refundedQuantity || 0);
                 if (effectiveQty <= 0) return;
 
-                // Add to Global COGS
-                totalCogs += (item.cost * effectiveQty);
+                // Add to Global COGS (recursive for composite items)
+                totalCogs += roundTo(calculateItemUnitCost(item, itemsMap) * effectiveQty);
 
                 const processItemForMovement = (targetItem: typeof item, multiplier: number) => {
                     const costValue = targetItem.cost * multiplier;
@@ -204,7 +205,7 @@ export default function DashboardPage() {
                 } else if (item.inventoryType === 'composite') {
                     item.components.forEach((comp: ItemComponent) => {
                         const compItem = itemsMap.get(comp.itemId);
-                        if (compItem) processItemForMovement(compItem, comp.quantity * (effectiveQty / (item.yield || 1)));
+                        if (compItem) processItemForMovement(compItem, comp.quantity * effectiveQty);
                     });
                 }
             });

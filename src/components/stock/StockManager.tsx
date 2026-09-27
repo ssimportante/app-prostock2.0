@@ -17,6 +17,7 @@ import { CalendarIcon, Loader2, Info, ArrowRight } from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
 import { useToast } from '@/hooks/use-toast';
 import { cn, roundTo } from '@/lib/utils';
+import { calculateItemUnitCost } from '@/lib/calc';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -282,7 +283,7 @@ function StockManager({ initialItems: items, categories, staff }: StockManagerPr
             itemId: item.id,
             itemName: item.name,
             quantity: quantityToRemove,
-            cost: item.cost * quantityToRemove,
+            cost: roundTo(calculateItemUnitCost(item, new Map(items.map(i => [i.id, i]))) * quantityToRemove),
             unit: item.soldBy === 'volume' ? 'g/ml' : 'units',
             userId: appUser.uid,
             recordedByName: values.recordedByName,

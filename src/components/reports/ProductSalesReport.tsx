@@ -15,6 +15,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { SaleWithId, ItemWithId, CategoryWithId } from '@/types';
 import { useSettings } from '@/contexts/SettingsProvider';
 import { formatCurrency, roundTo } from '@/lib/utils';
+import { calculateItemUnitCost } from '@/lib/calc';
 import { isWithinInterval, startOfDay, endOfDay, subDays } from 'date-fns';
 import ReportToolbar from './ReportToolbar';
 import { exportToCsv } from '@/lib/csv';
@@ -144,8 +145,7 @@ export default function ProductSalesReport({ sales, items, categories }: Product
                 const scanRecursive = (parent: ItemWithId, multiplier: number) => {
                     if (!parent.components) return;
 
-                    const parentYield = parent.yield || 1;
-                    const factor = multiplier / parentYield;
+                    const factor = multiplier;
 
                     parent.components.forEach(comp => {
                         const compItem = itemsMap.get(comp.itemId);
