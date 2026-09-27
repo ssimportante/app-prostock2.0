@@ -230,6 +230,7 @@ async function saveItemAction(
           quantity: newBatch.quantity,
           unit: dataForDb.soldBy === 'volume' ? 'g/ml' : 'units',
           batchId: batchId,
+          recordedByName: '',
           batchDetails: {
               date: initialExpiryDate?.toISOString().split('T')[0] || initialRoastDate?.toISOString().split('T')[0],
               dateType: initialExpiryDate ? 'expiry' : (initialRoastDate ? 'roast' : undefined),

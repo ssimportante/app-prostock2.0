@@ -92,7 +92,7 @@ export function generateReceipt(sale: SaleWithId, itemsMap: Map<string, ItemWith
 
   // Totals
   addBytes(CMD.ALIGN_RIGHT);
-  addLine(padText('Subtotal:', formatCurrency(sale.subtotal, settings.currency)));
+  addLine(padText('Subtotal:', formatCurrency(sale.subtotal ?? 0, settings.currency)));
   
   if (sale.discount && sale.discount.amount > 0) {
     addLine(padText('Discount:', `-${formatCurrency(sale.discount.amount, settings.currency)}`));

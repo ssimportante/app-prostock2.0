@@ -23,13 +23,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    if (!verifyPassword(currentPassword, user.passwordHash)) {
-      return NextResponse.json({ error: 'Current password is incorrect' }, { status: 400 });
+    // Skip current password verification for forced password changes
+    if (!user.mustChangePassword) {
+      if (!verifyPassword(currentPassword, user.passwordHash)) {
+        return NextResponse.json({ error: 'Current password is incorrect' }, { status: 400 });
+      }
     }
 
     await prisma.user.update({
       where: { id: user.id },
-      data: { passwordHash: hashPassword(newPassword) },
+      data: { passwordHash: hashPassword(newPassword), mustChangePassword: false },
     });
 
     return NextResponse.json({ success: true });

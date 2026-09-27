@@ -38,9 +38,20 @@ docker compose -f docker-compose.base44.yml exec -T web npx node prisma/seed.mjs
 
 ## Setup (Production)
 ```bash
+# 1. Copy the env template and fill in real values
+cp .env.prod.example .env.prod
+# Edit .env.prod — set DOMAIN, POSTGRES_PASSWORD, SESSION_SECRET, DATABASE_URL
+
+# 2. Start the stack
 docker compose -f docker-compose.prod.yml up -d --build
 ```
-This builds a production Docker image (multi-stage, standalone Next.js output), runs Prisma migrations via `migrate deploy`, and serves via `next start`. Requires `SESSION_SECRET` in the environment.
+This starts:
+- **Caddy** — reverse proxy with automatic TLS for the configured DOMAIN
+- **PostgreSQL** — with credentials from .env.prod (no hardcoded passwords)
+- **Web** — production Next.js build, runs Prisma `migrate deploy`, serves behind Caddy
+- **Backup** — daily pg_dump with 7-day retention
+
+All credentials are externalized via `.env.prod` (gitignored). See `.env.prod.example` for required variables.
 
 ## Default Users (seeded)
 - `admin@beanespress.com` / `password` (admin role)
@@ -48,7 +59,7 @@ This builds a production Docker image (multi-stage, standalone Next.js output), 
 - `kitchen@beanespress.com` / `password` (kitchen-user role)
 - `bar@beanespress.com` / `password` (bar-user role)
 
-**For production**: Change all passwords immediately after first login. Admin can reset other users' passwords via Settings → Users → key icon. The admin@beanespress.com password can only be changed via the Change Password flow.
+**For production**: Seeded users have `mustChangePassword: true` — they are forced to change their password on first login via `/change-password` and cannot navigate elsewhere until they do. Admin can reset other users' passwords via Settings → Users → key icon (which also sets `mustChangePassword: true`). New users created via admin also get `mustChangePassword: true`.
 
 ## Role-Based Access Control
 - **admin**: Full access to all pages and API operations
@@ -61,6 +72,13 @@ This builds a production Docker image (multi-stage, standalone Next.js output), 
 - **Create User**: Settings → Users → "Create User" button (admin only)
 - **Reset Password**: Settings → Users → key icon per user (admin only, except for admin@beanespress.com)
 - **Change Own Password**: Settings → Profile → Change Password (all users)
+
+## Production Hardening
+- **Caddy reverse proxy** — `Caddyfile` configures automatic TLS for the domain set via `DOMAIN` env var. Caddy terminates HTTPS and proxies to the web service.
+- **Externalized credentials** — All production secrets (DATABASE_URL, SESSION_SECRET, POSTGRES_PASSWORD, DOMAIN) are in `.env.prod` (gitignored). See `.env.prod.example` for the template.
+- **Database backups** — A `backup` service in `docker-compose.prod.yml` runs daily `pg_dump` with 7-day retention to a Docker volume.
+- **Forced password change** — Seeded users and admin-created users must change their password on first login. The `mustChangePassword` flag on the User model controls this. The `/change-password` page is rendered without the app layout and the AuthProvider blocks navigation to any other page until the password is changed.
+- **Removed Firebase secret** — `FIREBASE_SERVICE_ACCOUNT_KEY` is no longer needed (Firebase fully removed) and marked as not required in `.base44/environment.json`.
 
 ## Key Files
 - `prisma/schema.prisma` — database schema

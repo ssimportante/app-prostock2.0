@@ -25,7 +25,7 @@ export function collection(_firestore: Firestore, path: string): CollectionRefer
   };
 }
 
-export function doc(_firestore: Firestore, path: string, id?: string): DocumentReference {
+export function doc(_firestore: any, path: string, id?: string): DocumentReference {
   // doc(collectionRef) — auto-generate a new document ID (Firebase form)
   if (typeof _firestore === 'object' && _firestore?.type === 'collection' && path === undefined) {
     const newId = crypto.randomUUID();

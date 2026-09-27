@@ -53,6 +53,7 @@ function AuthContent({ children }: { children: ReactNode }) {
     const { data: appUser, isLoading: isAppUserLoading } = useDoc<AppUser>(userProfileRef);
 
     const isPublicRoute = pathname === '/login';
+    const isChangePasswordRoute = pathname === '/change-password';
     const isAuthenticated = !!authUser && !!appUser;
     
     const isInitializing = isUserLoading || (!!authUser && isAppUserLoading);
@@ -66,7 +67,15 @@ function AuthContent({ children }: { children: ReactNode }) {
         }
 
         if (isAuthenticated) {
-            if (isPublicRoute) {
+            // Force password change — only allow access to /change-password
+            if (appUser.mustChangePassword) {
+                if (!isChangePasswordRoute) {
+                    router.push('/change-password');
+                }
+                return;
+            }
+
+            if (isPublicRoute || isChangePasswordRoute) {
                 const defaultRoute = DEFAULT_ROUTE_BY_ROLE[appUser.role] || '/dashboard';
                 router.push(defaultRoute);
                 return;
@@ -84,7 +93,7 @@ function AuthContent({ children }: { children: ReactNode }) {
                 return;
             }
         }
-    }, [isInitializing, isAuthenticated, isPublicRoute, router, appUser, pathname]);
+    }, [isInitializing, isAuthenticated, isPublicRoute, isChangePasswordRoute, router, appUser, pathname]);
     
     const contextValue = useMemo(() => ({
         user: authUser,
@@ -92,7 +101,7 @@ function AuthContent({ children }: { children: ReactNode }) {
         loading: isInitializing,
     }), [authUser, appUser, isInitializing]);
 
-    if (isPublicRoute) {
+    if (isPublicRoute || isChangePasswordRoute) {
         return (
             <AuthContext.Provider value={contextValue}>
                 <SettingsProvider>

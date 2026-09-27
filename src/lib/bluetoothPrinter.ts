@@ -4,7 +4,7 @@ export class BluetoothThermalPrinter {
   private characteristic: any = null;
 
   async connect(printerName?: string): Promise<string | null> {
-    if (!navigator.bluetooth) {
+    if (!(navigator as any).bluetooth) {
       throw new Error('Web Bluetooth API is not supported in this browser.');
     }
 
@@ -42,6 +42,7 @@ export class BluetoothThermalPrinter {
         throw new Error('Could not find write characteristic on any service');
       }
 
+      return this.device?.name || 'Connected';
     } catch (error: any) {
       if (error.message && error.message.includes('disallowed by permissions policy')) {
         throw new Error('Bluetooth is restricted in this preview. Please click "Open in New Tab" at the top right to use the printer.');

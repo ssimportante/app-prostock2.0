@@ -1,29 +1,46 @@
 services:
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    environment:
+      - DOMAIN=${DOMAIN:-localhost}
+    depends_on:
+      - web
+    restart: unless-stopped
+
   db:
     image: postgres:16
     environment:
-      - POSTGRES_USER=prostock
-      - POSTGRES_PASSWORD=prostockpass
+      - POSTGRES_USER=${POSTGRES_USER:-prostock}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-prostockpass}
       - POSTGRES_DB=prostock
     volumes:
       - pgdata-prod:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U prostock"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-prostock}"]
       interval: 5s
       timeout: 3s
       retries: 10
+    restart: unless-stopped
 
   web:
     build:
       context: .
       dockerfile: Dockerfile.prod
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
     env_file:
-      - /run/base44/app.env
+      - .env.prod
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=postgresql://prostock:prostockpass@db:5432/prostock
+      - DATABASE_URL=${DATABASE_URL}
+      - SESSION_SECRET=${SESSION_SECRET}
     volumes:
       - uploads-prod:/app/uploads
     depends_on:
@@ -35,7 +52,44 @@ services:
       timeout: 5s
       retries: 10
       start_period: 30s
+    restart: unless-stopped
+
+  backup:
+    image: postgres:16
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_USER=${POSTGRES_USER:-prostock}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-prostockpass}
+      - POSTGRES_DB=prostock
+    volumes:
+      - backups-prod:/backups
+    depends_on:
+      db:
+        condition: service_healthy
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        echo "Starting daily backup service...";
+        while true; do
+          TIMESTAMP=$$(date +%Y%m%d_%H%M%S);
+          echo "Creating backup: backup_$$TIMESTAMP.sql";
+          PGPASSWORD=$$POSTGRES_PASSWORD pg_dump -h $$POSTGRES_HOST -U $$POSTGRES_USER $$POSTGRES_DB > /backups/backup_$$TIMESTAMP.sql 2>/dev/null;
+          if [ $$? -eq 0 ]; then
+            echo "Backup created: backup_$$TIMESTAMP.sql";
+            # Remove backups older than 7 days
+            find /backups -name "backup_*.sql" -mtime +7 -delete;
+            echo "Old backups cleaned up.";
+          else
+            echo "Backup failed!";
+          fi
+          # Sleep 24 hours
+          sleep 86400;
+        done
+    restart: unless-stopped
 
 volumes:
   pgdata-prod:
   uploads-prod:
+  caddy_data:
+  caddy_config:
+  backups-prod:

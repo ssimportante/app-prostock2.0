@@ -69,6 +69,7 @@ export async function POST(req: NextRequest) {
         name: user.name,
         photoURL: user.photoURL,
         role: user.role,
+        mustChangePassword: user.mustChangePassword,
       },
     });
   } catch (error: any) {

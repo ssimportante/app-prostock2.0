@@ -44,6 +44,7 @@ export async function POST(req: NextRequest) {
         name: name || email.split('@')[0],
         passwordHash: hashPassword(password),
         role,
+        mustChangePassword: true,
       },
     });
 

@@ -167,4 +167,5 @@ export type AppUser = {
   email: string | null;
   photoURL: string | null;
   role: UserRole;
+  mustChangePassword?: boolean;
 };

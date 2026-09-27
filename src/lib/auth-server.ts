@@ -24,6 +24,7 @@ export interface SessionUser {
   name: string | null;
   photoURL: string | null;
   role: string;
+  mustChangePassword: boolean;
 }
 
 function signToken(payload: string): string {
@@ -87,6 +88,7 @@ export async function getSessionUser(): Promise<SessionUser | null> {
       name: user.name,
       photoURL: user.photoURL,
       role: user.role,
+      mustChangePassword: user.mustChangePassword,
     };
   } catch {
     return null;

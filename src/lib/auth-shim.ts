@@ -12,6 +12,7 @@ export interface User {
   phoneNumber: string | null;
   providerData: any[];
   tenantId: string | null;
+  mustChangePassword?: boolean;
 }
 
 export type Auth = { _type: 'auth' };
@@ -35,6 +36,7 @@ async function fetchSession(): Promise<void> {
         phoneNumber: null,
         providerData: [],
         tenantId: null,
+        mustChangePassword: json.user.mustChangePassword,
       };
     } else {
       currentUser = null;
@@ -98,6 +100,7 @@ export async function signInWithEmailAndPassword(
     phoneNumber: null,
     providerData: [],
     tenantId: null,
+    mustChangePassword: json.user.mustChangePassword,
   };
   authListeners.forEach((cb) => cb(currentUser));
   return { user: currentUser };
