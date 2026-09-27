@@ -8,10 +8,10 @@ const nextConfig: NextConfig = {
     ? ['3000-' + process.env.BASE44_PUBLIC_HOST_SUFFIX]
     : [],
   webpack: (config) => {
-    config.resolve.alias['firebase/firestore'] = path.resolve('./src/lib/firestore-shim.ts');
-    config.resolve.alias['firebase/auth'] = path.resolve('./src/lib/auth-shim.ts');
-    config.resolve.alias['firebase/storage'] = path.resolve('./src/lib/storage-shim.ts');
-    config.resolve.alias['firebase/app'] = path.resolve('./src/lib/app-shim.ts');
+    // Alias the entire firebase package to our local compat layer.
+    // The firebase npm package uses an `exports` field that overrides
+    // per-subpath aliases, so we redirect the whole package instead.
+    config.resolve.alias['firebase'] = path.resolve('./src/lib/firebase-compat');
     return config;
   },
   typescript: {

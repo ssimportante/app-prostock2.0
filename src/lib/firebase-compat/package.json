@@ -1,0 +1,11 @@
+{
+  "name": "firebase-compat",
+  "version": "1.0.0",
+  "private": true,
+  "exports": {
+    "./auth": "./auth.ts",
+    "./firestore": "./firestore.ts",
+    "./app": "./app.ts",
+    "./storage": "./storage.ts"
+  }
+}

@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:16-slim
+    image: postgres:16
     environment:
       - POSTGRES_USER=prostock
       - POSTGRES_PASSWORD=prostockpass
