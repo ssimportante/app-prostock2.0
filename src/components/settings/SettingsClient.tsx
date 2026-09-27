@@ -86,14 +86,12 @@ export default function SettingsClient({ categories, stations, taxes, users, sta
                         <CategoriesManager initialCategories={categories} />
                         <SubcategoriesManager initialSubcategories={subcategories || []} categories={categories} />
                         <StationsManager initialStations={stations} />
+                        <StaffManager initialStaff={staff} />
                         <TagsManager />
                     </div>
                 </TabsContent>
                 <TabsContent value="users" className="mt-0">
-                    <div className="grid gap-6">
-                        <UserSettings allUsers={users} />
-                        <StaffManager initialStaff={staff} />
-                    </div>
+                    <UserSettings allUsers={users} />
                 </TabsContent>
                 <TabsContent value="data" className="mt-0">
                     <div className="grid gap-6">
