@@ -26,6 +26,7 @@ const getExpiringItems = (items: ItemWithId[], months: number): ExpiringItem[] =
         if (!item.trackStock || !item.stockBatches || item.stockBatches.length === 0) continue;
 
         for (const batch of item.stockBatches) {
+            if (Number(batch.quantity || 0) <= 0) continue;
             let effectiveExpiryDate: Date | null = null;
             if (batch.expiryDate) {
                 effectiveExpiryDate = new Date(batch.expiryDate);
