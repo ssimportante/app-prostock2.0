@@ -72,7 +72,7 @@ export async function GET(
 
     const records = await model.findMany({ where, orderBy, take });
     if (collection === 'users') {
-      records.forEach((r: any) => { delete r.passwordHash; });
+      records.forEach((r: any) => { delete r.passwordHash; r.uid = r.id; });
     }
     if (collection === 'settings') {
       records.forEach((r: any) => { const d = r.data; delete r.data; Object.assign(r, d); });

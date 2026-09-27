@@ -39,6 +39,7 @@ export async function GET(
     }
     if (collection === 'users') {
       delete (record as any).passwordHash;
+      (record as any).uid = (record as any).id;
     }
     if (collection === 'settings') {
       const d = (record as any).data;
