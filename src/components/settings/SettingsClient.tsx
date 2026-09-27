@@ -18,6 +18,7 @@ import { CategoriesManager } from '@/components/settings/CategoriesManager';
 import { SubcategoriesManager } from '@/components/settings/SubcategoriesManager';
 import { StationsManager } from '@/components/settings/StationsManager';
 import { TagsManager } from '@/components/settings/TagsManager';
+import { StaffManager } from '@/components/settings/StaffManager';
 import { UserSettings } from '@/components/settings/UserSettings';
 import { DataManager } from '@/components/settings/DataManager';
 
@@ -84,6 +85,7 @@ export default function SettingsClient({ categories, stations, taxes, users }: S
                         <CategoriesManager initialCategories={categories} />
                         <SubcategoriesManager initialSubcategories={subcategories || []} categories={categories} />
                         <StationsManager initialStations={stations} />
+                        <StaffManager />
                         <TagsManager />
                     </div>
                 </TabsContent>

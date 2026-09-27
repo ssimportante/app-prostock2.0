@@ -66,6 +66,13 @@ export type Station = {
 
 export type StationWithId = Station & { id: string };
 
+export type Staff = {
+  name: string;
+  role: string;
+};
+
+export type StaffWithId = Staff & { id: string };
+
 export type Sale = {
   id: string;
   date: any; // This will be a Firestore Timestamp object
@@ -131,6 +138,7 @@ export type StockReceipt = {
   quantity: number;
   unit: 'units' | 'g/ml';
   batchId: string;
+  recordedByName: string;
   batchDetails: {
     date?: string;
     dateType?: 'expiry' | 'roast';
