@@ -44,6 +44,7 @@ import { getStorage, ref, deleteObject } from "firebase/storage";
 import { Skeleton } from '../ui/skeleton';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandList, CommandItem } from '@/components/ui/command';
 import { cn, forceInteractivity } from '@/lib/utils';
+import { importItems } from '@/lib/import-items';
 import { Badge } from '../ui/badge';
 import { useSettings } from '@/contexts/SettingsProvider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
@@ -175,6 +176,7 @@ export default function ItemsClient({
   const [tagSearch, setTagSearch] = useState("");
   const [isActionPending, startActionTransition] = useTransition();
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [isImporting, setIsImporting] = useState(false);
 
   // DERIVE TABLE STATE FROM URL
   const columnFilters = useMemo((): ColumnFiltersState => {
@@ -319,6 +321,23 @@ export default function ItemsClient({
     autoResetPageIndex: false,
   });
 
+  const handleImport = async (data: any[]) => {
+    if (data.length === 0) return;
+    setIsImporting(true);
+    try {
+      const result = await importItems(firestore, data);
+      const parts = [`${result.created} items imported`];
+      if (result.categoriesCreated > 0) parts.push(`${result.categoriesCreated} categories created`);
+      if (result.subcategoriesCreated > 0) parts.push(`${result.subcategoriesCreated} subcategories created`);
+      toast({ title: 'Import Complete', description: parts.join(', ') + '.' });
+    } catch (error) {
+      console.error(error);
+      toast({ variant: 'destructive', title: 'Error', description: 'Failed to import items.' });
+    } finally {
+      setIsImporting(false);
+    }
+  };
+
   const handleDeleteItems = async () => {
     if (itemsToDelete.length === 0) return;
     startDeleteTransition(async () => {
@@ -432,8 +451,8 @@ export default function ItemsClient({
         subcategories={subcategories}
         stations={stations}
         items={items}
-        onImport={() => {}} 
-        isImporting={false}
+        onImport={handleImport}
+        isImporting={isImporting}
         onAddTag={() => handleTagActionDialog('add-tag')}
         onRemoveTag={() => handleTagActionDialog('remove-tag')}
         onUpdateField={(field) => handleBulkUpdateDialog(field as any)}

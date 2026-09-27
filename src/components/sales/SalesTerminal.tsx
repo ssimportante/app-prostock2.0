@@ -87,6 +87,11 @@ async function deleteSaleAction(firestore: any, sale: SaleWithId, allItems: Item
         if (!item.stockBatches) item.stockBatches = [];
         
         if (item.stockBatches.length > 0) {
+            item.stockBatches.sort((a, b) => {
+                const dateA = a.expiryDate || a.purchaseDate || '9999-12-31';
+                const dateB = b.expiryDate || b.purchaseDate || '9999-12-31';
+                return dateA.localeCompare(dateB);
+            });
             item.stockBatches[0].quantity = roundTo(Number(item.stockBatches[0].quantity || 0) + Number(qty));
         } else {
             item.stockBatches.push({
@@ -101,13 +106,16 @@ async function deleteSaleAction(firestore: any, sale: SaleWithId, allItems: Item
         const item = updatedItemsMap.get(saleItem.itemId);
         if (!item) continue;
 
+        const effectiveQty = Math.max(0, saleItem.quantity - (saleItem.refundedQuantity || 0));
+        if (effectiveQty <= 0) continue;
+
         if (item.inventoryType === 'simple' && item.trackStock) {
-            restoreStock(item, saleItem.quantity);
+            restoreStock(item, effectiveQty);
         } else if (item.inventoryType === 'composite' && item.components) {
             for (const component of item.components) {
                 const componentItem = updatedItemsMap.get(component.itemId);
                  if (componentItem && componentItem.trackStock) {
-                    restoreStock(componentItem, component.quantity * saleItem.quantity);
+                    restoreStock(componentItem, component.quantity * effectiveQty);
                 }
             }
         }
@@ -521,10 +529,9 @@ export default function SalesTerminal({
     }
 
     const sortedBatches = [...item.stockBatches].sort((a, b) => {
-        if (a.expiryDate && b.expiryDate) return new Date(a.expiryDate).getTime() - new Date(b.expiryDate).getTime();
-        if (a.expiryDate) return -1;
-        if (b.expiryDate) return 1;
-        return 0;
+        const dateA = a.expiryDate || a.purchaseDate || '9999-12-31';
+        const dateB = b.expiryDate || b.purchaseDate || '9999-12-31';
+        return dateA.localeCompare(dateB);
     });
 
     let remainingToDeduct = Number(quantityToDeduct);

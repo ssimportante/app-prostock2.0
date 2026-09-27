@@ -2,7 +2,7 @@
 'use client';
 
 import SettingsClient from '@/components/settings/SettingsClient';
-import type { CategoryWithId, StationWithId, TaxWithId, AppUser } from '@/types';
+import type { CategoryWithId, StationWithId, TaxWithId, AppUser, StaffWithId } from '@/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection, query } from 'firebase/firestore';
@@ -51,16 +51,22 @@ export default function SettingsPage() {
     return query(collection(firestore, 'users'));
   }, [firestore]);
 
+  const staffQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return query(collection(firestore, 'staff'));
+  }, [firestore]);
+
   const { data: categories } = useCollection<CategoryWithId>(categoriesQuery);
   const { data: stations } = useCollection<StationWithId>(stationsQuery);
   const { data: taxes } = useCollection<TaxWithId>(taxesQuery);
   const { data: users } = useCollection<AppUser>(usersQuery);
+  const { data: staff } = useCollection<StaffWithId>(staffQuery);
 
-  if (!categories || !stations || !taxes || !users) {
+  if (!categories || !stations || !taxes || !users || !staff) {
     return <SettingsSkeleton />;
   }
 
   return (
-    <SettingsClient categories={categories} stations={stations} taxes={taxes} users={users} />
+    <SettingsClient categories={categories} stations={stations} taxes={taxes} users={users} staff={staff} />
   );
 }

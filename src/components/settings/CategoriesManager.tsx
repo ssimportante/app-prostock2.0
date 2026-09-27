@@ -119,7 +119,7 @@ export function CategoriesManager({ initialCategories }: CategoriesManagerProps)
   return (
     <>
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-2">
           <CardTitle>Manage Categories</CardTitle>
           <Button onClick={() => handleOpenForm(null)}>
             <PlusCircle className="mr-2" />
@@ -155,7 +155,6 @@ export function CategoriesManager({ initialCategories }: CategoriesManagerProps)
                     variant="ghost"
                     size="icon"
                     onClick={() => setCategoryToDelete(category.id)}
-                    disabled={(category.itemCount || 0) > 0}
                   >
                     <Trash2 className="h-4 w-4 text-destructive" />
                   </Button>

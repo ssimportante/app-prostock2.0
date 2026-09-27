@@ -1,8 +1,8 @@
 
 import { Item } from "@/types";
 
-const CSV_HEADERS: (keyof Item | 'initialQuantity' | 'initialExpiryDate' | 'initialRoastDate')[] = [
-    'sku', 'name', 'description', 'categoryId', 'stationId', 'barcode',
+const CSV_HEADERS: (keyof Item | 'initialQuantity' | 'initialExpiryDate' | 'initialRoastDate' | 'categoryName' | 'subcategoryName')[] = [
+    'sku', 'name', 'description', 'categoryId', 'categoryName', 'subcategoryId', 'subcategoryName', 'stationId', 'barcode',
     'isSellable', 'saleType', 'itemType', 'beverageSize', 'soldBy',
     'price', 'cost', 'marketPrice', 'purchaseQuantity',
     'inventoryType', 'trackStock', 'lowStockThreshold', 'initialQuantity', 'initialExpiryDate', 'initialRoastDate',

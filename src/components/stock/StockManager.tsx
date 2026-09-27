@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { format } from 'date-fns';
-import type { ItemWithId, StockBatch, CategoryWithId, WasteEvent, StockReceipt } from '@/types';
+import type { ItemWithId, StockBatch, CategoryWithId, WasteEvent, StockReceipt, StaffWithId } from '@/types';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -17,6 +17,7 @@ import { CalendarIcon, Loader2, Info, ArrowRight } from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
 import { useToast } from '@/hooks/use-toast';
 import { cn, roundTo } from '@/lib/utils';
+import { calculateItemUnitCost } from '@/lib/calc';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -32,6 +33,7 @@ const receiveStockSchema = z.object({
   purchaseDate: z.date({ required_error: 'Please select a receive date.' }),
   dateType: z.enum(['expiry', 'roast', 'none']).default('none'),
   date: z.date().optional(),
+  recordedByName: z.string().min(2, 'Please enter your name.'),
 }).superRefine((data, ctx) => {
     if (data.dateType !== 'none' && !data.date) {
         ctx.addIssue({
@@ -54,9 +56,10 @@ const recordWasteSchema = z.object({
 interface StockManagerProps {
   initialItems: ItemWithId[];
   categories: CategoryWithId[];
+  staff: StaffWithId[];
 }
 
-async function receiveStockAction(firestore: any, userId: string, itemId: string, newBatch: StockBatch, existingBatches: StockBatch[], item: ItemWithId, purchaseDate: Date) {
+async function receiveStockAction(firestore: any, userId: string, itemId: string, newBatch: StockBatch, existingBatches: StockBatch[], item: ItemWithId, purchaseDate: Date, recordedByName: string) {
     const batch = writeBatch(firestore);
 
     // 1. Update item stock
@@ -84,6 +87,7 @@ async function receiveStockAction(firestore: any, userId: string, itemId: string
         unit: item.soldBy === 'volume' ? 'g/ml' : 'units',
         batchId: newBatch.id,
         batchDetails,
+        recordedByName,
     };
     batch.set(receiptRef, receipt);
 
@@ -105,7 +109,7 @@ async function recordWasteAction(firestore: any, updates: { itemId: string, stoc
     await batch.commit();
 }
 
-function StockManager({ initialItems: items, categories }: StockManagerProps) {
+function StockManager({ initialItems: items, categories, staff }: StockManagerProps) {
   const [isPending, startTransition] = useTransition();
   const [receiveStockTypeFilter, setReceiveStockTypeFilter] = useState<'ingredient' | 'packaging'>('ingredient');
   const [wasteStockTypeFilter, setWasteStockTypeFilter] = useState<'ingredient' | 'packaging' | 'product'>('ingredient');
@@ -115,7 +119,7 @@ function StockManager({ initialItems: items, categories }: StockManagerProps) {
 
   const receiveForm = useForm<z.infer<typeof receiveStockSchema>>({
     resolver: zodResolver(receiveStockSchema),
-    defaultValues: { itemId: '', quantity: 0, dateType: 'none', purchaseDate: new Date() },
+    defaultValues: { itemId: '', quantity: 0, dateType: 'none', purchaseDate: new Date(), recordedByName: '' },
   });
   
   const wasteForm = useForm<z.infer<typeof recordWasteSchema>>({
@@ -182,9 +186,9 @@ function StockManager({ initialItems: items, categories }: StockManagerProps) {
       }
 
       try {
-        await receiveStockAction(firestore, appUser.uid, item.id, newBatch, item.stockBatches, item, values.purchaseDate);
+        await receiveStockAction(firestore, appUser.uid, item.id, newBatch, item.stockBatches, item, values.purchaseDate, values.recordedByName);
         toast({ title: 'Stock Added', description: `${quantity} ${item.soldBy === 'volume' ? 'g/ml' : 'units'} of ${item.name} recorded.` });
-        receiveForm.reset({ itemId: '', quantity: 0, dateType: 'expiry', date: undefined, purchaseDate: new Date() });
+        receiveForm.reset({ itemId: '', quantity: 0, dateType: 'expiry', date: undefined, purchaseDate: new Date(), recordedByName: values.recordedByName });
       } catch (err) {
         console.error(err);
         toast({ variant: 'destructive', title: 'Error', description: 'Failed to update stock.' });
@@ -264,11 +268,9 @@ function StockManager({ initialItems: items, categories }: StockManagerProps) {
                     }
 
                 } else if (targetItem.inventoryType === 'composite') {
-                    const yieldVal = targetItem.yield || 1;
-                    const factor = qty / yieldVal;
                     for (const comp of (targetItem.components || [])) {
                         const compItem = items.find(i => i.id === comp.itemId);
-                        if (compItem) deductRecursive(compItem, comp.quantity * factor);
+                        if (compItem) deductRecursive(compItem, comp.quantity * qty);
                     }
                 }
             };
@@ -281,7 +283,7 @@ function StockManager({ initialItems: items, categories }: StockManagerProps) {
             itemId: item.id,
             itemName: item.name,
             quantity: quantityToRemove,
-            cost: item.cost * quantityToRemove,
+            cost: roundTo(calculateItemUnitCost(item, new Map(items.map(i => [i.id, i]))) * quantityToRemove),
             unit: item.soldBy === 'volume' ? 'g/ml' : 'units',
             userId: appUser.uid,
             recordedByName: values.recordedByName,
@@ -476,6 +478,28 @@ function StockManager({ initialItems: items, categories }: StockManagerProps) {
                     </div>
                   )}
                   
+                  <FormField
+                    control={receiveForm.control}
+                    name="recordedByName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Recorded By</FormLabel>
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select staff member" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {staff.map(s => (
+                              <SelectItem key={s.id} value={s.name}>{s.name}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                   <Button type="submit" className="w-full" disabled={isPending}>
                     {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     Add Stock
@@ -599,12 +623,12 @@ function StockManager({ initialItems: items, categories }: StockManagerProps) {
                                     <p className="text-xs font-bold uppercase tracking-wider">Composite Recipe Waste</p>
                                 </div>
                                 <p className="text-xs text-muted-foreground leading-relaxed">
-                                    This is a premade item. Wasting <span className="font-bold text-foreground">{wasteForm.watch('quantity') || 0} {selectedWasteItem?.soldBy === 'volume' ? 'g/ml' : 'units'}</span> will proportionally deduct the following ingredients from your stock (Yield: <span className="font-bold text-foreground">{selectedWasteItem?.yield || 1}</span>):
+                                    This is a premade item. Wasting <span className="font-bold text-foreground">{wasteForm.watch('quantity') || 0} {selectedWasteItem?.soldBy === 'volume' ? 'g/ml' : 'units'}</span> will proportionally deduct the following ingredients from your stock:
                                 </p>
                                 <div className="grid grid-cols-1 gap-1 pl-6">
                                     {selectedWasteItem?.components?.map(c => {
                                         const compItem = items.find(i => i.id === c.itemId);
-                                        const wastedAmt = roundTo((c.quantity / (selectedWasteItem.yield || 1)) * (wasteForm.watch('quantity') || 0));
+                                        const wastedAmt = roundTo(c.quantity * (wasteForm.watch('quantity') || 0));
                                         return (
                                             <div key={c.itemId} className="flex items-center gap-2 text-[11px]">
                                                 <ArrowRight className="h-3 w-3 text-muted-foreground" />
@@ -637,9 +661,18 @@ function StockManager({ initialItems: items, categories }: StockManagerProps) {
                                 render={({ field }) => (
                                     <FormItem>
                                     <FormLabel>Recorded By</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Enter your name" {...field} disabled={!watchedWasteItemId} />
-                                    </FormControl>
+                                    <Select onValueChange={field.onChange} value={field.value} disabled={!watchedWasteItemId}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                            <SelectValue placeholder="Select staff member" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {staff.map(s => (
+                                                <SelectItem key={s.id} value={s.name}>{s.name}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
                                     <FormMessage />
                                     </FormItem>
                                 )}

@@ -1,0 +1,19 @@
+{
+  "previewPort": 3000,
+  "healthPath": "/",
+  "startCommand": "docker compose -f docker-compose.base44.yml up -d",
+  "secrets": [
+    {
+      "name": "SESSION_SECRET",
+      "description": "Secret key used for signing session cookies, hashing passwords, and CSRF tokens. Must be at least 32 characters. A development placeholder is generated automatically; replace with a strong random string for production.",
+      "requiredAtBoot": true,
+      "generatedForDevelopment": true
+    },
+    {
+      "name": "FIREBASE_SERVICE_ACCOUNT_KEY",
+      "description": "Legacy Firebase service account key. Firebase has been fully removed from the app — this secret is no longer needed and can be deleted from the dashboard.",
+      "requiredAtBoot": false,
+      "generatedForDevelopment": false
+    }
+  ]
+}

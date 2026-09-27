@@ -27,24 +27,24 @@ export function AppSidebarNav({ isOpen }: { isOpen: boolean }) {
     {
       title: 'Operations',
       items: [
-        { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['admin', 'manager', 'user', 'stock-manager'] },
-        { href: '/sales', label: 'POS Terminal', icon: ShoppingCart, roles: ['admin', 'manager', 'user'], badge: 'Live' },
-        { href: '/kds', label: 'Kitchen KDS', icon: ChefHat, roles: ['admin', 'manager', 'user', 'stock-manager'] },
-        { href: '/bar', label: 'Bar KDS', icon: Coffee, roles: ['admin', 'manager', 'user', 'stock-manager'] },
+        { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['admin'] },
+        { href: '/sales', label: 'POS Terminal', icon: ShoppingCart, roles: ['admin'], badge: 'Live' },
+        { href: '/kds', label: 'Kitchen KDS', icon: ChefHat, roles: ['admin', 'kitchen-user'] },
+        { href: '/bar', label: 'Bar KDS', icon: Coffee, roles: ['admin', 'bar-user'] },
       ]
     },
     {
       title: 'Inventory & Catalog',
       items: [
-        { href: '/items', label: 'Items & Products', icon: Package, roles: ['admin', 'manager', 'user'] },
-        { href: '/stock', label: 'Stock Manager', icon: Warehouse, roles: ['admin', 'manager', 'stock-manager'] },
+        { href: '/items', label: 'Items & Products', icon: Package, roles: ['admin'] },
+        { href: '/stock', label: 'Stock Manager', icon: Warehouse, roles: ['admin', 'stock-manager'] },
         { href: '/stock-activity', label: 'Stock Activity', icon: History, roles: ['admin'] },
       ]
     },
     {
       title: 'Analytics & Admin',
       items: [
-        { href: '/reports', label: 'Analytics & Reports', icon: BarChart, roles: ['admin', 'manager'] },
+        { href: '/reports', label: 'Analytics & Reports', icon: BarChart, roles: ['admin'] },
       ]
     }
   ];
@@ -117,7 +117,7 @@ export function AppSidebarNav({ isOpen }: { isOpen: boolean }) {
         })}
       </div>
 
-      {role && ['admin', 'manager'].includes(role) && (
+      {role && ['admin', 'stock-manager', 'kitchen-user', 'bar-user'].includes(role) && (
         <div className="mt-auto p-3 border-t border-[hsl(var(--sidebar-border))]">
           <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>

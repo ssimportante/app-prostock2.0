@@ -1,47 +1,13 @@
 'use client';
 
-import { firebaseConfig } from '@/firebase/config';
-import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore'
+// Re-exports from the shim modules. Components import from '@/firebase' and
+// get the same API surface, now backed by local API routes instead of Firebase.
 
-// IMPORTANT: DO NOT MODIFY THIS FUNCTION
-export function initializeFirebase() {
-  if (!getApps().length) {
-    let firebaseApp;
-    if (firebaseConfig && firebaseConfig.apiKey) {
-      firebaseApp = initializeApp(firebaseConfig);
-    } else {
-      try {
-        firebaseApp = initializeApp();
-      } catch (e) {
-        if (process.env.NODE_ENV === "production") {
-          console.warn('Automatic initialization failed. Falling back to firebase config object.', e);
-        }
-        firebaseApp = initializeApp(firebaseConfig);
-      }
-    }
-
-    return getSdks(firebaseApp);
-  }
-
-  // If already initialized, return the SDKs with the already initialized App
-  return getSdks(getApp());
-}
-
-export function getSdks(firebaseApp: FirebaseApp) {
-  return {
-    firebaseApp,
-    auth: getAuth(firebaseApp),
-    firestore: getFirestore(firebaseApp, firebaseConfig.firestoreDatabaseId)
-  };
-}
-
-export * from './provider';
-export * from './client-provider';
-export * from './firestore/use-collection';
-export * from './firestore/use-doc';
-export * from './non-blocking-updates';
-export * from './non-blocking-login';
-export * from './errors';
-export * from './error-emitter';
+export { FirebaseClientProvider } from './client-provider';
+export { FirebaseProvider, useFirebase, useAuth, useFirestore, useFirebaseApp, useUser, useMemoFirebase, FirebaseContext } from './provider';
+export { useCollection } from './firestore/use-collection';
+export { useDoc } from './firestore/use-doc';
+export { setDocumentNonBlocking, addDocumentNonBlocking, updateDocumentNonBlocking, deleteDocumentNonBlocking } from './non-blocking-updates';
+export { initiateAnonymousSignIn, initiateEmailSignUp, initiateEmailSignIn } from './non-blocking-login';
+export { FirestorePermissionError } from './errors';
+export { errorEmitter } from './error-emitter';

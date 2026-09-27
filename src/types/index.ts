@@ -135,7 +135,14 @@ export type StockReceipt = {
     date?: string;
     dateType?: 'expiry' | 'roast';
   };
+  recordedByName: string;
 };
+
+export type Staff = {
+  name: string;
+};
+
+export type StaffWithId = Staff & { id: string };
 
 export type StockReceiptWithId = StockReceipt & { id: string };
 
@@ -152,7 +159,7 @@ export type PosSettings = {
     currency: string;
 };
 
-export type UserRole = 'admin' | 'manager' | 'user' | 'stock-manager';
+export type UserRole = 'admin' | 'stock-manager' | 'kitchen-user' | 'bar-user';
 
 export type AppUser = {
   uid: string;
@@ -160,4 +167,5 @@ export type AppUser = {
   email: string | null;
   photoURL: string | null;
   role: UserRole;
+  mustChangePassword?: boolean;
 };

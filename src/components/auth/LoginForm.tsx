@@ -1,11 +1,10 @@
-
 'use client';
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useAuth } from '@/firebase';
 
 import { Button } from '@/components/ui/button';
@@ -30,11 +29,12 @@ const formSchema = z.object({
   password: z.string().min(6, { message: 'Password must be at least 6 characters.' }),
 });
 
-const defaultUsers = {
-    "admin@beanespress.com": "password",
-    "stockman@beanespress.com": "password",
-    "poc@beanespress.com": "password",
-}
+const knownUsers = [
+    "admin@beanespress.com",
+    "stockman@beanespress.com",
+    "kitchen@beanespress.com",
+    "bar@beanespress.com",
+];
 
 export function LoginForm() {
   const [loading, setLoading] = useState(false);
@@ -56,38 +56,22 @@ export function LoginForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
     if (!auth) {
-        toast({ variant: 'destructive', title: 'Error', description: 'Firebase not initialized.' });
+        toast({ variant: 'destructive', title: 'Error', description: 'Auth not initialized.' });
         setLoading(false);
         return;
     }
 
     try {
-      // Try to sign in first
       await signInWithEmailAndPassword(auth, values.email, values.password);
-      // The AuthProvider will handle redirection and user doc creation.
     } catch (error: any) {
       console.error(error);
-      if (error.code === 'auth/user-not-found' && Object.keys(defaultUsers).includes(values.email)) {
-        // If a default user doesn't exist, create it
-        try {
-          await createUserWithEmailAndPassword(auth, values.email, values.password);
-        } catch (creationError: any) {
-      console.error(creationError);
-          toast({
-            variant: 'destructive',
-            title: 'User Creation Failed',
-            description: creationError.message,
-          });
-        }
-      } else if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password') {
+      if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password') {
           toast({
             variant: 'destructive',
             title: 'Login Failed',
             description: 'Incorrect email or password.',
         });
-      }
-      else {
-        // For any other login error
+      } else {
         toast({
           variant: 'destructive',
           title: 'Login Failed',
@@ -121,11 +105,11 @@ export function LoginForm() {
                    <Select onValueChange={handleUserSelect} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a pre-configured user" />
+                        <SelectValue placeholder="Select your account" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {Object.keys(defaultUsers).map(email => (
+                      {knownUsers.map(email => (
                         <SelectItem key={email} value={email}>{email}</SelectItem>
                       ))}
                     </SelectContent>
@@ -143,9 +127,6 @@ export function LoginForm() {
                   <FormControl>
                     <Input type="password" placeholder="••••••••" {...field} />
                   </FormControl>
-                   <FormDescription>
-                    Default password for all users is `password`.
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

@@ -15,6 +15,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { SaleWithId, ItemWithId, CategoryWithId, SubcategoryWithId, StockBatch } from '@/types';
 import { useSettings } from '@/contexts/SettingsProvider';
 import { formatCurrency, forceInteractivity, roundTo } from '@/lib/utils';
+import { calculateSaleItemCogs, calculateDiscountedUnitPrice } from '@/lib/calc';
 import { format as formatDate, isWithinInterval, startOfDay, endOfDay, subDays } from 'date-fns';
 import ReportToolbar from './ReportToolbar';
 import { exportToCsv } from '@/lib/csv';
@@ -46,6 +47,11 @@ async function deleteSaleAction(firestore: any, sale: SaleWithId, allItems: Item
         if (!item.trackStock) return;
         if (!item.stockBatches) item.stockBatches = [];
         if (item.stockBatches.length > 0) {
+            item.stockBatches.sort((a, b) => {
+                const dateA = a.expiryDate || a.purchaseDate || '9999-12-31';
+                const dateB = b.expiryDate || b.purchaseDate || '9999-12-31';
+                return dateA.localeCompare(dateB);
+            });
             item.stockBatches[0].quantity = roundTo(item.stockBatches[0].quantity + qty);
         } else {
             item.stockBatches.push({
@@ -106,6 +112,11 @@ async function refundItemsAction(firestore: any, sale: SaleWithId, itemIndex: nu
                 const itemRef = doc(firestore, 'items', targetItem.id);
                 const batches = [...(targetItem.stockBatches || [])];
                 if (batches.length > 0) {
+                    batches.sort((a, b) => {
+                        const dateA = a.expiryDate || a.purchaseDate || '9999-12-31';
+                        const dateB = b.expiryDate || b.purchaseDate || '9999-12-31';
+                        return dateA.localeCompare(dateB);
+                    });
                     batches[0].quantity = roundTo(batches[0].quantity + qty);
                 } else {
                     batches.push({
@@ -163,6 +174,8 @@ export default function SalesReport({ sales, items, categories, subcategories }:
     let totalDeliveryFees = 0;
     let totalRefunds = 0;
 
+    const itemsMap = new Map(items.map(i => [i.id, i]));
+
     filteredSales.forEach(sale => {
         totalRevenue += sale.total;
         totalDeliveryFees += (sale.deliveryFee || 0);
@@ -176,12 +189,12 @@ export default function SalesReport({ sales, items, categories, subcategories }:
                 totalDiscounts += (si.discount.amount || 0);
             }
 
-            const item = items.find(i => i.id === si.itemId);
+            const item = itemsMap.get(si.itemId);
             if (item) {
                 const effectiveQty = si.quantity - (si.refundedQuantity || 0);
-                totalCogs += (item.cost || 0) * effectiveQty;
+                totalCogs += calculateSaleItemCogs(item, effectiveQty, itemsMap);
                 if (si.refundedQuantity) {
-                    totalRefunds += (si.refundedQuantity * si.price);
+                    totalRefunds += roundTo(si.refundedQuantity * calculateDiscountedUnitPrice(si));
                 }
             }
         });
