@@ -155,7 +155,6 @@ export function CategoriesManager({ initialCategories }: CategoriesManagerProps)
                     variant="ghost"
                     size="icon"
                     onClick={() => setCategoryToDelete(category.id)}
-                    disabled={(category.itemCount || 0) > 0}
                   >
                     <Trash2 className="h-4 w-4 text-destructive" />
                   </Button>
