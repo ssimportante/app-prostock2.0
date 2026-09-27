@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { useAuth } from '@/firebase';
+import { useUser } from '@/firebase';
 import { updatePassword } from 'firebase/auth';
 
 import { Button } from '@/components/ui/button';
@@ -33,7 +33,7 @@ const formSchema = z.object({
 export default function ChangePasswordPage() {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
-  const auth = useAuth();
+  const { user, isUserLoading } = useUser();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -42,14 +42,11 @@ export default function ChangePasswordPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
-    if (!auth) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Auth not initialized.' });
-      setLoading(false);
+    if (isUserLoading) {
       return;
     }
 
     try {
-      const user = auth.currentUser;
       if (!user) throw new Error('Not authenticated');
       await updatePassword(user, values.newPassword);
       toast({ title: 'Success', description: 'Password changed. Redirecting...' });
