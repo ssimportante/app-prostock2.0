@@ -23,6 +23,8 @@ services:
       - /app/node_modules
       - /app/.next
       - uploads:/app/uploads
+    env_file:
+      - /run/base44/app.env
     environment:
       - NODE_ENV=development
       - DATABASE_URL=postgresql://prostock:prostockpass@db:5432/prostock
