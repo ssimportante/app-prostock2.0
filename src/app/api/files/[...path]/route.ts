@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getSessionUser, validateCsrfToken } from '@/lib/auth-server';
 import { readFile, unlink } from 'fs/promises';
 import { join } from 'path';
 
@@ -34,6 +35,15 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ path: string[] }> }
 ) {
+  const sessionUser = await getSessionUser();
+  if (!sessionUser) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  if (!(await validateCsrfToken(req))) {
+    return NextResponse.json({ error: 'Invalid CSRF token' }, { status: 403 });
+  }
+
   const { path } = await params;
   const filename = path.join('/');
   const filepath = join(process.cwd(), 'uploads', filename);

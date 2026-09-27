@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSessionUser } from '@/lib/auth-server';
+import { getSessionUser, validateCsrfToken } from '@/lib/auth-server';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 import { randomUUID } from 'crypto';
@@ -8,6 +8,10 @@ export async function POST(req: NextRequest) {
   const sessionUser = await getSessionUser();
   if (!sessionUser) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  if (!(await validateCsrfToken(req))) {
+    return NextResponse.json({ error: 'Invalid CSRF token' }, { status: 403 });
   }
 
   try {
@@ -39,9 +43,12 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  if (!(await validateCsrfToken(req))) {
+    return NextResponse.json({ error: 'Invalid CSRF token' }, { status: 403 });
+  }
+
   try {
     const { data: dataUrl, filename: customName } = await req.json();
-    // dataUrl is like "data:image/png;base64,...."
     const matches = dataUrl.match(/^data:([^;]+);base64,(.+)$/);
     if (!matches) {
       return NextResponse.json({ error: 'Invalid data URL' }, { status: 400 });

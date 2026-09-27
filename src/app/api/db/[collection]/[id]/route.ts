@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { getSessionUser } from '@/lib/auth-server';
+import { getSessionUser, validateCsrfToken } from '@/lib/auth-server';
+import { canWrite, canDelete } from '@/lib/authz';
 import { serializeForClient } from '@/lib/serialize';
 
 const COLLECTION_MAP: Record<string, keyof typeof prisma> = {
@@ -30,6 +31,12 @@ export async function GET(
   const model = getModel(collection);
   if (!model) {
     return NextResponse.json({ error: 'Unknown collection' }, { status: 404 });
+  }
+
+  // Require authentication for all reads
+  const sessionUser = await getSessionUser();
+  if (!sessionUser) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
@@ -67,13 +74,20 @@ export async function PUT(
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  if (!canWrite(collection, sessionUser)) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
+
+  if (!(await validateCsrfToken(req))) {
+    return NextResponse.json({ error: 'Invalid CSRF token' }, { status: 403 });
+  }
+
   try {
     const body = await req.json();
     let data: any = body;
     if (collection === 'settings') {
       data = { data: body };
     }
-    // Use upsert to handle both create and update (mimics setDoc behavior)
     const record = await model.upsert({
       where: { id },
       create: { id, ...data },
@@ -99,6 +113,14 @@ export async function DELETE(
   const sessionUser = await getSessionUser();
   if (!sessionUser) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  if (!canDelete(collection, sessionUser)) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
+
+  if (!(await validateCsrfToken(req))) {
+    return NextResponse.json({ error: 'Invalid CSRF token' }, { status: 403 });
   }
 
   try {

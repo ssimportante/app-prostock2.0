@@ -5,7 +5,10 @@ const prisma = new PrismaClient();
 
 function hashPassword(password) {
   const salt = randomBytes(16).toString('hex');
-  const secret = process.env.SESSION_SECRET || 'prostock-dev-secret-change-in-production';
+  const secret = process.env.SESSION_SECRET;
+  if (!secret || secret.length < 32) {
+    throw new Error('SESSION_SECRET must be set and at least 32 characters long');
+  }
   const hash = createHmac('sha256', salt + secret).update(password).digest('hex');
   return `${salt}:${hash}`;
 }

@@ -5,8 +5,8 @@
   "secrets": [
     {
       "name": "SESSION_SECRET",
-      "description": "Secret key used for signing session cookies and hashing passwords. A development placeholder is used if not set; replace with a strong random string for production.",
-      "requiredAtBoot": false,
+      "description": "Secret key used for signing session cookies, hashing passwords, and CSRF tokens. Must be at least 32 characters. A development placeholder is generated automatically; replace with a strong random string for production.",
+      "requiredAtBoot": true,
       "generatedForDevelopment": true
     }
   ]

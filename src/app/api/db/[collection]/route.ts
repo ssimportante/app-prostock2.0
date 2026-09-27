@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { getSessionUser } from '@/lib/auth-server';
+import { getSessionUser, validateCsrfToken } from '@/lib/auth-server';
+import { canWrite, canDelete } from '@/lib/authz';
 import { serializeForClient } from '@/lib/serialize';
 import { randomUUID } from 'crypto';
 
@@ -35,12 +36,17 @@ export async function GET(
     return NextResponse.json({ error: 'Unknown collection' }, { status: 404 });
   }
 
+  // Require authentication for all reads
+  const sessionUser = await getSessionUser();
+  if (!sessionUser) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   const url = new URL(req.url);
   const whereParam = url.searchParams.get('where');
   const orderByParam = url.searchParams.get('orderBy');
   const orderDir = url.searchParams.get('orderDir') || 'asc';
   const limitParam = url.searchParams.get('limit');
-  const docIdParam = url.searchParams.get('documentId');
 
   try {
     let where: any = {};
@@ -51,7 +57,6 @@ export async function GET(
       for (const c of constraints) {
         const { field, op, value } = c;
         if (field === '__id__' || field === 'documentId') {
-          // documentId() query
           if (op === 'in') {
             where.id = { in: value };
           } else if (op === '==') {
@@ -137,9 +142,16 @@ export async function POST(
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  if (!canWrite(collection, sessionUser)) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
+
+  if (!(await validateCsrfToken(req))) {
+    return NextResponse.json({ error: 'Invalid CSRF token' }, { status: 403 });
+  }
+
   try {
     const body = await req.json();
-    // Generate a UUID for the new document (mimics Firestore addDoc)
     const id = randomUUID();
     let data: any = body;
     if (collection === 'settings') {

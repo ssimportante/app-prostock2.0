@@ -1,6 +1,8 @@
 // Firebase Auth shim — replaces firebase/auth with cookie-based session auth.
 // Webpack alias maps 'firebase/auth' → this module.
 
+import { withCsrfHeaders } from './csrf-client';
+
 export interface User {
   uid: string;
   email: string | null;
@@ -130,7 +132,7 @@ export async function createUserWithEmailAndPassword(
 }
 
 export async function signOut(_auth: Auth): Promise<void> {
-  await fetch('/api/auth/logout', { method: 'POST' });
+  await fetch('/api/auth/logout', { method: 'POST', headers: withCsrfHeaders() });
   currentUser = null;
   authListeners.forEach((cb) => cb(null));
 }
@@ -138,7 +140,7 @@ export async function signOut(_auth: Auth): Promise<void> {
 export async function updatePassword(user: User, newPassword: string): Promise<void> {
   const res = await fetch('/api/auth/update-password', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: withCsrfHeaders({ 'Content-Type': 'application/json' }),
     body: JSON.stringify({ currentPassword: '', newPassword }),
   });
   if (!res.ok) {
@@ -150,7 +152,7 @@ export async function updatePassword(user: User, newPassword: string): Promise<v
 export async function updateProfile(user: User, profile: { displayName?: string; photoURL?: string }): Promise<void> {
   const res = await fetch('/api/auth/profile', {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: withCsrfHeaders({ 'Content-Type': 'application/json' }),
     body: JSON.stringify({ name: profile.displayName, photoURL: profile.photoURL }),
   });
   if (!res.ok) {

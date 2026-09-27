@@ -1,0 +1,41 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      - POSTGRES_USER=prostock
+      - POSTGRES_PASSWORD=prostockpass
+      - POSTGRES_DB=prostock
+    volumes:
+      - pgdata-prod:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U prostock"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - "3000:3000"
+    env_file:
+      - /run/base44/app.env
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://prostock:prostockpass@db:5432/prostock
+    volumes:
+      - uploads-prod:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000', r => process.exit(r.statusCode < 500 ? 0 : 1)).on('error', () => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+volumes:
+  pgdata-prod:
+  uploads-prod:

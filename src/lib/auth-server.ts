@@ -1,9 +1,22 @@
 import { cookies } from 'next/headers';
+import { NextRequest } from 'next/server';
 import { createHmac, randomBytes, timingSafeEqual } from 'crypto';
 import { prisma } from './db';
 
 const SESSION_COOKIE = 'prostock-session';
-const SESSION_SECRET = process.env.SESSION_SECRET || 'prostock-dev-secret-change-in-production';
+const CSRF_COOKIE = 'prostock-csrf';
+
+// Enforce SESSION_SECRET at module load — app refuses to boot without a real secret.
+const SESSION_SECRET = (() => {
+  const secret = process.env.SESSION_SECRET;
+  if (!secret || secret.length < 32) {
+    throw new Error(
+      'SESSION_SECRET must be set and at least 32 characters long. ' +
+      'Set it in your environment or secrets dashboard.'
+    );
+  }
+  return secret;
+})();
 
 export interface SessionUser {
   id: string;
@@ -80,11 +93,22 @@ export async function getSessionUser(): Promise<SessionUser | null> {
   }
 }
 
+export function generateCsrfToken(): string {
+  return randomBytes(32).toString('hex');
+}
+
 export async function setSessionCookie(userId: string) {
   const token = await createSession(userId);
+  const csrfToken = generateCsrfToken();
   const cookieStore = await cookies();
   cookieStore.set(SESSION_COOKIE, token, {
     httpOnly: true,
+    sameSite: 'lax',
+    path: '/',
+    maxAge: 60 * 60 * 24 * 30, // 30 days
+  });
+  cookieStore.set(CSRF_COOKIE, csrfToken, {
+    httpOnly: false, // Client JS needs to read this
     sameSite: 'lax',
     path: '/',
     maxAge: 60 * 60 * 24 * 30, // 30 days
@@ -94,6 +118,26 @@ export async function setSessionCookie(userId: string) {
 export async function clearSessionCookie() {
   const cookieStore = await cookies();
   cookieStore.delete(SESSION_COOKIE);
+  cookieStore.delete(CSRF_COOKIE);
 }
 
-export { SESSION_COOKIE };
+/**
+ * Validate the CSRF token on mutation requests.
+ * Compares the X-CSRF-Token header to the prostock-csrf cookie value.
+ */
+export async function validateCsrfToken(req: NextRequest): Promise<boolean> {
+  const cookieStore = await cookies();
+  const cookieToken = cookieStore.get(CSRF_COOKIE)?.value;
+  const headerToken = req.headers.get('x-csrf-token');
+
+  if (!cookieToken || !headerToken) return false;
+  if (cookieToken.length !== headerToken.length) return false;
+
+  try {
+    return timingSafeEqual(Buffer.from(headerToken), Buffer.from(cookieToken));
+  } catch {
+    return false;
+  }
+}
+
+export { SESSION_COOKIE, CSRF_COOKIE, SESSION_SECRET };

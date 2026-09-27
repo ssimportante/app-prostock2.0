@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { getSessionUser, hashPassword, verifyPassword } from '@/lib/auth-server';
+import { getSessionUser, hashPassword, verifyPassword, validateCsrfToken } from '@/lib/auth-server';
 
 export async function POST(req: NextRequest) {
   try {
@@ -9,7 +9,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
+    if (!(await validateCsrfToken(req))) {
+      return NextResponse.json({ error: 'Invalid CSRF token' }, { status: 403 });
+    }
+
     const { currentPassword, newPassword } = await req.json();
+    if (!newPassword || newPassword.length < 6) {
+      return NextResponse.json({ error: 'New password must be at least 6 characters' }, { status: 400 });
+    }
+
     const user = await prisma.user.findUnique({ where: { id: sessionUser.id } });
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });

@@ -1,6 +1,8 @@
 // Firebase Storage shim — replaces firebase/storage with local file serving.
 // Webpack alias maps 'firebase/storage' → this module.
 
+import { withCsrfHeaders } from './csrf-client';
+
 export type Storage = { _type: 'storage' };
 export type StorageReference = { _path: string; name: string };
 
@@ -22,7 +24,7 @@ export async function uploadString(
 ): Promise<{ ref: StorageReference }> {
   const res = await fetch('/api/upload', {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: withCsrfHeaders({ 'Content-Type': 'application/json' }),
     body: JSON.stringify({ data, filename: storageRef.name }),
   });
   if (!res.ok) {
@@ -54,5 +56,5 @@ export async function deleteObject(storageRef: StorageReference): Promise<void> 
   } else {
     filename = path.split('/').pop() || path;
   }
-  await fetch(`/api/files/${filename}`, { method: 'DELETE' });
+  await fetch(`/api/files/${filename}`, { method: 'DELETE', headers: withCsrfHeaders() });
 }

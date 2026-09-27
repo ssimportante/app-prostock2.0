@@ -1,12 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { getSessionUser } from '@/lib/auth-server';
+import { getSessionUser, validateCsrfToken } from '@/lib/auth-server';
 
 export async function PUT(req: NextRequest) {
   try {
     const sessionUser = await getSessionUser();
     if (!sessionUser) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+    }
+
+    if (!(await validateCsrfToken(req))) {
+      return NextResponse.json({ error: 'Invalid CSRF token' }, { status: 403 });
     }
 
     const { name, photoURL } = await req.json();

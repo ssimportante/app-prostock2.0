@@ -2,6 +2,7 @@
 // Webpack alias maps 'firebase/firestore' → this module.
 
 import { FakeTimestamp, convertTimestamps } from './fake-timestamp';
+import { withCsrfHeaders } from './csrf-client';
 
 // --- Types (exported for components that import them) ---
 export type Firestore = { _type: 'firestore' };
@@ -162,7 +163,7 @@ export async function addDoc(colRef: CollectionReference, data: any): Promise<Do
   const collectionName = colRef.path;
   const res = await fetch(`/api/db/${collectionName}`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: withCsrfHeaders({ 'Content-Type': 'application/json' }),
     body: JSON.stringify(data),
   });
   if (!res.ok) {
@@ -178,7 +179,7 @@ export async function setDoc(docRef: DocumentReference, data: any, _options?: Se
   const [collection, id] = docRef.path.split('/');
   const res = await fetch(`/api/db/${collection}/${id}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: withCsrfHeaders({ 'Content-Type': 'application/json' }),
     body: JSON.stringify(data),
   });
   if (!res.ok) {
@@ -191,7 +192,7 @@ export async function updateDoc(docRef: DocumentReference, data: any): Promise<v
   const [collection, id] = docRef.path.split('/');
   const res = await fetch(`/api/db/${collection}/${id}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: withCsrfHeaders({ 'Content-Type': 'application/json' }),
     body: JSON.stringify(data),
   });
   if (!res.ok) {
@@ -204,6 +205,7 @@ export async function deleteDoc(docRef: DocumentReference): Promise<void> {
   const [collection, id] = docRef.path.split('/');
   const res = await fetch(`/api/db/${collection}/${id}`, {
     method: 'DELETE',
+    headers: withCsrfHeaders(),
   });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
@@ -228,7 +230,7 @@ export function writeBatch(_firestore: Firestore) {
       if (operations.length === 0) return;
       const res = await fetch('/api/batch', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: withCsrfHeaders({ 'Content-Type': 'application/json' }),
         body: JSON.stringify({ operations }),
       });
       if (!res.ok) {
