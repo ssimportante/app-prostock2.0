@@ -16,6 +16,7 @@ const COLLECTION_MAP: Record<string, keyof typeof prisma> = {
   taxes: 'tax',
   settings: 'setting',
   users: 'user',
+  staff: 'staff',
 };
 
 function getModel(collection: string) {

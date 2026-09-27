@@ -103,18 +103,26 @@ model WasteEvent {
 }
 
 model StockReceipt {
-  id           String   @id @default(uuid())
-  date         DateTime
-  userId       String
-  itemId       String
-  itemName     String
-  quantity     Float    @default(0)
-  unit         String   @default("units")
-  batchId      String
-  batchDetails Json?
-  createdAt    DateTime @default(now())
+  id             String   @id @default(uuid())
+  date           DateTime
+  userId         String
+  itemId         String
+  itemName       String
+  quantity       Float    @default(0)
+  unit           String   @default("units")
+  batchId        String
+  batchDetails   Json?
+  recordedByName String   @default("")
+  createdAt      DateTime @default(now())
 
   @@map("stockReceipts")
+}
+
+model Staff {
+  id   String @id @default(uuid())
+  name String
+
+  @@map("staff")
 }
 
 model Tax {

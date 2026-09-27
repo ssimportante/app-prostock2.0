@@ -135,7 +135,14 @@ export type StockReceipt = {
     date?: string;
     dateType?: 'expiry' | 'roast';
   };
+  recordedByName: string;
 };
+
+export type Staff = {
+  name: string;
+};
+
+export type StaffWithId = Staff & { id: string };
 
 export type StockReceiptWithId = StockReceipt & { id: string };
 
