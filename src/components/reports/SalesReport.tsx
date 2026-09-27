@@ -46,6 +46,11 @@ async function deleteSaleAction(firestore: any, sale: SaleWithId, allItems: Item
         if (!item.trackStock) return;
         if (!item.stockBatches) item.stockBatches = [];
         if (item.stockBatches.length > 0) {
+            item.stockBatches.sort((a, b) => {
+                const dateA = a.expiryDate || a.purchaseDate || '9999-12-31';
+                const dateB = b.expiryDate || b.purchaseDate || '9999-12-31';
+                return dateA.localeCompare(dateB);
+            });
             item.stockBatches[0].quantity = roundTo(item.stockBatches[0].quantity + qty);
         } else {
             item.stockBatches.push({
@@ -106,6 +111,11 @@ async function refundItemsAction(firestore: any, sale: SaleWithId, itemIndex: nu
                 const itemRef = doc(firestore, 'items', targetItem.id);
                 const batches = [...(targetItem.stockBatches || [])];
                 if (batches.length > 0) {
+                    batches.sort((a, b) => {
+                        const dateA = a.expiryDate || a.purchaseDate || '9999-12-31';
+                        const dateB = b.expiryDate || b.purchaseDate || '9999-12-31';
+                        return dateA.localeCompare(dateB);
+                    });
                     batches[0].quantity = roundTo(batches[0].quantity + qty);
                 } else {
                     batches.push({

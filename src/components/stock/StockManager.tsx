@@ -267,11 +267,9 @@ function StockManager({ initialItems: items, categories, staff }: StockManagerPr
                     }
 
                 } else if (targetItem.inventoryType === 'composite') {
-                    const yieldVal = targetItem.yield || 1;
-                    const factor = qty / yieldVal;
                     for (const comp of (targetItem.components || [])) {
                         const compItem = items.find(i => i.id === comp.itemId);
-                        if (compItem) deductRecursive(compItem, comp.quantity * factor);
+                        if (compItem) deductRecursive(compItem, comp.quantity * qty);
                     }
                 }
             };
@@ -624,12 +622,12 @@ function StockManager({ initialItems: items, categories, staff }: StockManagerPr
                                     <p className="text-xs font-bold uppercase tracking-wider">Composite Recipe Waste</p>
                                 </div>
                                 <p className="text-xs text-muted-foreground leading-relaxed">
-                                    This is a premade item. Wasting <span className="font-bold text-foreground">{wasteForm.watch('quantity') || 0} {selectedWasteItem?.soldBy === 'volume' ? 'g/ml' : 'units'}</span> will proportionally deduct the following ingredients from your stock (Yield: <span className="font-bold text-foreground">{selectedWasteItem?.yield || 1}</span>):
+                                    This is a premade item. Wasting <span className="font-bold text-foreground">{wasteForm.watch('quantity') || 0} {selectedWasteItem?.soldBy === 'volume' ? 'g/ml' : 'units'}</span> will proportionally deduct the following ingredients from your stock:
                                 </p>
                                 <div className="grid grid-cols-1 gap-1 pl-6">
                                     {selectedWasteItem?.components?.map(c => {
                                         const compItem = items.find(i => i.id === c.itemId);
-                                        const wastedAmt = roundTo((c.quantity / (selectedWasteItem.yield || 1)) * (wasteForm.watch('quantity') || 0));
+                                        const wastedAmt = roundTo(c.quantity * (wasteForm.watch('quantity') || 0));
                                         return (
                                             <div key={c.itemId} className="flex items-center gap-2 text-[11px]">
                                                 <ArrowRight className="h-3 w-3 text-muted-foreground" />
