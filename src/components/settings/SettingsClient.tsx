@@ -7,7 +7,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import type { CategoryWithId, SubcategoryWithId, StationWithId, TaxWithId, AppUser } from '@/types';
+import type { CategoryWithId, SubcategoryWithId, StationWithId, TaxWithId, AppUser, StaffWithId } from '@/types';
 import { SlidersHorizontal, Package, Users, Database } from 'lucide-react';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection, query } from 'firebase/firestore';
@@ -19,6 +19,7 @@ import { SubcategoriesManager } from '@/components/settings/SubcategoriesManager
 import { StationsManager } from '@/components/settings/StationsManager';
 import { TagsManager } from '@/components/settings/TagsManager';
 import { UserSettings } from '@/components/settings/UserSettings';
+import { StaffManager } from '@/components/settings/StaffManager';
 import { DataManager } from '@/components/settings/DataManager';
 
 interface SettingsClientProps {
@@ -26,9 +27,10 @@ interface SettingsClientProps {
   stations: StationWithId[];
   taxes: TaxWithId[];
   users: AppUser[];
+  staff: StaffWithId[];
 }
 
-export default function SettingsClient({ categories, stations, taxes, users }: SettingsClientProps) {
+export default function SettingsClient({ categories, stations, taxes, users, staff }: SettingsClientProps) {
   const firestore = useFirestore();
   const subcategoriesQuery = useMemoFirebase(() => {
     if (!firestore) return null;
@@ -88,7 +90,10 @@ export default function SettingsClient({ categories, stations, taxes, users }: S
                     </div>
                 </TabsContent>
                 <TabsContent value="users" className="mt-0">
-                    <UserSettings allUsers={users} />
+                    <div className="grid gap-6">
+                        <UserSettings allUsers={users} />
+                        <StaffManager initialStaff={staff} />
+                    </div>
                 </TabsContent>
                 <TabsContent value="data" className="mt-0">
                     <div className="grid gap-6">

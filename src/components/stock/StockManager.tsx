@@ -32,6 +32,7 @@ const receiveStockSchema = z.object({
   purchaseDate: z.date({ required_error: 'Please select a receive date.' }),
   dateType: z.enum(['expiry', 'roast', 'none']).default('none'),
   date: z.date().optional(),
+  recordedByName: z.string().min(2, 'Please enter your name.'),
 }).superRefine((data, ctx) => {
     if (data.dateType !== 'none' && !data.date) {
         ctx.addIssue({
@@ -56,7 +57,7 @@ interface StockManagerProps {
   categories: CategoryWithId[];
 }
 
-async function receiveStockAction(firestore: any, userId: string, itemId: string, newBatch: StockBatch, existingBatches: StockBatch[], item: ItemWithId, purchaseDate: Date) {
+async function receiveStockAction(firestore: any, userId: string, itemId: string, newBatch: StockBatch, existingBatches: StockBatch[], item: ItemWithId, purchaseDate: Date, recordedByName: string) {
     const batch = writeBatch(firestore);
 
     // 1. Update item stock
@@ -84,6 +85,7 @@ async function receiveStockAction(firestore: any, userId: string, itemId: string
         unit: item.soldBy === 'volume' ? 'g/ml' : 'units',
         batchId: newBatch.id,
         batchDetails,
+        recordedByName,
     };
     batch.set(receiptRef, receipt);
 
@@ -115,7 +117,7 @@ function StockManager({ initialItems: items, categories }: StockManagerProps) {
 
   const receiveForm = useForm<z.infer<typeof receiveStockSchema>>({
     resolver: zodResolver(receiveStockSchema),
-    defaultValues: { itemId: '', quantity: 0, dateType: 'none', purchaseDate: new Date() },
+    defaultValues: { itemId: '', quantity: 0, dateType: 'none', purchaseDate: new Date(), recordedByName: '' },
   });
   
   const wasteForm = useForm<z.infer<typeof recordWasteSchema>>({
@@ -182,9 +184,9 @@ function StockManager({ initialItems: items, categories }: StockManagerProps) {
       }
 
       try {
-        await receiveStockAction(firestore, appUser.uid, item.id, newBatch, item.stockBatches, item, values.purchaseDate);
+        await receiveStockAction(firestore, appUser.uid, item.id, newBatch, item.stockBatches, item, values.purchaseDate, values.recordedByName);
         toast({ title: 'Stock Added', description: `${quantity} ${item.soldBy === 'volume' ? 'g/ml' : 'units'} of ${item.name} recorded.` });
-        receiveForm.reset({ itemId: '', quantity: 0, dateType: 'expiry', date: undefined, purchaseDate: new Date() });
+        receiveForm.reset({ itemId: '', quantity: 0, dateType: 'expiry', date: undefined, purchaseDate: new Date(), recordedByName: values.recordedByName });
       } catch (err) {
         console.error(err);
         toast({ variant: 'destructive', title: 'Error', description: 'Failed to update stock.' });
@@ -476,6 +478,19 @@ function StockManager({ initialItems: items, categories }: StockManagerProps) {
                     </div>
                   )}
                   
+                  <FormField
+                    control={receiveForm.control}
+                    name="recordedByName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Recorded By</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter your name" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                   <Button type="submit" className="w-full" disabled={isPending}>
                     {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     Add Stock
