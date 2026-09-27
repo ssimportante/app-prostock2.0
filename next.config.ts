@@ -3,6 +3,9 @@ import type {NextConfig} from 'next';
 const nextConfig: NextConfig = {
   /* config options here */
   output: 'standalone',
+  allowedDevOrigins: process.env.BASE44_PUBLIC_HOST_SUFFIX
+    ? [`https://3000-${process.env.BASE44_PUBLIC_HOST_SUFFIX}`]
+    : undefined,
   typescript: {
     ignoreBuildErrors: true,
   },

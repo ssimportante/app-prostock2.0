@@ -11,6 +11,7 @@ import { Check, ChevronsUpDown } from 'lucide-react';
 export interface SearchableSelectItem {
   id: string;
   name: string;
+  secondaryText?: string;
 }
 
 interface SearchableSelectProps {
@@ -83,8 +84,13 @@ export function SearchableSelect({
                         onClick={() => handleSelect(item)}
                         className="text-sm p-2 rounded-sm hover:bg-accent cursor-pointer flex items-center justify-between"
                     >
-                        <span className="truncate">{item.name}</span>
-                        {item.id === value && <Check className="h-4 w-4" />}
+                        <div className="flex flex-col min-w-0">
+                            <span className="truncate">{item.name}</span>
+                            {item.secondaryText && (
+                                <span className="text-xs text-muted-foreground truncate">{item.secondaryText}</span>
+                            )}
+                        </div>
+                        {item.id === value && <Check className="h-4 w-4 shrink-0" />}
                     </div>
                     ))}
                 </div>
