@@ -1,11 +1,9 @@
-
 'use client';
 
 import ReportsClient from '@/components/reports/ReportsClient';
 import type { ItemWithId, CategoryWithId, SaleWithId, WasteEvent, SubcategoryWithId } from '@/types';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, query } from 'firebase/firestore';
+import { useApiCollection } from '@/lib/api-hooks';
 
 function ReportsSkeleton() {
   return (
@@ -21,34 +19,11 @@ function ReportsSkeleton() {
 }
 
 export default function ReportsPage() {
-  const firestore = useFirestore();
-
-  const itemsQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return query(collection(firestore, 'items'));
-  }, [firestore]);
-  const categoriesQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return query(collection(firestore, 'categories'));
-  }, [firestore]);
-  const subcategoriesQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return query(collection(firestore, 'subcategories'));
-  }, [firestore]);
-  const salesQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return query(collection(firestore, 'sales'));
-  }, [firestore]);
-  const wasteQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return query(collection(firestore, 'wasteEvents'));
-  }, [firestore]);
-
-  const { data: items } = useCollection<ItemWithId>(itemsQuery);
-  const { data: categories } = useCollection<CategoryWithId>(categoriesQuery);
-  const { data: subcategories } = useCollection<SubcategoryWithId>(subcategoriesQuery);
-  const { data: sales } = useCollection<SaleWithId>(salesQuery);
-  const { data: wasteEvents } = useCollection<WasteEvent>(wasteQuery);
+  const { data: items } = useApiCollection<ItemWithId>('/api/items');
+  const { data: categories } = useApiCollection<CategoryWithId>('/api/categories');
+  const { data: subcategories } = useApiCollection<SubcategoryWithId>('/api/subcategories');
+  const { data: sales } = useApiCollection<SaleWithId>('/api/sales');
+  const { data: wasteEvents } = useApiCollection<WasteEvent>('/api/wasteEvents');
 
   if (!items || !categories || !subcategories || !sales || !wasteEvents) {
     return <ReportsSkeleton />;

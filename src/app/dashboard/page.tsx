@@ -12,8 +12,7 @@ import type { ItemWithId, Sale, WasteEvent, CategoryWithId, ItemComponent } from
 import CategoryDistributionChart from '@/components/dashboard/CategoryDistributionChart';
 import InventoryMovementChart from '@/components/dashboard/InventoryMovementChart';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, query } from 'firebase/firestore';
+import { useApiCollection } from '@/lib/api-hooks';
 import { useSettings } from '@/contexts/SettingsProvider';
 import { roundTo } from '@/lib/utils';
 
@@ -96,33 +95,12 @@ function DashboardSkeleton() {
 }
 
 export default function DashboardPage() {
-    const firestore = useFirestore();
     const { settings } = useSettings();
 
-    const itemsQuery = useMemoFirebase(() => {
-        if (!firestore) return null;
-        return query(collection(firestore, 'items'));
-    }, [firestore]);
-
-    const salesQuery = useMemoFirebase(() => {
-        if (!firestore) return null;
-        return query(collection(firestore, 'sales'));
-    }, [firestore]);
-
-    const wasteQuery = useMemoFirebase(() => {
-        if (!firestore) return null;
-        return query(collection(firestore, 'wasteEvents'));
-    }, [firestore]);
-
-    const categoriesQuery = useMemoFirebase(() => {
-        if (!firestore) return null;
-        return query(collection(firestore, 'categories'));
-    }, [firestore]);
-
-    const { data: items } = useCollection<ItemWithId>(itemsQuery);
-    const { data: sales } = useCollection<Sale>(salesQuery);
-    const { data: wasteEvents } = useCollection<WasteEvent>(wasteQuery);
-    const { data: categories } = useCollection<CategoryWithId>(categoriesQuery);
+    const { data: items } = useApiCollection<ItemWithId>('/api/items');
+    const { data: sales } = useApiCollection<Sale>('/api/sales');
+    const { data: wasteEvents } = useApiCollection<WasteEvent>('/api/wasteEvents');
+    const { data: categories } = useApiCollection<CategoryWithId>('/api/categories');
     
     const data = useMemo(() => {
         if (!items || !sales || !wasteEvents || !categories || !settings) {

@@ -1,9 +1,8 @@
 'use client';
 
-import { createContext, useContext, type ReactNode, useMemo } from 'react';
+import { createContext, useContext, type ReactNode, useMemo, useState, useEffect } from 'react';
 import { PosSettings } from '@/types';
-import { useDoc, useFirestore, useMemoFirebase, useUser } from '@/firebase';
-import { doc } from 'firebase/firestore';
+import { useApiDoc } from '@/lib/api-hooks';
 
 interface SettingsContextType {
   settings: PosSettings;
@@ -23,22 +22,14 @@ const SettingsContext = createContext<SettingsContextType>({
 });
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
-  const firestore = useFirestore();
-  const { user, isUserLoading } = useUser();
-  
-  const settingsRef = useMemoFirebase(() => {
-    if (!firestore || !user) return null;
-    return doc(firestore, 'settings', 'pos');
-  }, [firestore, user]);
-  
-  const { data, isLoading: isSettingsLoading } = useDoc<PosSettings>(settingsRef);
-  
+  const { data, isLoading } = useApiDoc<PosSettings>('/api/settings/pos');
+
   const settings = data || defaultSettings;
-  const loading = isUserLoading || (!!user && isSettingsLoading);
+  const loading = isLoading;
 
   const contextValue = useMemo(() => ({
     settings,
-    setSettings: () => {}, // In this prototype, settings updates are handled directly in PosSettingsManager
+    setSettings: () => {},
     loading
   }), [settings, loading]);
 

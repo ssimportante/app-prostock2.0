@@ -16,8 +16,7 @@ import { generateReceipt } from '@/lib/receiptGenerator';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { format } from 'date-fns';
-import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
-import { doc, writeBatch, collection, Timestamp, query, orderBy, limit } from 'firebase/firestore';
+import { useApiCollection, apiMutation, refreshAllData } from '@/lib/api-hooks';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetFooter, SheetDescription } from '@/components/ui/sheet';
 import { useAuth as useAppAuth } from '@/components/auth/AuthProvider';
@@ -28,101 +27,7 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Switch } from '../ui/switch';
 
-async function createSaleAction(firestore: any, saleData: Sale, itemsToUpdate: {id: string, stockBatches: StockBatch[]}[]) {
-    const batch = writeBatch(firestore);
-    const saleRef = doc(collection(firestore, 'sales'));
-    
-    const sanitizedSale: any = {
-        date: saleData.date instanceof Timestamp ? saleData.date : Timestamp.fromDate(new Date(saleData.date)),
-        total: Number(saleData.total),
-        subtotal: Number(saleData.subtotal || saleData.total),
-        userId: saleData.userId || null,
-        status: saleData.status || 'pending',
-        ticketNumber: saleData.ticketNumber || Math.floor(100 + Math.random() * 900).toString(),
-        items: saleData.items.map(item => {
-            const sanitizedItem: any = {
-                itemId: item.itemId,
-                quantity: Number(item.quantity),
-                price: Number(item.price)
-            };
-            if (item.discount) {
-                sanitizedItem.discount = {
-                    type: item.discount.type,
-                    value: Number(item.discount.value),
-                    amount: Number(item.discount.amount)
-                };
-            }
-            return sanitizedItem;
-        })
-    };
 
-    if (saleData.discount) {
-        sanitizedSale.discount = {
-            type: saleData.discount.type,
-            value: Number(saleData.discount.value),
-            amount: Number(saleData.discount.amount)
-        };
-    }
-
-    if (saleData.deliveryFee !== undefined && saleData.deliveryFee !== null) {
-        sanitizedSale.deliveryFee = Number(saleData.deliveryFee);
-    }
-
-    batch.set(saleRef, sanitizedSale);
-
-    for (const item of itemsToUpdate) {
-        const itemRef = doc(firestore, 'items', item.id);
-        batch.update(itemRef, { stockBatches: item.stockBatches });
-    }
-
-    await batch.commit();
-};
-
-async function deleteSaleAction(firestore: any, sale: SaleWithId, allItems: ItemWithId[]) {
-    const batch = writeBatch(firestore);
-    const updatedItemsMap = new Map<string, ItemWithId>(allItems.map(i => [i.id, structuredClone(i)]));
-
-    const restoreStock = (item: ItemWithId, qty: number) => {
-        if (!item.trackStock) return;
-        if (!item.stockBatches) item.stockBatches = [];
-        
-        if (item.stockBatches.length > 0) {
-            item.stockBatches[0].quantity = roundTo(Number(item.stockBatches[0].quantity || 0) + Number(qty));
-        } else {
-            item.stockBatches.push({
-                id: `restored-${Date.now()}`,
-                quantity: roundTo(Number(qty)),
-                purchaseDate: new Date().toISOString().split('T')[0]
-            });
-        }
-    };
-
-    for (const saleItem of sale.items) {
-        const item = updatedItemsMap.get(saleItem.itemId);
-        if (!item) continue;
-
-        if (item.inventoryType === 'simple' && item.trackStock) {
-            restoreStock(item, saleItem.quantity);
-        } else if (item.inventoryType === 'composite' && item.components) {
-            for (const component of item.components) {
-                const componentItem = updatedItemsMap.get(component.itemId);
-                 if (componentItem && componentItem.trackStock) {
-                    restoreStock(componentItem, component.quantity * saleItem.quantity);
-                }
-            }
-        }
-    }
-
-    for (const item of updatedItemsMap.values()) {
-        const originalItem = allItems.find(i => i.id === item.id);
-        if (originalItem && JSON.stringify(originalItem.stockBatches) !== JSON.stringify(item.stockBatches)) {
-            batch.update(doc(firestore, 'items', item.id), { stockBatches: item.stockBatches });
-        }
-    }
-
-    batch.delete(doc(firestore, 'sales', sale.id));
-    await batch.commit();
-}
 
 const CartItemsList = ({
     cart,
@@ -267,18 +172,13 @@ export default function SalesTerminal({
 
   const { toast } = useToast();
   const { settings } = useSettings();
-  const firestore = useFirestore();
   const { appUser } = useAppAuth();
   const isMobile = useIsMobile();
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   const [activeTab, setActiveTab] = useState<string>(settings.defaultSaleType || 'dine-in');
 
-  const salesQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return query(collection(firestore, 'sales'), orderBy('date', 'desc'), limit(20));
-  }, [firestore]);
-  const { data: recentSales } = useCollection<SaleWithId>(salesQuery);
+  const { data: recentSales } = useApiCollection<SaleWithId>('/api/sales?limit=20&orderBy=desc');
 
   useEffect(() => {
     const active = !!saleToDelete || isHistoryOpen || isCartOpen || isProcessing;
@@ -404,34 +304,7 @@ export default function SalesTerminal({
     setIsProcessing(true);
 
     try {
-      const updatedItemsMap = new Map<string, ItemWithId>(items.map(i => [i.id, structuredClone(i)]));
-      const itemsToUpdate: {id: string, stockBatches: StockBatch[]}[] = [];
-
-      for (const cartItem of cart) {
-        const itemToUpdate = updatedItemsMap.get(cartItem.id);
-        if (!itemToUpdate) continue;
-
-        if (itemToUpdate.inventoryType === 'simple' && itemToUpdate.trackStock) {
-            deductStock(itemToUpdate, cartItem.quantity);
-        } else if (itemToUpdate.inventoryType === 'composite' && itemToUpdate.components) {
-            for (const component of itemToUpdate.components) {
-                const componentItem = updatedItemsMap.get(component.itemId);
-                 if (componentItem && componentItem.trackStock) {
-                    deductStock(componentItem, component.quantity * cartItem.quantity);
-                }
-            }
-        }
-      }
-
-      for (const item of updatedItemsMap.values()) {
-        const originalItem = items.find(i => i.id === item.id);
-        if (originalItem && JSON.stringify(originalItem.stockBatches) !== JSON.stringify(item.stockBatches)) {
-          itemsToUpdate.push({ id: item.id, stockBatches: item.stockBatches });
-        }
-      }
-
-      const saleData: Sale = {
-          id: '',
+      const saleData: any = {
           date: saleDate.toISOString(),
           total: cartTotal,
           subtotal: cartSubtotal,
@@ -458,7 +331,7 @@ export default function SalesTerminal({
           };
       }
 
-      await createSaleAction(firestore, saleData, itemsToUpdate);
+      await apiMutation('/api/sales', 'POST', saleData);
 
       setCart([]);
       setDiscountType('none');

@@ -1,27 +1,13 @@
-
 'use client';
 
 import StockManager from '../../components/stock/StockManager';
-import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, query } from 'firebase/firestore';
+import { useApiCollection } from '@/lib/api-hooks';
 import type { ItemWithId, CategoryWithId } from '@/types';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function StockPage() {
-  const firestore = useFirestore();
-
-  const itemsQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return query(collection(firestore, 'items'));
-  }, [firestore]);
-
-  const categoriesQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return query(collection(firestore, 'categories'));
-  }, [firestore]);
-  
-  const { data: items } = useCollection<ItemWithId>(itemsQuery);
-  const { data: categories } = useCollection<CategoryWithId>(categoriesQuery);
+  const { data: items } = useApiCollection<ItemWithId>('/api/items');
+  const { data: categories } = useApiCollection<CategoryWithId>('/api/categories');
 
   if (!items || !categories) {
       return (

@@ -1,12 +1,9 @@
-
 'use client';
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
-import { useAuth } from '@/firebase';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -39,7 +36,6 @@ const defaultUsers = {
 export function LoginForm() {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
-  const auth = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,45 +51,33 @@ export function LoginForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
-    if (!auth) {
-        toast({ variant: 'destructive', title: 'Error', description: 'Firebase not initialized.' });
-        setLoading(false);
-        return;
-    }
 
     try {
-      // Try to sign in first
-      await signInWithEmailAndPassword(auth, values.email, values.password);
-      // The AuthProvider will handle redirection and user doc creation.
-    } catch (error: any) {
-      console.error(error);
-      if (error.code === 'auth/user-not-found' && Object.keys(defaultUsers).includes(values.email)) {
-        // If a default user doesn't exist, create it
-        try {
-          await createUserWithEmailAndPassword(auth, values.email, values.password);
-        } catch (creationError: any) {
-      console.error(creationError);
-          toast({
-            variant: 'destructive',
-            title: 'User Creation Failed',
-            description: creationError.message,
-          });
-        }
-      } else if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password') {
-          toast({
-            variant: 'destructive',
-            title: 'Login Failed',
-            description: 'Incorrect email or password.',
-        });
-      }
-      else {
-        // For any other login error
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
         toast({
           variant: 'destructive',
           title: 'Login Failed',
-          description: error.message || 'An unknown error occurred.',
+          description: data.error || 'Incorrect email or password.',
         });
+        return;
       }
+
+      // The AuthProvider will detect the session cookie and handle redirection.
+      // Force a full page reload so the AuthProvider re-initializes with the new session.
+      window.location.href = '/dashboard';
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        title: 'Login Failed',
+        description: error.message || 'An unknown error occurred.',
+      });
     } finally {
       setLoading(false);
     }

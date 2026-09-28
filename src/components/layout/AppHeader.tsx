@@ -14,8 +14,6 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth as useAppAuth } from '../auth/AuthProvider';
 import { User, LogOut, PanelLeft, ShoppingCart, ChefHat, Coffee, LayoutDashboard, Clock, Sparkles } from 'lucide-react';
-import { useAuth } from '@/firebase';
-import { signOut } from 'firebase/auth';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -23,7 +21,6 @@ import { Badge } from '@/components/ui/badge';
 
 export default function AppHeader({ onMenuClick }: { onMenuClick: () => void }) {
   const { appUser } = useAppAuth();
-  const auth = useAuth();
   const pathname = usePathname();
   const [timeString, setTimeString] = useState<string>('');
 
@@ -41,8 +38,9 @@ export default function AppHeader({ onMenuClick }: { onMenuClick: () => void }) 
     return () => clearInterval(timer);
   }, []);
 
-  const handleLogout = () => {
-    signOut(auth);
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' });
+    window.location.href = '/login';
   };
 
   const quickNav = [

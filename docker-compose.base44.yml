@@ -1,0 +1,62 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      - POSTGRES_USER=prostock
+      - POSTGRES_PASSWORD=prostock
+      - POSTGRES_DB=prostock
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U prostock -d prostock"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    restart: on-failure
+
+  web:
+    image: node:22-slim
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3000:3000"
+    environment:
+      - BASE44_PUBLIC_HOST_SUFFIX=${BASE44_PUBLIC_HOST_SUFFIX}
+      - BASE44_SANDBOX_HOST_DOMAIN=${BASE44_SANDBOX_HOST_DOMAIN}
+      - WATCHPACK_POLLING=true
+      - DATABASE_URL=postgresql://prostock:prostock@postgres:5432/prostock?schema=public
+      - SESSION_SECRET=${SESSION_SECRET:-dev-secret-change-me}
+    env_file:
+      - /run/base44/app.env
+    command: sh -c "npm install && npx prisma migrate deploy && npx prisma generate && npm run dev -- --hostname 0.0.0.0"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000',r=>process.exit(r.statusCode<500?0:1)).on('error',()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 120s
+    restart: on-failure
+
+  migrate:
+    image: node:22-slim
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    environment:
+      - DATABASE_URL=postgresql://prostock:prostock@postgres:5432/prostock?schema=public
+    command: sh -c "npm install && npx prisma generate && npx tsx scripts/migrate-to-postgres.ts"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+volumes:
+  pgdata:

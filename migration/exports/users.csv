@@ -1,0 +1,5 @@
+email,id,name,photoURL,role,uid
+stockman@beanespress.com,65Bg63Se8GRwX3P3NTXzsYK1d2S2,stockman,,stock-manager,65Bg63Se8GRwX3P3NTXzsYK1d2S2
+poc@beanespress.com,JH6hwuwxxtadpTIVVtTw9oouvw83,poc,,stock-manager,JH6hwuwxxtadpTIVVtTw9oouvw83
+admin@beanespress.com,zWTzQwgxTnNYCRc2AK2zomX4nXA3,admin,,admin,zWTzQwgxTnNYCRc2AK2zomX4nXA3
+cashier@beanespress.com,zrWedzp7PjYfZOlIcFB0LD70YAb2,cashier,,user,zrWedzp7PjYfZOlIcFB0LD70YAb2

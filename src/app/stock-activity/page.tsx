@@ -1,9 +1,7 @@
-
 'use client';
 
 import StockActivityClient from '@/components/stock-activity/StockActivityClient';
-import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, query, orderBy } from 'firebase/firestore';
+import { useApiCollection } from '@/lib/api-hooks';
 import type { StockReceiptWithId, WasteEvent, AppUser } from '@/types';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -21,24 +19,9 @@ function StockActivitySkeleton() {
 }
 
 export default function StockActivityPage() {
-    const firestore = useFirestore();
-
-    const receiptsQuery = useMemoFirebase(() => {
-        if (!firestore) return null;
-        return query(collection(firestore, 'stockReceipts'), orderBy('date', 'desc'));
-    }, [firestore]);
-    const wasteQuery = useMemoFirebase(() => {
-        if (!firestore) return null;
-        return query(collection(firestore, 'wasteEvents'), orderBy('date', 'desc'));
-    }, [firestore]);
-    const usersQuery = useMemoFirebase(() => {
-        if (!firestore) return null;
-        return query(collection(firestore, 'users'));
-    }, [firestore]);
-
-    const { data: receipts } = useCollection<StockReceiptWithId>(receiptsQuery);
-    const { data: wasteEvents } = useCollection<WasteEvent>(wasteQuery);
-    const { data: users } = useCollection<AppUser>(usersQuery);
+    const { data: receipts } = useApiCollection<StockReceiptWithId>('/api/stockReceipts?orderBy=desc');
+    const { data: wasteEvents } = useApiCollection<WasteEvent>('/api/wasteEvents?orderBy=desc');
+    const { data: users } = useApiCollection<AppUser>('/api/users');
 
     if (!receipts || !wasteEvents || !users) {
         return <StockActivitySkeleton />;

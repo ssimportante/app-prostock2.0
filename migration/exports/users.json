@@ -1,0 +1,34 @@
+[
+  {
+    "id": "65Bg63Se8GRwX3P3NTXzsYK1d2S2",
+    "uid": "65Bg63Se8GRwX3P3NTXzsYK1d2S2",
+    "email": "stockman@beanespress.com",
+    "name": "stockman",
+    "photoURL": null,
+    "role": "stock-manager"
+  },
+  {
+    "id": "JH6hwuwxxtadpTIVVtTw9oouvw83",
+    "uid": "JH6hwuwxxtadpTIVVtTw9oouvw83",
+    "email": "poc@beanespress.com",
+    "name": "poc",
+    "photoURL": null,
+    "role": "stock-manager"
+  },
+  {
+    "id": "zWTzQwgxTnNYCRc2AK2zomX4nXA3",
+    "uid": "zWTzQwgxTnNYCRc2AK2zomX4nXA3",
+    "email": "admin@beanespress.com",
+    "name": "admin",
+    "photoURL": null,
+    "role": "admin"
+  },
+  {
+    "id": "zrWedzp7PjYfZOlIcFB0LD70YAb2",
+    "uid": "zrWedzp7PjYfZOlIcFB0LD70YAb2",
+    "email": "cashier@beanespress.com",
+    "name": "cashier",
+    "photoURL": null,
+    "role": "user"
+  }
+]

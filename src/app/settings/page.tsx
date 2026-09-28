@@ -1,11 +1,9 @@
-
 'use client';
 
 import SettingsClient from '@/components/settings/SettingsClient';
 import type { CategoryWithId, StationWithId, TaxWithId, AppUser } from '@/types';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, query } from 'firebase/firestore';
+import { useApiCollection } from '@/lib/api-hooks';
 
 function SettingsSkeleton() {
   return (
@@ -29,32 +27,10 @@ function SettingsSkeleton() {
 }
 
 export default function SettingsPage() {
-  const firestore = useFirestore();
-  
-  const categoriesQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return query(collection(firestore, 'categories'));
-  }, [firestore]);
-
-  const stationsQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return query(collection(firestore, 'stations'));
-  }, [firestore]);
-
-  const taxesQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return query(collection(firestore, 'taxes'));
-  }, [firestore]);
-
-  const usersQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return query(collection(firestore, 'users'));
-  }, [firestore]);
-
-  const { data: categories } = useCollection<CategoryWithId>(categoriesQuery);
-  const { data: stations } = useCollection<StationWithId>(stationsQuery);
-  const { data: taxes } = useCollection<TaxWithId>(taxesQuery);
-  const { data: users } = useCollection<AppUser>(usersQuery);
+  const { data: categories } = useApiCollection<CategoryWithId>('/api/categories');
+  const { data: stations } = useApiCollection<StationWithId>('/api/stations');
+  const { data: taxes } = useApiCollection<TaxWithId>('/api/taxes');
+  const { data: users } = useApiCollection<AppUser>('/api/users');
 
   if (!categories || !stations || !taxes || !users) {
     return <SettingsSkeleton />;

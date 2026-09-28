@@ -1,0 +1,130 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Item {
+  id                   String   @id
+  name                 String
+  description          String   @default("")
+  categoryId           String
+  subcategoryId        String?
+  stationId            String?
+  sku                  String   @default("")
+  barcode              String   @default("")
+  isSellable           Boolean  @default(false)
+  saleType             String?
+  itemType             String?
+  beverageSize         String?
+  soldBy               String   @default("each")
+  price                Float    @default(0)
+  cost                 Float    @default(0)
+  marketPrice          Float?
+  purchaseQuantity     Float?
+  inventoryType        String   @default("simple")
+  trackStock           Boolean  @default(false)
+  stockBatches         Json     @default("[]")
+  lowStockThreshold    Float    @default(0)
+  components           Json     @default("[]")
+  yield                Float?
+  tags                 Json     @default("[]")
+  taxIds               Json     @default("[]")
+  posRepresentationType String  @default("color")
+  posColor             String   @default("#cccccc")
+  posShape             String   @default("square")
+  imageUrl             String   @default("")
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+model Category {
+  id        String @id
+  name      String
+  itemCount Int    @default(0)
+  color     String @default("")
+}
+
+model Subcategory {
+  id         String @id
+  name       String
+  categoryId String
+}
+
+model Station {
+  id   String @id
+  name String
+}
+
+model Tax {
+  id      String  @id
+  name    String
+  rate    Float   @default(0)
+  taxType String?
+}
+
+model User {
+  id           String  @id
+  uid          String  @unique
+  email        String?
+  name         String?
+  photoURL     String?
+  role         String  @default("user")
+  passwordHash String?
+}
+
+model Staff {
+  id   String @id
+  name String
+}
+
+model Sale {
+  id           String    @id
+  date         DateTime
+  total        Float     @default(0)
+  subtotal     Float?
+  deliveryFee  Float?
+  discount     Json?
+  userId       String?
+  status       String?   @default("pending")
+  ticketNumber  String?
+  completedAt  DateTime?
+  items        Json
+}
+
+model StockReceipt {
+  id             String   @id
+  date           DateTime
+  userId         String
+  itemId         String
+  itemName       String   @default("")
+  quantity       Float    @default(0)
+  unit           String   @default("units")
+  batchId        String
+  batchDetails   Json?
+  recordedByName String?
+}
+
+model WasteEvent {
+  id             String   @id
+  date           DateTime
+  itemId         String
+  itemName       String   @default("")
+  quantity       Float    @default(0)
+  cost           Float    @default(0)
+  unit           String   @default("units")
+  userId         String
+  recordedByName String   @default("")
+  batchId        String?
+  reason         String   @default("")
+  eventType      String   @default("waste")
+}
+
+model Settings {
+  id              String @id
+  defaultSaleType String @default("dine-in")
+  currency        String @default("USD")
+}

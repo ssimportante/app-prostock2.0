@@ -1,0 +1,26 @@
+[
+  {
+    "id": "B2hPAbEpwHbYKuz8zjtE",
+    "rate": 35,
+    "taxType": "additive",
+    "name": "Bar Overhead Cost"
+  },
+  {
+    "id": "Uu4lS7XxqC3ubHIJEcpE",
+    "rate": 3,
+    "name": "Percentage Tax",
+    "taxType": "compounded"
+  },
+  {
+    "id": "VHnwm8bhZMu9gZDaqWZh",
+    "name": "Baked Goods",
+    "rate": 80,
+    "taxType": "additive"
+  },
+  {
+    "id": "s4FZifR2Y6bsDpNlLmAC",
+    "name": "Kitchen Overhead Cost",
+    "rate": 45,
+    "taxType": "additive"
+  }
+]

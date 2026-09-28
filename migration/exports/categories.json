@@ -1,0 +1,24 @@
+[
+  {
+    "id": "DjVqcWNaIyWJbK9lnVSx",
+    "name": "Product",
+    "color": "#31a013"
+  },
+  {
+    "id": "HGcRIp7mpgrGuQbwVVi5",
+    "itemCount": 0,
+    "name": "Ingredient",
+    "color": "#dc7938"
+  },
+  {
+    "id": "OmxXlr6Zx7qUhwLkOfM4",
+    "name": "Premade Ingredients",
+    "color": "#ff0066"
+  },
+  {
+    "id": "gcsUTo1330IlMr22KTR5",
+    "name": "Packaging",
+    "itemCount": 0,
+    "color": "#132aa0"
+  }
+]

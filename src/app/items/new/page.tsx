@@ -1,8 +1,7 @@
 'use client';
 
 import { ItemForm } from '@/components/items/ItemForm';
-import { useCollection, useFirestore, useMemoFirebase, useDoc } from '@/firebase';
-import { collection, query, doc } from 'firebase/firestore';
+import { useApiCollection, useApiDoc } from '@/lib/api-hooks';
 import { ItemWithId, CategoryWithId, StationWithId, TaxWithId } from '@/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useSearchParams } from 'next/navigation';
@@ -30,36 +29,15 @@ function NewItemPageSkeleton() {
 
 function NewItemPageContent() {
     const searchParams = useSearchParams();
-    const firestore = useFirestore();
     const duplicateId = searchParams.get('duplicate');
 
-    const categoriesQuery = useMemoFirebase(() => {
-        if (!firestore) return null;
-        return query(collection(firestore, 'categories'));
-    }, [firestore]);
-    const stationsQuery = useMemoFirebase(() => {
-        if (!firestore) return null;
-        return query(collection(firestore, 'stations'));
-    }, [firestore]);
-    const simpleItemsQuery = useMemoFirebase(() => {
-        if (!firestore) return null;
-        return query(collection(firestore, 'items'));
-    }, [firestore]);
-    const taxesQuery = useMemoFirebase(() => {
-        if (!firestore) return null;
-        return query(collection(firestore, 'taxes'));
-    }, [firestore]);
-
-    const itemToDuplicateRef = useMemoFirebase(() => {
-        if (!firestore || !duplicateId) return null;
-        return doc(firestore, 'items', duplicateId);
-    }, [firestore, duplicateId]);
-
-    const { data: categories } = useCollection<CategoryWithId>(categoriesQuery);
-    const { data: stations } = useCollection<StationWithId>(stationsQuery);
-    const { data: allItems } = useCollection<ItemWithId>(simpleItemsQuery);
-    const { data: taxes } = useCollection<TaxWithId>(taxesQuery);
-    const { data: itemToDuplicate, isLoading: isLoadingDuplicate } = useDoc<ItemWithId>(itemToDuplicateRef);
+    const { data: categories } = useApiCollection<CategoryWithId>('/api/categories');
+    const { data: stations } = useApiCollection<StationWithId>('/api/stations');
+    const { data: allItems } = useApiCollection<ItemWithId>('/api/items');
+    const { data: taxes } = useApiCollection<TaxWithId>('/api/taxes');
+    const { data: itemToDuplicate, isLoading: isLoadingDuplicate } = useApiDoc<ItemWithId>(
+        duplicateId ? `/api/items/${duplicateId}` : null
+    );
 
     if (!categories || !stations || !allItems || !taxes || (duplicateId && isLoadingDuplicate)) {
         return <NewItemPageSkeleton />;

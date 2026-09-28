@@ -2,8 +2,7 @@
 
 import ItemsClient from '@/components/items/ItemsClient';
 import type { ItemWithId, CategoryWithId, StationWithId, SubcategoryWithId, SaleWithId, StockReceiptWithId, WasteEvent } from '@/types';
-import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, query } from 'firebase/firestore';
+import { useApiCollection } from '@/lib/api-hooks';
 import { ClientOnly } from '@/components/ClientOnly';
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -20,52 +19,13 @@ function ItemsLoading() {
 }
 
 export default function ItemsPage() {
-  const firestore = useFirestore();
-
-  const itemsQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return query(collection(firestore, 'items'));
-  }, [firestore]);
-
-  const categoriesQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return query(collection(firestore, 'categories'));
-  }, [firestore]);
-
-  const subcategoriesQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return query(collection(firestore, 'subcategories'));
-  }, [firestore]);
-
-  const stationsQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return query(collection(firestore, 'stations'));
-  }, [firestore]);
-
-  // Fetch history collections for accurate historical "As Of" calculations
-  const salesQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return query(collection(firestore, 'sales'));
-  }, [firestore]);
-
-  const receiptsQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return query(collection(firestore, 'stockReceipts'));
-  }, [firestore]);
-
-  const wasteQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return query(collection(firestore, 'wasteEvents'));
-  }, [firestore]);
-
-  const { data: items, isLoading: isLoadingItems } = useCollection<ItemWithId>(itemsQuery);
-  const { data: categories, isLoading: isLoadingCategories } = useCollection<CategoryWithId>(categoriesQuery);
-  const { data: subcategories, isLoading: isLoadingSubcategories } = useCollection<SubcategoryWithId>(subcategoriesQuery);
-  const { data: stations, isLoading: isLoadingStations } = useCollection<StationWithId>(stationsQuery);
-  
-  const { data: sales } = useCollection<SaleWithId>(salesQuery);
-  const { data: receipts } = useCollection<StockReceiptWithId>(receiptsQuery);
-  const { data: waste } = useCollection<WasteEvent>(wasteQuery);
+  const { data: items, isLoading: isLoadingItems } = useApiCollection<ItemWithId>('/api/items');
+  const { data: categories, isLoading: isLoadingCategories } = useApiCollection<CategoryWithId>('/api/categories');
+  const { data: subcategories, isLoading: isLoadingSubcategories } = useApiCollection<SubcategoryWithId>('/api/subcategories');
+  const { data: stations, isLoading: isLoadingStations } = useApiCollection<StationWithId>('/api/stations');
+  const { data: sales } = useApiCollection<SaleWithId>('/api/sales');
+  const { data: receipts } = useApiCollection<StockReceiptWithId>('/api/stockReceipts');
+  const { data: waste } = useApiCollection<WasteEvent>('/api/wasteEvents');
 
   return (
     <ClientOnly>

@@ -1,11 +1,9 @@
-
 'use client';
 
 import SalesTerminal from '@/components/sales/SalesTerminal';
 import { ItemWithId, CategoryWithId, SubcategoryWithId } from '@/types';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, query } from 'firebase/firestore';
+import { useApiCollection } from '@/lib/api-hooks';
 
 function SalesSkeleton() {
   return (
@@ -31,27 +29,9 @@ function SalesSkeleton() {
 
 
 export default function SalesPage() {
-  const firestore = useFirestore();
-
-  const itemsQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    // Fetch all items so that composite item components are available for stock deduction
-    return query(collection(firestore, 'items'));
-  }, [firestore]);
-
-  const categoriesQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return query(collection(firestore, 'categories'));
-  }, [firestore]);
-
-  const subcategoriesQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return query(collection(firestore, 'subcategories'));
-  }, [firestore]);
-
-  const { data: items } = useCollection<ItemWithId>(itemsQuery);
-  const { data: categories } = useCollection<CategoryWithId>(categoriesQuery);
-  const { data: subcategories } = useCollection<SubcategoryWithId>(subcategoriesQuery);
+  const { data: items } = useApiCollection<ItemWithId>('/api/items');
+  const { data: categories } = useApiCollection<CategoryWithId>('/api/categories');
+  const { data: subcategories } = useApiCollection<SubcategoryWithId>('/api/subcategories');
   
   if (!items || !categories || !subcategories) {
     return <SalesSkeleton />;
